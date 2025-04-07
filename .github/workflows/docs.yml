@@ -1,7 +1,10 @@
-name: Build and Deploy Docs
+name: Build and Deploy Documentation
 
 on:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 
@@ -12,7 +15,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
