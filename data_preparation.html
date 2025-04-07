@@ -1,0 +1,258 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prepare Data for GalfitS &mdash; GalfitS Public 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=0d344481"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Introduction to GalfitS Config Files" href="config_intro.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            GalfitS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Prepare Data for GalfitS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#image-preparation">Image Preparation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-sky-subtraction">Step 1: Sky Subtraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-image-cut-and-mask-generation">Step 2: Image Cut and Mask Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#functions-overview">Functions Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="config_intro.html">Introduction to GalfitS Config Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_example.html">Examples of Config Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rungs.html">Run GalfitS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analyze.html">Analyze the Output of GalfitS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">GalfitS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Prepare Data for GalfitS</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/data_preparation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="prepare-data-for-galfits">
+<h1>Prepare Data for GalfitS<a class="headerlink" href="#prepare-data-for-galfits" title="Link to this heading"></a></h1>
+<section id="image-preparation">
+<h2>Image Preparation<a class="headerlink" href="#image-preparation" title="Link to this heading"></a></h2>
+<section id="overview">
+<h3>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h3>
+<p>This section documents the imaging preparation pipeline in GalfitS. The process is designed to prepare astronomical images for further analysis through the following steps:</p>
+<ol class="arabic simple">
+<li><p><strong>Sky Subtraction</strong> – Removing the background sky signal using a polynomial fit.</p></li>
+<li><p><strong>Image Cut and Mask Generation</strong> – Extracting a subimage around the target source and creating a corresponding mask.</p></li>
+<li><p><strong>Output Writing</strong> – Saving the processed cut image, mask image, and sigma image to a FITS file.</p></li>
+</ol>
+</section>
+<section id="step-1-sky-subtraction">
+<h3>Step 1: Sky Subtraction<a class="headerlink" href="#step-1-sky-subtraction" title="Link to this heading"></a></h3>
+<p>The first step is to subtract the sky background from your image. This is achieved with the <cite>sky_subtraction</cite> function from the <cite>galfits.images</cite> module. Here, a 3rd order polynomial is used to model the background, and sigma-clipped statistics are employed for image normalization and visualization.</p>
+<p><strong>Example code:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">galfits</span><span class="w"> </span><span class="kn">import</span> <span class="n">images</span> <span class="k">as</span> <span class="n">IM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">astropy.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">fits</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">astropy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">sigma_clipped_stats</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">gsutils</span>  <span class="c1"># assumed to be available for image normalization</span>
+
+<span class="c1"># Define file name and load the image</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="s1">&#39;./data/tmass_</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">band</span><span class="p">)</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">IM</span><span class="o">.</span><span class="n">image</span><span class="p">(</span><span class="n">fname</span><span class="o">+</span><span class="s1">&#39;.fits&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;cR&#39;</span><span class="p">)</span>
+<span class="n">hdu</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="o">+</span><span class="s1">&#39;.fits&#39;</span><span class="p">)</span>
+<span class="n">header</span> <span class="o">=</span> <span class="n">hdu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
+<span class="n">data_org</span> <span class="o">=</span> <span class="n">hdu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+
+<span class="c1"># Define the output file for the sky-subtracted image</span>
+<span class="n">ss_imgname</span> <span class="o">=</span> <span class="s1">&#39;./data/tmass_</span><span class="si">{0}</span><span class="s1">_ssimg.fits&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">band</span><span class="p">)</span>
+
+<span class="c1"># Perform sky subtraction with a 3rd order polynomial</span>
+<span class="n">maskplus</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">sky_subtraction</span><span class="p">(</span><span class="n">polyfit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="n">ss_imgname</span><span class="p">,</span>
+                               <span class="n">psfFWHM</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">nsigma</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">npixels</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                               <span class="n">max_grow_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">addgrow</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Calculate sigma-clipped statistics for visualization</span>
+<span class="n">sky_mean</span><span class="p">,</span> <span class="n">sky_median</span><span class="p">,</span> <span class="n">sky_std</span> <span class="o">=</span> <span class="n">sigma_clipped_stats</span><span class="p">(</span><span class="n">data_org</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">maxiters</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">immin</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">sky_std</span>
+<span class="n">immax</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">sky_std</span>
+
+<span class="c1"># Visualize the original image, sky-subtracted image, and the subtracted sky</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">131</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">gsutils</span><span class="o">.</span><span class="n">normimg</span><span class="p">(</span><span class="n">data_org</span><span class="p">,</span> <span class="n">immin</span><span class="p">,</span> <span class="n">immax</span><span class="p">,</span> <span class="n">sky</span><span class="o">=</span><span class="n">sky_median</span><span class="p">,</span> <span class="n">frac</span><span class="o">=</span><span class="mf">0.6</span><span class="p">),</span>
+           <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;seismic&#39;</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">132</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">gsutils</span><span class="o">.</span><span class="n">normimg</span><span class="p">(</span><span class="n">data_org</span> <span class="o">-</span> <span class="n">img</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">immin</span><span class="p">,</span> <span class="n">immax</span><span class="p">,</span> <span class="n">sky</span><span class="o">=</span><span class="n">sky_median</span><span class="p">,</span> <span class="n">frac</span><span class="o">=</span><span class="mf">0.6</span><span class="p">),</span>
+           <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;seismic&#39;</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="n">ax3</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">133</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">gsutils</span><span class="o">.</span><span class="n">normimg</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">immin</span><span class="p">,</span> <span class="n">immax</span><span class="p">,</span> <span class="n">frac</span><span class="o">=</span><span class="mf">0.6</span><span class="p">),</span>
+           <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;seismic&#39;</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<figure class="align-default" id="id1">
+<img alt="Sky Subtraction Example" src="_images/exp_sky.png" />
+<figcaption>
+<p><span class="caption-text">2MASS H-band image showing the results of sky subtraction.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="step-2-image-cut-and-mask-generation">
+<h3>Step 2: Image Cut and Mask Generation<a class="headerlink" href="#step-2-image-cut-and-mask-generation" title="Link to this heading"></a></h3>
+<p>Following sky subtraction, the next steps are to extract a cutout around the target source and to generate a mask to isolate the source. The functions used are:</p>
+<ul class="simple">
+<li><p><strong>img_cut</strong>: Cuts the image based on the source’s right ascension and declination.</p></li>
+<li><p><strong>generate_cutmask</strong>: Creates a source mask by detecting pixels above a threshold, optionally deblending overlapping sources.</p></li>
+</ul>
+<p><strong>Example code:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define cutout radius in arcseconds</span>
+<span class="n">cutr</span> <span class="o">=</span> <span class="mf">2.5</span>  <span class="c1"># unit: arcsec</span>
+
+<span class="c1"># Extract the image cutout around the target (ra, dec)</span>
+<span class="n">imcut</span><span class="p">,</span> <span class="n">cp</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">img_cut</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">cutr</span><span class="p">)</span>
+<span class="n">header</span> <span class="o">=</span> <span class="n">hdu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
+
+<span class="c1"># Calculate the sigma image for the cutout</span>
+<span class="n">sigimg</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">cal_sigma_image</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
+<span class="n">img</span><span class="o">.</span><span class="n">cut_sigma_image</span> <span class="o">=</span> <span class="n">sigimg</span><span class="p">[</span><span class="n">cp</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span><span class="n">cp</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">cp</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">cp</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+
+<span class="c1"># Generate the cut mask image using the specified parameters</span>
+<span class="n">img</span><span class="o">.</span><span class="n">cut_mask_image</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">generate_cutmask</span><span class="p">(</span><span class="n">psfFWHM</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">imcut</span><span class="p">,</span>
+                                           <span class="n">nsigma</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">npixels</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span>
+                                           <span class="n">nlevels</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">contrast</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+                                           <span class="n">deblend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">growmethod</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                           <span class="n">max_grow_size</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">addgrow</span><span class="o">=</span><span class="n">addgrow</span><span class="p">)</span>
+
+<span class="c1"># Write the cut images to a FITS file</span>
+<span class="n">outname</span> <span class="o">=</span> <span class="s1">&#39;./cutimg/tmass_</span><span class="si">{0}</span><span class="s1">_cut.fits&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">band</span><span class="p">)</span>
+<span class="n">img</span><span class="o">.</span><span class="n">write_imcut</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">outname</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">)</span>
+
+<span class="c1"># Visualize the cutout with the mask overlay</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">sky_mean</span><span class="p">,</span> <span class="n">sky_median</span><span class="p">,</span> <span class="n">sky_std</span> <span class="o">=</span> <span class="n">sigma_clipped_stats</span><span class="p">(</span><span class="n">imcut</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">maxiters</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">sky_median</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">immin</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">sky_std</span>
+<span class="n">immax</span> <span class="o">=</span> <span class="n">imcut</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">frac</span> <span class="o">=</span> <span class="mf">0.4</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">gsutils</span><span class="o">.</span><span class="n">normimg</span><span class="p">(</span><span class="n">imcut</span><span class="p">,</span> <span class="n">immin</span><span class="p">,</span> <span class="n">immax</span><span class="p">,</span> <span class="n">sky</span><span class="o">=</span><span class="n">sky_median</span><span class="p">,</span> <span class="n">frac</span><span class="o">=</span><span class="n">frac</span><span class="p">),</span>
+           <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;seismic&#39;</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mask0</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">mask0</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span>
+           <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">resupath</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">_</span><span class="si">{1}</span><span class="s1">_cutout.png&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tagname</span><span class="p">,</span> <span class="n">band</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<figure class="align-default" id="id2">
+<img alt="Mask and Image Cut Example" src="_images/exp_mask.png" />
+<figcaption>
+<p><span class="caption-text">Example of an image cutout with an overlaid mask.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="functions-overview">
+<h3>Functions Overview<a class="headerlink" href="#functions-overview" title="Link to this heading"></a></h3>
+<p>Several key functions in the <cite>galfits.images</cite> module are utilized in this pipeline:</p>
+<ul class="simple">
+<li><p><strong>sky_subtraction(sdmask=None, polyfit=True, order=3, filepath=None, psfFWHM=1.5, nsigma=3.0, npixels=5, max_grow_size=100, addgrow=0, usemedian=False)</strong>
+Performs sky background subtraction using either a polynomial fit (default) or median subtraction. Parameters such as <cite>order</cite>, <cite>psfFWHM</cite>, and <cite>nsigma</cite> control the subtraction process.</p></li>
+<li><p><strong>img_cut(ra, dec, cutsize, cutposition=None, IFS=False, usemaxpix=False, sigma_clipped=True, referpix=None, zoomsize=100, spcorrection=[0.,0.])</strong>
+Cuts the image around a specified celestial coordinate (ra, dec). Optional parameters allow for fine-tuning the cutout region.</p></li>
+<li><p><strong>generate_cutmask(psfFWHM, data=None, sdmask=None, nsigma=3.0, magnification=3., npixels=5, nlevels=32, contrast=0.001, deblend=False, sky_level=None, source_dia=0.5, max_grow_size=100, growmethod=True, nearbygrow=0, addgrow=0, left_source=True)</strong>
+Generates a mask for the cutout image by detecting sources above a given threshold. It supports various parameters for deblending and controlling the mask growth.</p></li>
+<li><p><strong>write_imcut(ra, dec, outputname, header=None, addpixsc=False, addmodel=False)</strong>
+Saves the processed image cutout along with the mask and sigma images to a FITS file. The output file includes all the relevant image components needed for subsequent modeling.</p></li>
+</ul>
+</section>
+<section id="conclusion">
+<h3>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading"></a></h3>
+<p>The image preparation module in GalfitS streamlines the process of preparing astronomical images by automating sky subtraction, image cutouts, and mask generation. This ensures that the data used in subsequent modeling are clean, well-calibrated, and precisely focused on the target sources.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="config_intro.html" class="btn btn-neutral float-right" title="Introduction to GalfitS Config Files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Li R. &amp; Ho C. Luis.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
