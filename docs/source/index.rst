@@ -6,7 +6,11 @@ Welcome to GalfitS documentation!
    :caption: Contents:
 
    installation
-   usage
+   data_preparation
+   config_intro
+   config_example
+   rungs
+   analyze
    api_reference
 
 Indices and tables
