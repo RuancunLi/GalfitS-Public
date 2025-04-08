@@ -1,7 +1,7 @@
 Quick Start to GalfitS Everything
 ==================================
 
-We will use GalfitS to perform a bulge-disk decomposition of a galaxy J0100+0033, using multi-band images from 10 images from GALEX, SDSS, and 2MASS. The data can be downloaded from `data.zip <https://github.com/RuancunLi/GalfitS-Public/tree/main/examples/data.zip>`_
+We will use GalfitS to perform a bulge-disk decomposition of a galaxy J0056-0021, using multi-band images from 10 images from GALEX, SDSS, and 2MASS. The data can be downloaded from `data.zip <https://github.com/RuancunLi/GalfitS-Public/tree/main/examples/data.zip>`_
 
 We will use the configuration file `quickstart.lyric <https://github.com/RuancunLi/GalfitS-Public/tree/main/examples/quickstart.lyric>`_ to run GalfitS. Let's first move to the directory where the data is located:
 
@@ -19,32 +19,33 @@ Now we can run GalfitS:
 
 The result will be saved in the directory ``result``. We choose 15000 steps to ensure the result is converged.
 
-Now we can check the result. First, in the directory ``result``, there is a summary file named ``J0100+0033.gssummary``. The first part of the file looks like this:
+Now we can check the result. First, in the directory ``result``, there is a summary file named ``J0056-0021.gssummary``. The first part of the file looks like this:
 
 .. code-block:: none
 
-    # target: J0100+0033
+    # target: J0056-0021
     # config file: quickstart.lyric
     # fitting mode: images - SED
     # fiting method: optimizer
-    # chisq: 22315.6640625
-    # reduced chisq: 0.5555997490882874
-    # BIC: 22750.294921875
-    # fitting time: 11.854264557361603 mins
+    # chisq: 14326.755859375
+    # reduced chisq: 0.5901126861572266
+    # BIC: 14750.84375
+    # fitting time: 11.773038339614867 mins
     ############# data summary ############## 
     # image atals: 2mass
-    #    image number: 0  band: j  chisq: [765.8574]  dof: [1031.]  reduced chisq: [0.7428297]
-    #    image number: 1  band: h  chisq: [384.72656]  dof: [1031.]  reduced chisq: [0.37315863]
-    #    image number: 2  band: ks  chisq: [498.39984]  dof: [1031.]  reduced chisq: [0.483414]
+    #    image number: 0  band: j  chisq: [479.75192]  dof: [676.]  reduced chisq: [0.7096922]
+    #    image number: 1  band: h  chisq: [266.45596]  dof: [676.]  reduced chisq: [0.39416564]
+    #    image number: 2  band: ks  chisq: [352.4618]  dof: [676.]  reduced chisq: [0.5213932]
     # image atals: galex
-    #    image number: 0  band: galex_fuv  chisq: [185.44553]  dof: [434.]  reduced chisq: [0.42729384]
-    #    image number: 1  band: galex_nuv  chisq: [545.28754]  dof: [434.]  reduced chisq: [1.2564229]
+    #    image number: 0  band: galex_fuv  chisq: [235.94382]  dof: [256.]  reduced chisq: [0.92165554]
+    #    image number: 1  band: galex_nuv  chisq: [550.92737]  dof: [256.]  reduced chisq: [2.15206]
     # image atals: sdss
-    #    image number: 0  band: sloan_u  chisq: [3681.2524]  dof: [7249.]  reduced chisq: [0.507829]
-    #    image number: 1  band: sloan_g  chisq: [4718.369]  dof: [7249.]  reduced chisq: [0.6508993]
-    #    image number: 2  band: sloan_r  chisq: [3916.7212]  dof: [7249.]  reduced chisq: [0.54031193]
-    #    image number: 3  band: sloan_i  chisq: [4737.5195]  dof: [7249.]  reduced chisq: [0.6535411]
-    #    image number: 4  band: sloan_z  chisq: [2882.086]  dof: [7249.]  reduced chisq: [0.39758393]
+    #    image number: 0  band: sloan_u  chisq: [2409.7078]  dof: [4356.]  reduced chisq: [0.5531928]
+    #    image number: 1  band: sloan_g  chisq: [2535.5747]  dof: [4356.]  reduced chisq: [0.5820879]
+    #    image number: 2  band: sloan_r  chisq: [2095.2021]  dof: [4356.]  reduced chisq: [0.48099223]
+    #    image number: 3  band: sloan_i  chisq: [2613.1365]  dof: [4356.]  reduced chisq: [0.59989357]
+    #    image number: 4  band: sloan_z  chisq: [2787.595]  dof: [4356.]  reduced chisq: [0.6399438]
+    ############ fitting summary ############ 
 
 This summary provides an overview of the fitting results, including the target name, configuration file, fitting mode, method, chi-square values, reduced chi-square, Bayesian Information Criterion (BIC), and the fitting time. It also includes a detailed breakdown of the chi-square values for each image in the different image atlases (GALEX, SDSS, 2MASS), showing the chi-square, degrees of freedom (dof), and reduced chi-square for each band.
 
@@ -81,17 +82,17 @@ The above file can be easily read using ``astropy.table``, for example:
 .. code-block:: python
 
     import astropy.table as Table 
-    result = Table.read('result/J0100+0033.gssummary', format='ascii')
+    result = Table.read('result/J0056-0021.gssummary', format='ascii')
     logM_bulge = result['best_value'][result['pname'] == 'logM_bulge'][0]
 
-Besides the summary files, there are also two output images. The first is ``J0100+0033image_fit.png``, which displays the original image, the model image, and the residual image for each band:
+Besides the summary files, there are also two output images. The first is ``J0056-0021image_fit.png``, which displays the original image, the model image, and the residual image for each band:
 
-.. figure:: ./fig/J0100+0033image_fit.png
+.. figure:: ./fig/J0056-0021image_fit.png
    :align: center
 
-The second output image is ``J0100+0033SED_model.png``, which shows the SED model for the bulge and disk components, along with the model points for each band and a simple photometry measurement:
+The second output image is ``J0056-0021SED_model.png``, which shows the SED model for the bulge and disk components, along with the model points for each band and a simple photometry measurement:
 
-.. figure:: ./fig/J0100+0033SED_model.png
+.. figure:: ./fig/J0056-0021SED_model.png
    :align: center
 
 Running the above example takes different times on different machines. Below is a table summarizing the approximate fitting times:
@@ -102,6 +103,6 @@ Running the above example takes different times on different machines. Below is 
    * - Machine
      - Time
    * - RTX 4090
-     - 11.89 mins
+     - 11.77 mins
    * - CPU
      - 20 mins
