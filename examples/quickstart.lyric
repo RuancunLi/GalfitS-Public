@@ -1,0 +1,266 @@
+# quickstart.lyric
+# The config file provide a galfitS setup to perform a bulge-disk SED decomposition with multi-band images
+
+# Region information
+R1) J0100+0033
+R2) [15.24855,0.56259] 
+R3) 0.11 
+
+
+# Image A
+Ia1) [sdssu_cut.fits,0] 
+Ia2) sloan_u      # band
+Ia3) [sdssu_cut.fits,2,2] 
+Ia4) [sdssu_psf.fits,0] 
+Ia5) 1                   # PSF fine sampling factor relative to data
+Ia6) [sdssu_cut.fits,1] 
+Ia7) cR                # unit of the image
+Ia8) 18. 
+Ia9) -1                 # Conversion from image unit to flambda, -1 for default
+Ia10) 26.466              # Magnitude photometric zeropoint
+Ia11) uniform             # sky model
+Ia12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Ia13) 0 			# allow relative shifting
+Ia14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
+Ia15) 1 # Use SED information
+
+# Image B
+Ib1) [sdssg_cut.fits,0] 
+Ib2) sloan_g      # band
+Ib3) [sdssg_cut.fits,2,2] 
+Ib4) [sdssg_psf.fits,0] 
+Ib5) 1                   # PSF fine sampling factor relative to data
+Ib6) [sdssg_cut.fits,1] 
+Ib7) cR                # unit of the image
+Ib8) 18. 
+Ib9) -1                 # Conversion from image unit to flambda, -1 for default
+Ib10) 26.466              # Magnitude photometric zeropoint
+Ib11) uniform             # sky model
+Ib12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Ib13) 1 			# allow relative shifting
+Ib14) [[0,-5,5,0.1,1],[0,-5,5,0.1,1]] # [shiftx, shifty]
+Ib15) 1 # Use SED information
+
+# Image C
+Ic1) [sdssr_cut.fits,0] 
+Ic2) sloan_r      # band
+Ic3) [sdssr_cut.fits,2,2] 
+Ic4) [sdssr_psf.fits,0] 
+Ic5) 1                   # PSF fine sampling factor relative to data
+Ic6) [sdssr_cut.fits,1] 
+Ic7) cR                # unit of the image
+Ic8) 18. 
+Ic9) -1                 # Conversion from image unit to flambda, -1 for default
+Ic10) 26.466              # Magnitude photometric zeropoint
+Ic11) uniform             # sky model
+Ic12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Ic13) 1 			# allow relative shifting
+Ic14) [[0,-5,5,0.1,1],[0,-5,5,0.1,1]] # [shiftx, shifty]
+Ic15) 1 # Use SED information
+
+# Image D
+Id1) [sdssi_cut.fits,0] 
+Id2) sloan_i      # band
+Id3) [sdssi_cut.fits,2,2] 
+Id4) [sdssi_psf.fits,0] 
+Id5) 1                   # PSF fine sampling factor relative to data
+Id6) [sdssi_cut.fits,1] 
+Id7) cR                # unit of the image
+Id8) 18. 
+Id9) -1                 # Conversion from image unit to flambda, -1 for default
+Id10) 26.466              # Magnitude photometric zeropoint
+Id11) uniform             # sky model
+Id12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Id13) 1 			# allow relative shifting
+Id14) [[0,-5,5,0.1,1],[0,-5,5,0.1,1]] # [shiftx, shifty]
+Id15) 1 # Use SED information
+
+# Image E
+Ie1) [sdssz_cut.fits,0] 
+Ie2) sloan_z      # band
+Ie3) [sdssz_cut.fits,2,2] 
+Ie4) [sdssz_psf.fits,0] 
+Ie5) 1                   # PSF fine sampling factor relative to data
+Ie6) [sdssz_cut.fits,1] 
+Ie7) cR                # unit of the image
+Ie8) 18. 
+Ie9) -1                 # Conversion from image unit to flambda, -1 for default
+Ie10) 26.466              # Magnitude photometric zeropoint
+Ie11) uniform             # sky model
+Ie12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Ie13) 1 			# allow relative shifting
+Ie14) [[0,-5,5,0.1,1],[0,-5,5,0.1,1]] # [shiftx, shifty]
+Ie15) 1 # Use SED information
+
+# Image F
+If1) [tmassJ_cut.fits,0] 
+If2) j      # band
+If3) [tmassJ_cut.fits,2,0.05] 
+If4) [tmassJ_psf.fits,0] 
+If5) 1                   # PSF fine sampling factor relative to data
+If6) [tmassJ_cut.fits,1] 
+If7) cR                # unit of the image
+If8) 18. 
+If9) 7.963187844254646e+17 
+If10) 26.466              # Magnitude photometric zeropoint
+If11) uniform             # sky model
+If12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+If13) 1 			# allow relative shifting
+If14) [[0,-5,5,0.1,1],[0,-5,5,0.1,1]] # [shiftx, shifty]
+If15) 1 # Use SED information
+
+# Image G
+Ig1) [tmassH_cut.fits,0] 
+Ig2) h      # band
+Ig3) [tmassH_cut.fits,2,0.05] 
+Ig4) [tmassH_psf.fits,0] 
+Ig5) 1                   # PSF fine sampling factor relative to data
+Ig6) [tmassH_cut.fits,1] 
+Ig7) cR                # unit of the image
+Ig8) 18. 
+Ig9) 1.418886699188589e+18 
+Ig10) 26.466              # Magnitude photometric zeropoint
+Ig11) uniform             # sky model
+Ig12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Ig13) 1 			# allow relative shifting
+Ig14) [[0,-5,5,0.1,1],[0,-5,5,0.1,1]] # [shiftx, shifty]
+Ig15) 1 # Use SED information
+
+# Image H
+Ih1) [tmassK_cut.fits,0] 
+Ih2) ks       # band
+Ih3) [tmassK_cut.fits,2,0.05] 
+Ih4) [tmassK_psf.fits,0] 
+Ih5) 1                   # PSF fine sampling factor relative to data
+Ih6) [tmassK_cut.fits,1] 
+Ih7) cR                # unit of the image
+Ih8) 18. 
+Ih9) 2.31365356258371e+18 
+Ih10) 26.466              # Magnitude photometric zeropoint
+Ih11) uniform             # sky model
+Ih12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Ih13) 1 			# allow relative shifting
+Ih14) [[0,-5,5,0.1,1],[0,-5,5,0.1,1]] # [shiftx, shifty]
+Ih15) 1 # Use SED information
+
+# Image I
+Ii1) [galexfuv_cut.fits,0] 
+Ii2) galex_fuv       # band
+Ii3) [galexfuv_cut.fits,2] 
+Ii4) [galexfuv_psf.fits,0] 
+Ii5) 1                   # PSF fine sampling factor relative to data
+Ii6) [galexfuv_cut.fits,1] 
+Ii7) cR                # unit of the image
+Ii8) 18. 
+Ii9) -1                 # Conversion from image unit to flambda, -1 for default
+Ii10) 26.466              # Magnitude photometric zeropoint
+Ii11) uniform             # sky model
+Ii12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Ii13) 1 			# allow relative shifting
+Ii14) [[0,-5,5,0.1,1],[0,-5,5,0.1,1]] # [shiftx, shifty]
+Ii15) 1 # Use SED information
+
+# Image J
+Ij1) [galexnuv_cut.fits,0] 
+Ij2) galex_nuv       # band
+Ij3) [galexnuv_cut.fits,2] 
+Ij4) [galexnuv_psf.fits,0] 
+Ij5) 1                   # PSF fine sampling factor relative to data
+Ij6) [galexnuv_cut.fits,1] 
+Ij7) cR                # unit of the image
+Ij8) 18. 
+Ij9) -1                 # Conversion from image unit to flambda, -1 for default
+Ij10) 26.466              # Magnitude photometric zeropoint
+Ij11) uniform             # sky model
+Ij12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Ij13) 1 			# allow relative shifting
+Ij14) [[0,-5,5,0.1,1],[0,-5,5,0.1,1]] # [shiftx, shifty]
+Ij15) 1 # Use SED information
+
+# Image atlas
+Aa1) 'sdss' # name of the image atlas
+Aa2) ['a','b','c','d','e'] # images in this atlas
+Aa3) 1 # whether the images have same pixel size
+Aa4) 0 # link relative shiftings
+Aa5) [] # spectra
+Aa6) [] # aperture size
+Aa7) [] # references images
+
+# Image atlas
+Ab1) '2mass' # name of the image atlas
+Ab2) ['f','g','h'] # images in this atlas
+Ab3) 1 # whether the images have same pixel size
+Ab4) 0 # link relative shiftings
+Ab5) [] # spectra
+Ab6) [] # aperture size
+Ab7) [] # references images
+
+# Image atlas
+Ac1) 'galex' # name of the image atlas
+Ac2) ['i','j'] # images in this atlas
+Ac3) 1 # whether the images have same pixel size
+Ac4) 0 # link relative shiftings
+Ac5) [] # spectra
+Ac6) [] # aperture size
+Ac7) [] # references images
+
+# Profile A
+Pa1) bulge # name of the component
+Pa2) sersic # profile type
+Pa3) [0,-5,5,0.1,1] # x-center
+Pa4) [0,-5,5,0.1,1] # y-center
+Pa5) [2.172,0.1086,4.344,0.1,1] 
+Pa6) [4,0.5,6,0.1,1] # Sersic index
+Pa7) [0,-90,90,1,1] # position angle (PA) [degrees: Up=0, Left=90]
+Pa8) [0.8,0.6,1,0.01,1] # axis ratio (b/a) [0.1=round, 1=flat]
+Pa9) [[-4,-8,-1,0.1,1]] # contemporary log star formation fraction
+Pa10) [[0.5,0.01,10,0.1,1]] # burst stellar age [Gyr]
+Pa11) [[0.02,0.001,0.04,0.001,1]] # metallicity [Z=0.02=Solar]
+Pa12) [[0.7,0.3,5.1,0.1,1]] # Av dust extinction [mag]
+Pa13) [100,40,200,1,0] # stellar velocity dispersion
+Pa14) [10.14,8.5,12,0.1,1] # log stellar mass
+Pa15) burst # star formation history type: burst/conti
+Pa16) [-2,-4,-2,0.1,0] # logU nebular ionization parameter
+Pa26) [3,0,5,0.1,1] # amplitude of the 2175A bump on extinction curve 
+Pa27) 0                         # SED model, 0: full; 1: stellar only; 2: nebular only; 3: dust only
+Pa28) [8.14,4.5,10,0.1,0]       # log dust mass
+Pa29) [1.0, 0.1, 50, 0.1, 0]    # Umin, minimum radiation field
+Pa30) [1.0, 0.47, 7.32, 0.1, 0] # qPAH, mass fraction of PAH
+Pa31) [1.0, 1.0, 3.0, 0.1, 0]   # alpha, powerlaw slope of U
+Pa32) [0.1, 0, 1.0, 0.1, 0]     # gamma, fraction illuminated by star forming region
+
+
+# Profile B
+Pb1) disk # name of the component
+Pb2) sersic # profile type
+Pb3) [0,-5,5,0.1,1] # x-center
+Pb4) [0,-5,5,0.1,1] # y-center
+Pb5) [4.344,1.086,17.376,0.1,1] 
+Pb6) [1,1,6,0.1,0] # Sersic index
+Pb7) [-60,-90,90,1,1] # position angle (PA) [degrees: Up=0, Left=90]
+Pb8) [0.5,0.2,1,0.01,1] # axis ratio (b/a) [0.1=round, 1=flat]
+Pb9) [[-1,-4,0,0.1,1]] # contemporary log star formation fraction
+Pb10) [[0.5,0.01,10,0.1,1]] # burst stellar age [Gyr]
+Pb11) [[0.02,0.001,0.04,0.001,1]] # metallicity [Z=0.02=Solar]
+Pb12) [[0.7,0.3,5.1,0.1,1]] # Av dust extinction [mag]
+Pb13) [100,40,200,1,0] # stellar velocity dispersion
+Pb14) [10.64,8.5,12,0.1,1] # log stellar mass
+Pb15) conti # star formation history type: burst/conti
+Pb16) [-3,-4,-2,0.1,0] # logU nebular ionization parameter
+Pb26) [3,0,5,0.1,1] # amplitude of the 2175A bump on extinction curve 
+Pb27) 0                         # SED model, 0: full; 1: stellar only; 2: nebular only; 3: dust only
+Pb28) [8.14,4.5,10,0.1,0]       # log dust mass
+Pb29) [1.0, 0.1, 50, 0.1, 0]    # Umin, minimum radiation field
+Pb30) [1.0, 0.47, 7.32, 0.1, 0] # qPAH, mass fraction of PAH
+Pb31) [1.0, 1.0, 3.0, 0.1, 0]   # alpha, powerlaw slope of U
+Pb32) [0.1, 0, 1.0, 0.1, 0]     # gamma, fraction illuminated by star forming region
+
+
+# Galaxy A
+Ga1) mygal
+Ga2) ['a','b'] # profile component 
+Ga3) [0.11,0.06,0.16,0.01,0] 
+Ga4) 0.0214 
+Ga5) [1.,0.5,2,0.05,0]  # normalization of spectrum when images+spec fitting
+Ga6) [] # narrow lines in nebular
+Ga7) 1 # number of components for narrow lines
