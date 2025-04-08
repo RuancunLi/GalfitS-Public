@@ -104,5 +104,7 @@ Running the above example takes different times on different machines. Below is 
      - Time
    * - RTX 4090
      - 11.77 mins
-   * - CPU
-     - 20 mins
+   * - Apple M4 CPU
+     - 12 mins
+   * - Apple intel CPU
+     - 51 mins
