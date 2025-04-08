@@ -54,6 +54,14 @@
 <li class="toctree-l3"><a class="reference internal" href="#conclusion">Conclusion</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#construct-empirical-psf">Construct Empirical PSF</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-code">Example Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#selection-of-real-point-sources">Selection of Real Point Sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#psf-fitting">PSF Fitting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Conclusion</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="config_intro.html">Introduction to GalfitS Config Files</a></li>
@@ -144,10 +152,10 @@
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<figure class="align-default" id="id1">
+<figure class="align-default" id="id3">
 <img alt="Sky Subtraction Example" src="_images/exp_sky.png" />
 <figcaption>
-<p><span class="caption-text">2MASS H-band image showing the results of sky subtraction.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+<p><span class="caption-text">2MASS H-band image showing the results of sky subtraction.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 </section>
@@ -196,10 +204,10 @@
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<figure class="align-default" id="id2">
+<figure class="align-default" id="id4">
 <img alt="Mask and Image Cut Example" src="_images/exp_mask.png" />
 <figcaption>
-<p><span class="caption-text">Example of an image cutout with an overlaid mask.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+<p><span class="caption-text">Example of an image cutout with an overlaid mask.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 </section>
@@ -220,6 +228,155 @@ Saves the processed image cutout along with the mask and sigma images to a FITS 
 <section id="conclusion">
 <h3>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading"></a></h3>
 <p>The image preparation module in GalfitS streamlines the process of preparing astronomical images by automating sky subtraction, image cutouts, and mask generation. This ensures that the data used in subsequent modeling are clean, well-calibrated, and precisely focused on the target sources.</p>
+</section>
+</section>
+<section id="construct-empirical-psf">
+<h2>Construct Empirical PSF<a class="headerlink" href="#construct-empirical-psf" title="Link to this heading"></a></h2>
+<section id="id1">
+<h3>Overview<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<p>This section describes the process for constructing an empirical Point Spread Function (PSF) using the <cite>generate_PSFs</cite> function from the <cite>galfits.images</cite> module. The procedure comprises two main stages:</p>
+<ol class="arabic simple">
+<li><p><strong>Selection of Real Point Sources:</strong>
+Identify and clean a catalog of candidate stars from the image. This involves source detection, optional cross-matching with the Gaia catalog, and several filtering steps (flux, geometric, isolation, and central pixel checks).</p></li>
+<li><p><strong>PSF Fitting:</strong>
+Perform PSF fitting on the cleaned sample of point sources. The fitting process optimizes the empirical PSF model, the source centers within their cutout boxes, and the flux normalizations.</p></li>
+</ol>
+</section>
+<section id="example-code">
+<h3>Example Code<a class="headerlink" href="#example-code" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># read data</span>
+<span class="n">imgname</span> <span class="o">=</span> <span class="s2">&quot;./J003515.16+084859.9/ls10/170921_055634_g.fits&quot;</span>
+<span class="n">outname</span> <span class="o">=</span> <span class="s2">&quot;./J003515.16+084859.9/ls10/psf/170921_055634_g_psf.fits&quot;</span>
+<span class="k">with</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">imgname</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdu</span><span class="p">:</span>
+    <span class="n">head</span> <span class="o">=</span> <span class="n">hdu</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">hdu</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+
+<span class="c1"># creating an image instance and generating epsf</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">IM</span><span class="o">.</span><span class="n">image</span><span class="p">(</span><span class="n">imgname</span><span class="p">,</span> <span class="n">hdu</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;cR&quot;</span><span class="p">)</span>
+<span class="n">sigmaimg</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">cal_sigma_image</span><span class="p">(</span><span class="n">expo</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">,</span> <span class="n">fac1</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">fac2</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>  <span class="c1"># expo &amp; gain need to be set to real values</span>
+
+<span class="n">epsf</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">generate_PSFs</span><span class="p">(</span>
+    <span class="c1"># Source detection parameters</span>
+    <span class="n">psfFWHM</span><span class="o">=</span><span class="mf">1.7</span><span class="p">,</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+    <span class="n">nsigma</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span>     <span class="c1"># for detect_threshold</span>
+    <span class="n">npixels</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>     <span class="c1"># for detect_sources</span>
+
+    <span class="c1"># Real point source catalog construction</span>
+    <span class="n">sigmaimg</span><span class="o">=</span><span class="n">sigmaimg</span><span class="p">,</span>
+    <span class="n">crossmatch</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">starcord_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>   <span class="c1"># input list of star coordinates: [[ra, dec], ...]</span>
+    <span class="n">fluxthreshould</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>    <span class="c1"># drop ultra-faint sources</span>
+    <span class="n">qt</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>               <span class="c1"># axis ratio threshold for cleaning elongated sources</span>
+    <span class="n">sigfwhm</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">medianfwhm</span><span class="o">=</span><span class="mf">11.5</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="mi">81</span><span class="p">,</span>
+    <span class="n">isolate</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+    <span class="n">central_tol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">droppsf</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">],</span>
+    <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">figurepath</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">,</span>
+
+    <span class="c1"># PSF fitting parameters</span>
+    <span class="n">notfit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">photutils_method</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">oversampling</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">a_TV</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">a_sky</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">2e-5</span><span class="p">,</span>
+    <span class="n">num_steps</span><span class="o">=</span><span class="mi">80000</span><span class="p">,</span>
+    <span class="n">makestackpsf</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">filepaths</span><span class="o">=</span><span class="n">outname</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="selection-of-real-point-sources">
+<h3>Selection of Real Point Sources<a class="headerlink" href="#selection-of-real-point-sources" title="Link to this heading"></a></h3>
+<p>The <cite>generate_PSFs</cite> function begins by detecting sources in the image to build an initial, “raw” source catalog. This catalog is generated with a simple signal-to-noise (SNR) cut using $$3sigma$$-clipped statistics, but may include extended objects (galaxies), artifacts (CCD blooming, cosmic rays), and even satellite/plane tracks. Therefore, several parameters are provided to refine the selection:</p>
+<ol class="arabic">
+<li><p><strong>Cross-matching with Gaia Catalog (Optional):</strong>
+- <strong>crossmatch = True</strong></p>
+<blockquote>
+<div><p>When enabled, the raw source catalog is cross-matched with the Gaia DR3 catalog (which mainly contains stars). The matching radius is set to $$1.5 times text{psfFWHM}$$.</p>
+</div></blockquote>
+</li>
+<li><p><strong>User-Defined Star Catalog:</strong>
+- <strong>starcord_list</strong></p>
+<blockquote>
+<div><p>You can provide a list of star coordinates (RA, DEC) to override the raw catalog generated by automatic detection.</p>
+</div></blockquote>
+</li>
+<li><p><strong>Flux Threshold Cut:</strong>
+- <strong>fluxthreshould = 0.</strong></p>
+<blockquote>
+<div><p>This parameter filters out ultra-faint sources by discarding those with fluxes below a fraction of the mean flux of the detected sources.</p>
+</div></blockquote>
+</li>
+<li><p><strong>Geometric Cuts (Axis Ratio and FWHM):</strong>
+- <strong>qt = 0.1</strong></p>
+<blockquote>
+<div><p>Ensures that only sources with an axis ratio (minor/major) close to 1 (i.e., round sources) are selected.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>sigfwhm = 3, medianfwhm = 11.5</strong>
+These parameters restrict the acceptable range of FWHM values. Sources too large or too small (possibly due to artifacts) are filtered out.</p></li>
+</ul>
+</li>
+<li><p><strong>Isolation and Central Pixel Check:</strong>
+- <strong>size = 81, isolate = 0.3</strong></p>
+<blockquote>
+<div><p>Each source is enclosed in an $$text{size} times text{size}$$ pixel box, and only those with minimal contamination from nearby objects (less than the specified isolate fraction) are retained.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>central_tol = 2</strong>
+Discards sources if the central region (a circle with radius $$0.25 times text{size}$$) has too many bad/masked pixels.</p></li>
+</ul>
+</li>
+<li><p><strong>Manual Dropping of Specific Sources:</strong>
+- <strong>droppsf = [3,6,12,13]</strong></p>
+<blockquote>
+<div><p>Allows you to manually remove identified problematic sources based on their index from the source catalog.</p>
+</div></blockquote>
+</li>
+</ol>
+<figure class="align-default" id="id5">
+<img alt="Real Point Source Catalog Construction" src="_images/ps_cat.png" />
+<figcaption>
+<p><span class="caption-text">Fig. 1. Summary of the real point source catalog construction process.</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="psf-fitting">
+<h3>PSF Fitting<a class="headerlink" href="#psf-fitting" title="Link to this heading"></a></h3>
+<p>After constructing a clean sample of point sources, the function proceeds to fit an empirical PSF. With <strong>notfit = False</strong>, the fitting process optimizes three main components:</p>
+<ol class="arabic simple">
+<li><p><strong>Empirical PSF Model:</strong>
+The resulting PSF is a normalized $$text{size} times text{size}$$ image representing the combined information of all selected point sources.</p></li>
+<li><p><strong>Center Determination:</strong>
+The precise center of each point source within its box is determined.</p></li>
+<li><p><strong>Flux Normalization:</strong>
+Each source is assumed to be a scaled version of the PSF, and the algorithm optimizes the scaling factors.</p></li>
+</ol>
+<p>The PSF fitting minimizes a loss function that compares the observed data with the PSF model, incorporating regularization terms (controlled by <strong>a_TV</strong> and <strong>a_sky</strong>) to penalize overly sharp features or background variations. The process is iterative, controlled by parameters such as:</p>
+<ul class="simple">
+<li><p><strong>learning_rate:</strong> Determines the convergence speed.</p></li>
+<li><p><strong>num_steps:</strong> The total number of fitting iterations.</p></li>
+<li><p><strong>oversampling:</strong> Adjusts the spatial resolution of the PSF if a value greater than 1 is provided.</p></li>
+<li><p><strong>photutils_method:</strong> Option to use the photutils fitting method; here, the built-in GalfitS method is used (set to False).</p></li>
+</ul>
+<p>The final empirical PSF model, along with the derived source centers and flux normalizations, is saved to the output file specified by <strong>filepaths</strong>.</p>
+<figure class="align-default" id="id6">
+<img alt="Selected Star Candidates" src="_images/stars.png" />
+<figcaption>
+<p><span class="caption-text">Fig. 2. Selected star candidates used for PSF fitting.</span><a class="headerlink" href="#id6" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id2">
+<h3>Conclusion<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<p>The <cite>generate_PSFs</cite> function seamlessly integrates source detection, catalog cleaning, and PSF fitting. By adjusting its parameters, you can ensure that only high-quality, isolated point sources contribute to the empirical PSF model, thereby improving the accuracy of subsequent image analysis and modeling tasks.</p>
 </section>
 </section>
 </section>

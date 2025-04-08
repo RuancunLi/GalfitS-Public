@@ -16,6 +16,7 @@
       <script src="_static/documentation_options.js?v=0d344481"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -46,7 +47,13 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="data_preparation.html">Prepare Data for GalfitS</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction to GalfitS Config Files</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction to GalfitS Config Files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#config-the-data">Config the data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#config-the-model">Config the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#constrain-parameters">Constrain parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#applying-astrophysical-priors">Applying astrophysical priors</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="config_example.html">Examples of Config Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rungs.html">Run GalfitS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="analyze.html">Analyze the Output of GalfitS</a></li>
@@ -79,6 +86,360 @@
              
   <section id="introduction-to-galfits-config-files">
 <h1>Introduction to GalfitS Config Files<a class="headerlink" href="#introduction-to-galfits-config-files" title="Link to this heading"></a></h1>
+<section id="config-the-data">
+<h2>Config the data<a class="headerlink" href="#config-the-data" title="Link to this heading"></a></h2>
+<p>The following code block shows an example of how to configure the data in the input configuration file for GalfitS:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Region information
+R1) PG0050+124                                  # name of the target
+R2) [13.3955833333,12.6933888889]               # sky coordinate of the target [RA, Dec]
+R3) 0.061                                       # redshift of the target
+
+# Image A
+Ia1) [hst_0_F438W_cut.fits,0]                   # input data image (FITS file)
+Ia2) wfc3_f438w                                 # band of the image
+Ia3) [hst_0_F438W_cut.fits,2]                   # sigma image (automatic calculate from data if blank or &quot;none&quot;)
+Ia4) [psf_f438w_cv.fits,0]                      # PSF image
+Ia5) 1                                          # PSF fine sampling factor relative to data
+Ia6) [hst_0_F438W_cut.fits,1]                   # bad pixel mask image (use empty mask if blank or &quot;none&quot;)
+Ia7) cR                                         # unit of the image
+Ia8) 22.9602936792869                           # size to make cutout image region for fitting, unit arcsec
+Ia9) 1.5061352645923459e+18                     # conversion factor from erg/s/cm^2/A to image unit, -1 for default
+Ia10) 27.0                                      # magnitude photometric zeropoint
+Ia11) uniform                                   # sky model
+Ia12) [[0,-0.5,0.5,0.1,1]]                      # sky parameter, [[value, min, max, step, vary]]
+Ia13) 0                                         # allow relative shifting
+Ia14) [[0,-0.5,0.5,0.1,0],[0,-0.5,0.5,0.1,0]]   # [shiftx, shifty]
+Ia15) 1
+
+# Spectrum
+Sa1) PG0050+124_spec.txt                        # input spectrum file
+Sa2) 1                                          # conversion from spectrum unit to 1e-17 erg/s/cm^2/A
+Sa3) [4000,8500]                                # fitting wavelength range
+Sa4) 0                                          # use high resolution stellar template
+
+# Image atlas
+Aa1) hst                                        # name of the image atlas
+Aa2) [&#39;a&#39;, &#39;b&#39;]                                 # images in this atlas
+Aa3) 0                                          # whether the images have same pixel size
+Aa4) 0                                          # link relative shiftings
+Aa5) [&#39;a&#39;]                                      # spectra
+Aa6) [[2]]                                      # aperture size, fiber-[radius], long slit-[PA, a, b], PA respect to positive RA
+Aa7) [0]                                        # references images
+</pre></div>
+</div>
+<p><strong>Region Configuration</strong></p>
+<p>In GalfitS, configuration files typically begin by defining a region containing the target of interest. The usual format for defining a region involves directly providing information about the target. For instance, to define a region, the user must specify three key parameters, each starting with the letter <code class="docutils literal notranslate"><span class="pre">R</span></code>, as shown in the code block above.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">R1</span></code> names the target, such as PG0050+124, and this name is then used as a prefix for output file names.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">R2</span></code> specifies the sky coordinates of the target in Right Ascension and Declination. This coordinate information serves as a central point for future image cutouts in imaging fitting. Thus, when there are multiple objects of interest, a common center can be used for all.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">R3</span></code> indicates the target’s redshift, which is essential for transforming the image unit to luminosity based on the luminosity distance at this redshift.</p></li>
+</ul>
+<p><strong>Image Configuration</strong></p>
+<p>For fittings involving images, the image input section of the config files is indicated by the letter <code class="docutils literal notranslate"><span class="pre">I</span></code>. Since GalfitS typically handles multiple images, each image should be assigned a distinct character, e.g., <code class="docutils literal notranslate"><span class="pre">Ia</span></code>, <code class="docutils literal notranslate"><span class="pre">Ib</span></code>, and <code class="docutils literal notranslate"><span class="pre">Ic</span></code> for three input images. For each image, a comprehensive set of fifteen parameters is required:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Ia1</span></code>: The input data image file, which is a two-element list: the first element is the path of the FITS file, and the second specifies the FITS extension storing the image array.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ia2</span></code>: The band of the image.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ia3</span></code>: The sigma image, following the same format as the data image. If this list’s first element is blank or set to “none”, GalfitS automatically calculates a sigma image from the data image using the same method as in GALFIT. Accurate sigma image estimation is crucial for the likelihood value and for balancing weights across different images.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ia4</span></code>: The PSF image, in the same format as the data image.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ia5</span></code>: The PSF fine sampling factor relative to the data.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ia6</span></code>: The bad pixel mask image, which uses ‘1’ for masking and ‘0’ for unmasked pixels. If the first element is blank or “none”, an empty mask will be used.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ia7</span></code>: The unit of the image; although it does not affect fitting, it serves as a reminder of the image unit and can be ignored if unclear.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ia8</span></code>: The size for the cutout image region intended for fitting. When a single float, e.g., <span class="math notranslate nohighlight">\(s\)</span>, is provided, the image is cut into a <span class="math notranslate nohighlight">\(2s \times 2s\)</span> square box, centered on <code class="docutils literal notranslate"><span class="pre">R2</span></code>, during fitting. If a list is provided, e.g., <span class="math notranslate nohighlight">\([s_1, s_2, s_3, s_4]\)</span>, a rectangular cutout spanning <span class="math notranslate nohighlight">\(\Delta \text{RA}\)</span> from <span class="math notranslate nohighlight">\(-s_1\)</span> to <span class="math notranslate nohighlight">\(s_2\)</span> and <span class="math notranslate nohighlight">\(\Delta \text{Dec}\)</span> from <span class="math notranslate nohighlight">\(-s_3\)</span> to <span class="math notranslate nohighlight">\(s_4\)</span>, centered on <code class="docutils literal notranslate"><span class="pre">R2</span></code>, is used.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ia9</span></code>: The conversion factor from <span class="math notranslate nohighlight">\(\text{erg s}^{-1} \text{cm}^{-2} \mathring{\text{A}}^{-1}\)</span> to the image unit. If set to -1, GalfitS will use a default value derived from the magnitude zero point of the standard image filter. However, for images like those from 2MASS where the magnitude zero point is not constant, caution is needed with the value of <code class="docutils literal notranslate"><span class="pre">Ia9</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ia10</span></code>: The magnitude photometric zeropoint, used mainly in single-band imaging fitting without SED information (<a href="#id1"><span class="problematic" id="id2">``</span></a>Ia15``=0). In multi-band image fittings, this parameter can be ignored.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ia11</span></code>: The sky model, where both “uniform” and “polynomial” models are acceptable. These represent the background emission during fitting using either a constant value or a polynomial function. To avoid unnecessary parameter degeneracy, users are advised to first perform a sky subtraction and then fix the sky model to uniformly zero.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ia12</span></code>: The sky model parameters, which is a list equal in length to one plus the polynomial function’s order (a uniform sky model is a zeroth-order polynomial). Each list element is a five-value array: [initial value, minimum value, maximum value, typical variation step, fixed or not]. The typical variation step is useful when applying MCMC optimization, and the last value indicates whether the parameter is free (1) or fixed (0). This five-value array format is standard for initializing parameters in GalfitS.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ia13</span></code>: Settings for allowing relative image shifting, typically used when WCS consistency between images, especially from different instruments, is not exact.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ia14</span></code>: The shift parameters in the x and y directions, in pixel units, defined using the standard five-value array.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ia15</span></code>: When set to 0, shifts GalfitS to a pure photometric tool, akin to GALFIT. By default, it is set to 1, which employs SED information for fitting multi-band images.</p></li>
+</ul>
+<p>This meticulous process ensures that GalfitS receives all the necessary information for accurate modeling and analysis of astronomical data.</p>
+<p><strong>Spectrum Configuration</strong></p>
+<p>GalfitS is capable of performing fittings solely with spectra or combined fittings with both images and spectra. To input a spectrum, the configuration process starts with the letter <code class="docutils literal notranslate"><span class="pre">S</span></code>. For instance, <code class="docutils literal notranslate"><span class="pre">Sa</span></code> and <code class="docutils literal notranslate"><span class="pre">Sb</span></code> represent the first and second spectra, respectively, when multiple spectra are used. Each spectrum requires four specific parameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Sa1</span></code>: The input spectrum file, which is a standard text file containing three columns: wavelength in angstroms (<span class="math notranslate nohighlight">\(\mathring{\text{A}}\)</span>), flux, and flux error.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Sa2</span></code>: The conversion factor from the spectrum unit to <span class="math notranslate nohighlight">\(1 \times 10^{-17} \text{erg s}^{-1} \text{cm}^{-2} \mathring{\text{A}}^{-1}\)</span>. This conversion is crucial to ensure that the spectrum is in the correct unit for analysis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Sa3</span></code>: The fitting wavelength range, in units of <span class="math notranslate nohighlight">\(\mathring{\text{A}}\)</span>, specifies the spectrum segment to be used in the fitting process.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Sa4</span></code>: Decides whether to use a high-resolution stellar template. If set to 1, the high-resolution template from Starburst99 with a resolution of approximately <span class="math notranslate nohighlight">\(30 \, \text{km s}^{-1}\)</span> is employed, which is essential for deriving stellar velocity dispersion. However, it’s important to note that the Starburst99 high-resolution template covers only the 3000-7000 <span class="math notranslate nohighlight">\(\mathring{\text{A}}\)</span> range. Therefore, model spectra outside this range will remain at low resolution. For studies focusing on stellar velocity dispersion, it is recommended to set <code class="docutils literal notranslate"><span class="pre">Sa3</span></code> to [3000, 7000].</p></li>
+</ul>
+<p><strong>Image Atlas Configuration</strong></p>
+<p>In GalfitS, the final step in defining the input data is integrating the images and spectra into an image atlas object. Configuring an image atlas begins with the letter <code class="docutils literal notranslate"><span class="pre">A</span></code> and involves seven parameters. Like images and spectra, multiple image atlases are distinguished by identifiers such as <code class="docutils literal notranslate"><span class="pre">Aa</span></code>, <code class="docutils literal notranslate"><span class="pre">Ab</span></code>, etc.:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Aa1</span></code>: Names the image atlas; for example, “hst” could represent the instrument used for the image set.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Aa2</span></code>: Lists the images included in this atlas; for instance, if images <code class="docutils literal notranslate"><span class="pre">Ia</span></code> and <code class="docutils literal notranslate"><span class="pre">Ib</span></code> are included, <code class="docutils literal notranslate"><span class="pre">Aa2</span></code> should be [‘a’, ‘b’].</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Aa3</span></code>: Indicates whether the images in the atlas have the same pixel size, with a value of 0 signifying inconsistencies.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Aa4</span></code>: Links relative shifts among the images, enhancing alignment accuracy within the atlas and avoiding unnecessary parameter degeneracy.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Aa5</span></code>: Lists the spectra associated with the atlas, similar to the inclusion of images. Notably, both <code class="docutils literal notranslate"><span class="pre">Aa2</span></code> and <code class="docutils literal notranslate"><span class="pre">Aa5</span></code> can be empty lists, signifying either spectra-only or images-only fitting.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Aa6</span></code>: Specifies the aperture/slit formation of the input spectrum. The format varies: a single float indicates a fiber ([radius]), and three floats represent a long slit ([PA, a, b]), with PA aligned with positive RA, and a and b as the length and width of the slit in arcseconds.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Aa7</span></code>: Lists reference images. For example, [0] implies that the first image in this image atlas is used for model spectra calculation. It is advisable to use the image with the highest spatial resolution to ensure the most accurate spectrum integration in the forward modeling process.</p></li>
+</ul>
+<p>This structured method of configuring an image atlas in GalfitS ensures a thorough and systematic integration of both imaging and spectral data for astrophysical analysis.</p>
+</section>
+<section id="config-the-model">
+<h2>Config the model<a class="headerlink" href="#config-the-model" title="Link to this heading"></a></h2>
+<p>After configuring the data settings in the config file, it is crucial to define the model within the same text file. GalfitS allows for the inclusion of three types of models: galaxies, AGN, and foreground stars. Users can set up these models following specific guidelines, as detailed below.</p>
+<p><strong>Profile and Galaxy Configuration</strong></p>
+<p>The following code block shows an example of configuring a galaxy model in GalfitS:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Profile A - sersic profile
+Pa1) bulge                                      # name of the component
+Pa2) sersic                                     # profile type
+Pa3) [0,-5,5,0.1,1]                             # x-center [arcsec]
+Pa4) [0,-5,5,0.1,1]                             # y-center [arcsec]
+Pa5) [2.296,0.023,4.592,0.01,1]                 # Re [arcsec]
+Pa6) [4,1,6,0.1,1]                              # Sersic index
+Pa7) [0,-90,90,1,1]                             # position angle (PA) [degree]
+Pa8) [0.8,0.6,1,0.01,1]                         # axis ratio (q = b/a)
+Pa9) [[-4,-8,-1,0.1,1]]                         # specific star formation rate of the star forming component
+Pa10) [[5,0.01,11,0.1,1]]                       # burst stellar age of the starburst component [Gyr]
+Pa11) [0.02,0.001,0.04,0.001,1]                 # metallicity [Z=0.02=Solar]
+Pa12) [0.7,0.3,5.1,0.1,1]                       # Av dust extinction [mag]
+Pa13) [100,40,200,1,0]                          # stellar velocity dispersion [km/s]
+Pa14) [10.14,8.5,12,0.1,1]                      # log stellar mass [solar mass]
+Pa15) burst                                     # star formation history type: burst/conti/bins
+Pa16) [-2,-4,-2,0.1,0]                          # logU nebular ionization parameter
+Pa26) [3,0,5,0.1,0]                             # amplitude of the 2175A bump on extinction curve
+Pa27) 0                                         # SED model, 0: full; 1: stellar only; 2: nebular only; 3: dust only
+Pa28) [8.14,4.5,10,0.1,1]                       # log cold dust mass
+Pa29) [1.0, 0.1, 50, 0.1, 0]                    # Umin, minimum radiation field
+Pa30) [1.0, 0.47, 7.32, 0.1, 0]                 # qPAH, mass fraction of PAH
+Pa31) [1.0, 1.0, 3.0, 0.1, 0]                   # alpha, powerlaw slope of U
+Pa32) [0.1, 0, 1.0, 0.1, 1]                     # gamma, fraction illuminated by star forming region
+
+# Profile B - Fourier sersic profile
+Pb1) arm                                        # name of the component
+Pb2) sersic_f                                   # profile type
+Pb3-16) ......                                  # same as the above
+Pb17) [1,0.3,3,0.1,1]                           # r_in, inner radius of rotation [arcsec]
+Pb18) [2,1,10,0.1,1]                            # r_out, outer radius of rotation [arcsec]
+Pb19) [1,0.5,3,0.1,1]                           # alpha, shape of arctan rotation curve
+Pb20) [70,30,130,1,1]                           # theta_out, the maximum rotation angle [degree]
+Pb21) 1                                         # m, number of Fourier mode
+Pb22) [0.5,0.,1,0.01,1]                         # am, Fourier amplitude
+Pb23) [30,0,180,1,1]                            # theta_m, Fourier position angle
+Pb24) [30,0,90,1,1]                             # i_m, Fourier projection angle
+Pb27-32) ......                                 # same as the above
+
+# Galaxy A
+Ga1) host                                       # name of the galaxy
+Ga2) [&#39;a&#39;,&#39;b&#39;]                                  # profile component included
+Ga3) [0.061,0.011,0.111,0.01,0]                 # galaxy redshift
+Ga4) 0.055                                      # the EB-V of Galactic dust reddening
+Ga5) [1.,0.8,1.2,0.05,1]                        # normalization of spectrum when images+spec fitting
+Ga6) []                                         # narrow lines in nebular
+Ga7) 1                                          # number of components for narrow lines
+</pre></div>
+</div>
+<p>For inputting a galaxy model in GalfitS, the process starts with defining individual component profiles and subsequently integrating these into a comprehensive galaxy model. Each component profile begins with the letter <code class="docutils literal notranslate"><span class="pre">P</span></code> and can require up to 32 parameters, depending on its type.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Pa1</span></code>: Names the component (e.g., bulge, disk, bar).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Pa2</span></code>: Specifies the profile type, such as <code class="docutils literal notranslate"><span class="pre">sersic</span></code>, <code class="docutils literal notranslate"><span class="pre">ferrer</span></code>, <code class="docutils literal notranslate"><span class="pre">edgeondisk</span></code>, <code class="docutils literal notranslate"><span class="pre">GauRing</span></code>, or <code class="docutils literal notranslate"><span class="pre">const</span></code>. An added <code class="docutils literal notranslate"><span class="pre">_f</span></code> indicates the use of Fourier modes for non-axisymmetric profiles.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Pa3</span></code> and <code class="docutils literal notranslate"><span class="pre">Pa4</span></code>: Define the spatial coordinates for the profile’s center in arcseconds, relative to the region’s center.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Pa5</span></code> to <code class="docutils literal notranslate"><span class="pre">Pa8</span></code>: Structural parameters that vary based on the profile type. For a Sersic profile, these include effective radius (Re), Sersic index, position angle (PA) in degrees, and axis ratio (q = b/a).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Pa9</span></code> to <code class="docutils literal notranslate"><span class="pre">Pa16</span></code>: SED-related parameters, including specific star formation rate (sSFR) of the star-forming component, burst stellar age of the starburst component in Gyr, metallicity (Z, where 0.02 is solar), dust extinction (Av) in magnitudes, stellar velocity dispersion in km/s, log stellar mass in solar masses, star formation history type (e.g., burst, continuous, bins), and the nebular ionization parameter (logU).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Pa26</span></code>: Amplitude of the 2175A bump on the extinction curve.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Pa27</span></code>: SED model type (0: full, 1: stellar only, 2: nebular only, 3: dust only).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Pa28</span></code> to <code class="docutils literal notranslate"><span class="pre">Pa32</span></code>: Parameters for the DL2014 dust model, including log cold dust mass, minimum radiation field (Umin), mass fraction of PAH (qPAH), power-law slope of the radiation field (alpha), and fraction illuminated by the star-forming region (gamma).</p></li>
+</ul>
+<p>For profiles using Fourier modes (e.g., <code class="docutils literal notranslate"><span class="pre">sersic_f</span></code>), additional parameters like <strong>Pb17</strong> to <strong>Pb24</strong> define the rotation curve and Fourier mode characteristics, such as inner and outer radii of rotation (r_in, r_out), shape of the arctan rotation curve (alpha), maximum rotation angle (theta_out), number of Fourier modes (m), Fourier amplitude (am), Fourier position angle (theta_m), and Fourier projection angle (i_m).</p>
+<p>The galaxy model itself is defined starting with the letter <code class="docutils literal notranslate"><span class="pre">G</span></code> and requires seven parameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Ga1</span></code>: Names the galaxy (e.g., ‘host’).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ga2</span></code>: Lists the profile components included in the galaxy model (e.g., [‘a’, ‘b’]).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ga3</span></code>: Defines the galaxy’s redshift.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ga4</span></code>: Specifies the EB-V for Galactic dust reddening.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ga5</span></code>: Sets the normalization of the spectrum for combined image and spectrum fitting.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ga6</span></code> and <code class="docutils literal notranslate"><span class="pre">Ga7</span></code>: Configure narrow lines in the nebular component and the number of components for narrow lines, respectively.</p></li>
+</ul>
+<p>This structured approach ensures a detailed and accurate representation of the galaxy for astrophysical analysis.</p>
+<p><strong>AGN Configuration</strong></p>
+<p>The following code block shows an example of configuring an AGN model in GalfitS:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Nuclei A
+Na1) AGN                                        # name of the nuclei component
+Na2) [0.061,0.011,0.111,0.01,0]                 # redshift of the nuclei
+Na3) 0.055                                      # the EB-V of Galactic dust reddening
+Na4) [0,-5,5,0.1,1]                             # x-center [arcsec]
+Na5) [0,-5,5,0.1,1]                             # y-center [arcsec]
+Na6) [7,5,10,0.1,0]                             # log black hole mass [solar mass]
+Na7) [-1,-4,2,0.1,0]                            # log L/LEdd
+Na8) [0,0,0.99,0.01,0]                          # black hole spin, a star
+Na9) [0,0,3.1,0.1,0]                            # intrinsic reddening Av [mag]
+Na10) [43,41,47,0.1,1]                          # log L5100 [erg/s]
+Na11) [[1,0,4,0.1,1], [0.6, 0, 5, 0.1,1]]       # power law indexes
+Na12) [&#39;Hg&#39;,&#39;Hb&#39;,&#39;Ha&#39;]                          # broad emission lines
+Na13) [&#39;Hg&#39;,&#39;Hb&#39;,&#39;Ha&#39;,&#39;OIII_4959&#39;,&#39;OIII_5007&#39;,&#39;NII_6549&#39;,&#39;NII_6583&#39;,&#39;SII_6716&#39;,&#39;SII_6731&#39;] # narrow emission lines
+Na14) 2                                         # number of Gaussian components for broad lines
+Na15) 2                                         # number of Gaussian components for narrow lines
+Na16) 0                                         # add Balmer continuum
+Na17) 1                                         # add FeII
+Na18) 0                                         # continuum model, power law/broken power law/thin disk/type 2/arbitrary
+Na19) [1.,0.5,2,0.05,0]                         # normalization of spectrum when images+spec fitting
+Na20) 0                                         # add torus, default emitting at [1, 1000] micro
+Na21) [41,39,44,0.1,0]                          # log torus luminosity [erg/s]
+Na22) [-0.5,-2.5,-0.25,0.05,0]                  # torus a: power-law index of the radial dust cloud distribution
+Na23) [0.5,0.25,1.5,0.05,0]                     # torus h: dimensionless scale height
+Na24) [7,5,10,0.5,0]                            # torus N0: number of clouds along an equatorial line-of-sight
+Na25) [15,0,90,5,0]                             # torus i: inclination angle
+Na26) [1.,0.2,5,0.1,1]                          # normalization of images_atlas
+Na27) [40,38,42,0.1,0]                          # log luminosity of the 1200 K black body for Nuclei hot dust
+</pre></div>
+</div>
+<p>Defining an AGN model in GalfitS starts with the letter <code class="docutils literal notranslate"><span class="pre">N</span></code> and requires 27 parameters, each crucial for capturing the AGN’s characteristics:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Na1</span></code>: Names the nucleus component (e.g., ‘AGN’).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Na2</span></code>: Specifies the redshift of the nucleus.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Na3</span></code>: EB-V for Galactic dust reddening.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Na4</span></code> and <code class="docutils literal notranslate"><span class="pre">Na5</span></code>: Spatial positioning (x and y centers) in arcseconds.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Na6</span></code>: Logarithm of the black hole mass in solar masses.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Na7</span></code>: Logarithm of the Eddington ratio (L/LEdd).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Na8</span></code>: Black hole spin (a star).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Na9</span></code>: Intrinsic reddening (Av) in magnitudes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Na10</span></code>: Logarithm of luminosity at 5100 angstroms in erg/s.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Na11</span></code>: Power-law indexes for the continuum.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Na12</span></code> and <code class="docutils literal notranslate"><span class="pre">Na13</span></code>: Lists of broad and narrow emission lines, respectively.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Na14</span></code> and <code class="docutils literal notranslate"><span class="pre">Na15</span></code>: Number of Gaussian components for broad and narrow lines.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Na16</span></code> to <code class="docutils literal notranslate"><span class="pre">Na18</span></code>: Options for adding Balmer continuum, FeII emission, and specifying the continuum model (e.g., power law, broken power law).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Na19</span></code>: Normalization of the spectrum for combined image and spectrum fitting.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Na20</span></code> to <code class="docutils literal notranslate"><span class="pre">Na25</span></code>: Parameters for including and configuring a torus model, including its luminosity, power-law index (a), scale height (h), number of clouds (N0), and inclination angle (i).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Na26</span></code>: Normalization of the image atlas.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Na27</span></code>: Logarithm of the luminosity of the 1200 K black body for Nuclei hot dust in erg/s.</p></li>
+</ul>
+<p>This detailed configuration ensures an accurate portrayal of the AGN for astrophysical research.</p>
+<p><strong>Foreground Star Configuration</strong></p>
+<p>The following code block shows an example of configuring a foreground star model in GalfitS:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Foreground star A
+Fa1) star                                       # name of the foreground star
+Fa2) [0,-5,5,0.1,1]                             # x-center [arcsec]
+Fa3) [0,-5,5,0.1,1]                             # y-center [arcsec]
+Fa4) [5500., 300, 50000, 1., 1]                 # effective temperature of the stellar SED
+Fa5) [0, -1, 3, 0.1, 1]                         # logL [Lsun], assuming distance = 1 kpc
+Fa6) [3, 0, 5, 0.1, 1]                          # logg, [cm s^-2], surface gravity
+Fa7) [0.02, 1e-5, 0.04, 0.01, 1]                # Z, metallicity of the atmosphere
+Fa8) 1                                          # use SED information
+</pre></div>
+</div>
+<p>To configure a foreground star model in GalfitS, the process starts with the letter <code class="docutils literal notranslate"><span class="pre">F</span></code> and requires eight parameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Fa1</span></code>: Names the foreground star (e.g., ‘star’).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Fa2</span></code> and <code class="docutils literal notranslate"><span class="pre">Fa3</span></code>: Define the spatial coordinates (x and y centers) in arcseconds.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Fa4</span></code>: Effective temperature of the stellar SED in Kelvin.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Fa5</span></code>: Logarithm of luminosity (logL) in solar units (Lsun), assuming a distance of 1 kpc.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Fa6</span></code>: Surface gravity (logg) in cm s^-2.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Fa7</span></code>: Metallicity (Z) of the atmosphere, where 0.02 is solar.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Fa8</span></code>: Flag to use SED information (1 for yes, 0 for no).</p></li>
+</ul>
+<p>This configuration allows for the inclusion of foreground stars in the model, accounting for their spectral energy distribution (SED) and spatial properties in the fitting process.</p>
+</section>
+<section id="constrain-parameters">
+<h2>Constrain parameters<a class="headerlink" href="#constrain-parameters" title="Link to this heading"></a></h2>
+<p>After executing a GalfitS run, two files are automatically generated in the specified <code class="docutils literal notranslate"><span class="pre">savepath</span></code> directory just prior to the fitting process. These files are named <code class="docutils literal notranslate"><span class="pre">targetname.params</span></code> and <code class="docutils literal notranslate"><span class="pre">targetname.constrain</span></code>, where <code class="docutils literal notranslate"><span class="pre">targetname</span></code> corresponds to the designation defined in <code class="docutils literal notranslate"><span class="pre">R1</span></code> of the config file.</p>
+<p><strong>Parameter File</strong></p>
+<p>The file <code class="docutils literal notranslate"><span class="pre">targetname.params</span></code> serves as the parameter file, summarizing all the parameters utilized in the fitting. It is formatted as a machine-readable table with seven columns, accessible, for instance, via the <code class="docutils literal notranslate"><span class="pre">Table.read</span></code> function in the Python package <code class="docutils literal notranslate"><span class="pre">astropy</span></code>. The columns are structured as follows:</p>
+<ul>
+<li><p><strong>Column 1</strong>: Lists the names of the parameters, which users are not permitted to edit.</p></li>
+<li><p><strong>Columns 2-6</strong>: Contain the initial value, minimum value, maximum value, typical variation step, and a flag indicating whether the parameter is variable (1) or fixed (0). Users are free to edit these columns, ensuring that the maximum value is always greater than the minimum value.</p></li>
+<li><p><strong>Column 7</strong>: Details the parameter expressions, with the default value for all parameters set to <code class="docutils literal notranslate"><span class="pre">None</span></code>. If users wish to link parameters, such as aligning the location of the AGN (e.g., <code class="docutils literal notranslate"><span class="pre">agn_x</span></code>) with the center of the host galaxy (e.g., <code class="docutils literal notranslate"><span class="pre">host_xcen</span></code>), they can modify the corresponding row in the parameter file. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>agn_x 0 -1 1 0.1 False 1*host_xcen
+</pre></div>
+</div>
+<p>Here, <code class="docutils literal notranslate"><span class="pre">1*host_xcen</span></code> in the last column indicates that the value of parameter <code class="docutils literal notranslate"><span class="pre">agn_x</span></code> will be fixed to one times the value of parameter <code class="docutils literal notranslate"><span class="pre">host_xcen</span></code>. This expression effectively links the AGN’s center to that of the host galaxy during the fitting process.</p>
+</li>
+</ul>
+<p><strong>Constraint File</strong></p>
+<p>While editing the expression column in the parameter file facilitates parameter linking, this linking can also be achieved by directly modifying the constraint file. The file named <code class="docutils literal notranslate"><span class="pre">targetname.constrain</span></code> is a text file containing the function <code class="docutils literal notranslate"><span class="pre">Update_Constraints</span></code>, as illustrated below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">Update_Constraints</span><span class="p">(</span><span class="n">pardictlc</span><span class="p">):</span>
+    <span class="n">pardictlc</span><span class="p">[</span><span class="s1">&#39;HaAGNb1peak&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="mf">1.157</span> <span class="o">*</span> <span class="n">pardictlc</span><span class="p">[</span><span class="s1">&#39;AGNlogL5100&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mf">46.19</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.5</span> <span class="o">*</span> <span class="n">pardictlc</span><span class="p">[</span><span class="s1">&#39;HaAGNb1wid&#39;</span><span class="p">])</span>
+    <span class="n">pardictlc</span><span class="p">[</span><span class="s1">&#39;HbAGNb1peak&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="mf">1.133</span> <span class="o">*</span> <span class="n">pardictlc</span><span class="p">[</span><span class="s1">&#39;AGNlogL5100&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mf">45.70</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.5</span> <span class="o">*</span> <span class="n">pardictlc</span><span class="p">[</span><span class="s1">&#39;HbAGNb1wid&#39;</span><span class="p">])</span>
+    <span class="n">pardictlc</span><span class="p">[</span><span class="s1">&#39;HbAGNn1wid&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="mf">0.970936</span> <span class="o">*</span> <span class="n">pardictlc</span><span class="p">[</span><span class="s1">&#39;OIII_5007AGNn1wid&#39;</span><span class="p">]</span>
+    <span class="n">pardictlc</span><span class="p">[</span><span class="s1">&#39;HbAGNn1cen&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="mf">0.970936</span> <span class="o">*</span> <span class="n">pardictlc</span><span class="p">[</span><span class="s1">&#39;OIII_5007AGNn1cen&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>This function, <code class="docutils literal notranslate"><span class="pre">Update_Constraints</span></code>, is designed to update the local parameter dictionary (<code class="docutils literal notranslate"><span class="pre">pardictlc</span></code>) based on user-defined rules, offering a more flexible approach than editing expressions in the parameter file. This flexibility is particularly advantageous when dealing with complex parameter correlations. For example:</p>
+<ul class="simple">
+<li><p>The initial lines establish a link between the luminosities of the broad Hα and Hβ lines and the AGN continuum monochromatic luminosity at 5100 Å, based on the statistical correlation observed in SDSS AGNs (Greene &amp; Ho, 2005, ApJ).</p></li>
+<li><p>Subsequent lines create a correlation between the shape of the narrow component of the AGN Hβ profile and the narrow [OIII] λ5007 emission line, which is crucial for reducing degeneracy in optical spectrum fitting.</p></li>
+</ul>
+<p><strong>Applying Constraints</strong></p>
+<p>By utilizing these linkages in the parameter file and constraint file, GalfitS allows for a more nuanced and interconnected modeling of astrophysical phenomena, ensuring that the fitting process accounts for the inherent complexities and correlations present in astronomical observations. To apply these constraints, users can pass the file names to the GalfitS run with the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>PYTHON<span class="w"> </span>galfitS.py<span class="w"> </span>--config<span class="w"> </span>filename<span class="w"> </span>--readpar<span class="w"> </span>pfile<span class="w"> </span>--parconstrain<span class="w"> </span>cfile
+</pre></div>
+</div>
+<p>Here, <code class="docutils literal notranslate"><span class="pre">--readpar</span></code> is followed by the full path of the parameter file (<code class="docutils literal notranslate"><span class="pre">pfile</span></code>), and <code class="docutils literal notranslate"><span class="pre">--parconstrain</span></code> is followed by the full path of the constraint file (<code class="docutils literal notranslate"><span class="pre">cfile</span></code>).</p>
+</section>
+<section id="applying-astrophysical-priors">
+<h2>Applying astrophysical priors<a class="headerlink" href="#applying-astrophysical-priors" title="Link to this heading"></a></h2>
+<p>Defining parameter linkages in GalfitS is highly flexible, achieved through direct edits to the parameter or constraint files. This flexibility renders GalfitS a more potent and physically relevant tool compared to other SED fitting codes. The decision to link parameters is informed by the scientific questions at hand. Often, adopting statistical correlations to connect parameters can effectively reduce degeneracies, leading to more robust fitting outcomes. However, considering that many astrophysical correlations exhibit scatter, a rigid fixation on these correlations may not always be desirable. To address this, GalfitS offers the capability to transform these simple linkages into astrophysical priors. The configuration of prior files in GalfitS facilitates this transformation, an example of which is depicted below. By adopting this approach, users can seamlessly integrate empirical relationships into their modeling framework. This integration not only ensures that the fitting process is mathematically sound but also firmly anchored in established astrophysical theories and observations.</p>
+<p><strong>Example Prior File</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># MSR represent mass size relation
+# we follow the Table 1 in Van Der Wel et tal. (2014), where log(Re/kpc) = logA + \alpha*log(M/Ms) - 10.7 + \sigma
+# we apply the contrain by profile name [logA, alpha, sigma], if sigma = 0, the relation is fixed
+#                                                             if sigma &lt; 0, the constrain is not included
+MSRa1) total
+MSRa2) [0.6, 0.75, 0.1]
+
+# MMR represent mass metalicity relation
+# adopt the MMR from Kewley &amp; Ellison with KD02 method
+# [a0, a1, a2, a3, sigma], log(O/H) + 12 = a0 + a1*logM + a2*logM^2 + a3*logM^3 /pm sigma
+MMRa1) total
+MMRa2) [28.0974, -7.23631, 0.850344, -0.0318315]
+
+# for exponetial increase, [logSFR0, tau, t0]
+# definition: SFR(t) = SFR0 * exp((t-t0)/tau)
+SFHa1) total
+SFHa2) exponetial
+SFHa3) [[1.,-0.5,2,0.1,1],[0.15,-0.2,0.6,0.1,1],[0.65,0.,1.3,0.1,1]]
+SFHa4) [[1.04,0.16],[0.15,0.04],[0.65,0.18]]
+
+# contrain on AGN
+# in a2) pro [a, b, sigma], which apply Mbh-Mast relation,  we apply logMbh = a + b*logM(pro) + sigma
+# we can also use Mbh-Mbulge relation, e.g. in a2) bulge [-4.18, 1.17, 0.28], from Kormendy &amp; Ho 2013 Equ. 10
+# a3) and a4) comes from linking broad Halpha/beta flux to L5100, from Greene &amp; Ho 2005
+# a7) - a9) are calculatef from Stern &amp; Laor 2012/2013
+AGNa1) myagn # the nuclei component that want to apply constrain
+AGNa2) total # the component which want to apply M-M correlation
+AGNa3) [-7.0, 1.39, 0.79] # the constrain of black hole mass - stellar mass relation, from Table 6 in Greene et al. (2020)
+AGNa4) [-46.19, 1.157, 0.2] # Halpha flux to L5100
+AGNa5) [-45.70, 1.133, 0.2] # Hbeta flux to L5100
+AGNa6) [&#39;Hg&#39;,&#39;Pag&#39;,&#39;Pad&#39;,&#39;Pae&#39;,&#39;OVI&#39;,&#39;Lya&#39;,&#39;NV&#39;,&#39;SiIV&#39;,&#39;CIV&#39;,&#39;HeII&#39;,&#39;CIII&#39;,&#39;MgII&#39;,&#39;Pab&#39;,&#39;Brg&#39;] # broad emission line included
+AGNa7) [0.35,0.4,0.225,0.15,1.48148148, 7.40740741, 1.48148148, 1.18518519, 3.7037037 , 1.07407407, 1.66666667, 1.66666667,1,0.8] # broad line ratio to Hbeta
+AGNa8) [-34.05, 0.833, 0.36] # OIII flux to
+AGNa9) [&#39;Hb&#39;,&#39;OIII_4959&#39;,&#39;OI_6302&#39;,&#39;OI_6365&#39;,&#39;Ha&#39;,&#39;NII_6583&#39;,&#39;NII_6549&#39;,&#39;SII_6716&#39;,&#39;SII_6731&#39;]
+AGNa10) [0.214,0.336,0.03,0.03,0.685,0.302,0.102,0.13,0.13]
+AGNa11) total # constrain the center of AGN, &#39;none&#39; for not constrain
+AGNa12) 0.6 # The value of R_FeII, defined in Boroson &amp; Green 1992
+
+GP) []     # name of parameter which considering a Gaussian prior rather than uniform
+</pre></div>
+</div>
+<p><strong>Mass-Size Relation (MSR)</strong></p>
+<p>In GalfitS, one of the first correlations that can be defined is the Mass-Size Relation (MSR), which is applied to specific profiles as indicated by parameters like <code class="docutils literal notranslate"><span class="pre">MSRa1</span></code>. For example, <code class="docutils literal notranslate"><span class="pre">total</span></code> can be one such profile. The array in <code class="docutils literal notranslate"><span class="pre">MSRa2</span></code>, consisting of three elements [logA, alpha, sigma], defines the slope, intercept, and intrinsic scatter of the MSR, respectively. This implementation is in line with the findings of van der Wel et al. (2014), where the MSR is expressed as:</p>
+<div class="math notranslate nohighlight">
+\[\log(r_e) = \log A + \alpha (\log M_\ast - 10.7)\]</div>
+<p>with the effective radius <span class="math notranslate nohighlight">\(r_e\)</span> in kpc and the stellar mass <span class="math notranslate nohighlight">\(M_\ast\)</span> in solar mass units. For instance, as illustrated in the example prior file, we might adopt the MSR for early-type galaxies at <span class="math notranslate nohighlight">\(z \sim 0.25\)</span>, as described in van der Wel et al. (2014), to constrain the <code class="docutils literal notranslate"><span class="pre">total</span></code> component. In this scenario, <code class="docutils literal notranslate"><span class="pre">MSRa2</span></code> would be set to [0.6, 0.75, 0.1]. The intrinsic scatter, here 0.1, is greater than zero, allowing for adjustments during the fitting process and assuming that the scatter follows a Gaussian distribution with a width of 0.1. Setting sigma to zero would enforce an “exact” prior, strictly adhering to the MSR. Conversely, if sigma &lt; 0, the MSR would not be applied, and one could even remove the relation by deleting <code class="docutils literal notranslate"><span class="pre">MSRa1</span></code> and <code class="docutils literal notranslate"><span class="pre">MSRa2</span></code> from the file. GalfitS offers the flexibility to apply multiple MSRs to different profiles. This is achieved by appropriately setting parameters like <code class="docutils literal notranslate"><span class="pre">MSRa1</span></code>, <code class="docutils literal notranslate"><span class="pre">MSRb1</span></code>, <code class="docutils literal notranslate"><span class="pre">MSRc1</span></code>, and so on for various profiles, allowing for a diverse and comprehensive application of the Mass-Size Relation in the model fitting.</p>
+<p><strong>Mass-Metallicity Relation (MMR)</strong></p>
+<p>The Mass-Metallicity Relation (MMR) represents the second significant correlation that can be integrated into GalfitS. The parameter <code class="docutils literal notranslate"><span class="pre">MMRa1</span></code> is designated to specify the profile to which the MMR is applied, such as <code class="docutils literal notranslate"><span class="pre">total</span></code>, indicating its application to the total component of a galaxy model. The array <code class="docutils literal notranslate"><span class="pre">MMRa2</span></code>, comprising five elements [a0, a1, a2, a3, sigma], is utilized to define the coefficients of the MMR as well as its intrinsic scatter. This approach aligns with the methodology outlined in Kewley &amp; Ellison (2008), where the metallicity relationship is expressed as:</p>
+<div class="math notranslate nohighlight">
+\[\log(\text{O/H}) + 12 = a_0 + a_1 \log M_\ast + a_2 (\log M_\ast)^2 + a_3 (\log M_\ast)^3\]</div>
+<p>For example, adopting metallicity estimates based on the method from Kewley &amp; Dopita (2002), the parameter <code class="docutils literal notranslate"><span class="pre">MMRa2</span></code> could be set to [28.0974, -7.23631, 0.850344, -0.0318315] (as shown in the example prior file). Similar to the MSR setting, the sigma value in MMR dictates the handling of scatter within the relation. Allowing for a degree of variability in the relation can be achieved by setting sigma &gt; 0, thereby incorporating a realistic range of metallicity values consistent with observational data. Conversely, setting sigma &lt; 0 effectively removes the correlation.</p>
+<p><strong>Star Formation History (SFH) Constraints</strong></p>
+<p>To constrain the star formation history (SFH) of profiles, GalfitS uses <code class="docutils literal notranslate"><span class="pre">SFHx</span></code> priors. For example, <code class="docutils literal notranslate"><span class="pre">SFHa1</span></code> specifies the profile (e.g., <code class="docutils literal notranslate"><span class="pre">total</span></code>), and <code class="docutils literal notranslate"><span class="pre">SFHa2</span></code> defines the SFH type, such as <code class="docutils literal notranslate"><span class="pre">exponential</span></code>. The parameters in <code class="docutils literal notranslate"><span class="pre">SFHa3</span></code> and <code class="docutils literal notranslate"><span class="pre">SFHa4</span></code> provide the initial values, ranges, and priors for the SFH parameters. In the exponential case, <code class="docutils literal notranslate"><span class="pre">SFHa3</span></code> might include [logSFR0, tau, t0], defining the SFR as:</p>
+<div class="math notranslate nohighlight">
+\[\text{SFR}(t) = \text{SFR0} \times \exp\left(\frac{t - t0}{\tau}\right)\]</div>
+<p>with <code class="docutils literal notranslate"><span class="pre">SFHa4</span></code> providing the Gaussian priors for these parameters. As shown in the example prior file, <code class="docutils literal notranslate"><span class="pre">SFHa3</span></code> is set to [[1.,-0.5,2,0.1,1],[0.15,-0.2,0.6,0.1,1],[0.65,0.,1.3,0.1,1]], and <code class="docutils literal notranslate"><span class="pre">SFHa4</span></code> to [[1.04,0.16],[0.15,0.04],[0.65,0.18]], specifying the initial values and prior distributions for logSFR0, tau, and t0, respectively. This allows users to model the SFH with physically motivated constraints tailored to their scientific goals.</p>
+<p><strong>AGN Constraints</strong></p>
+<p>In GalfitS, parameter linking for AGN models is informed by statistical studies of nearby AGNs, encompassing a total of 12 parameters. As illustrated in the example prior file, <code class="docutils literal notranslate"><span class="pre">AGNa1</span></code> identifies the AGN component, such as ‘myagn’, for the application of constraints. GalfitS facilitates the linking of black hole mass (<span class="math notranslate nohighlight">\(M_\text{BH}\)</span>) to the mass of a specific profile, which is particularly useful in reducing parameter degeneracy when employing a thin disk model as the AGN continuum model. For example, to adopt a <span class="math notranslate nohighlight">\(M_\text{BH} - M_\text{bulge}\)</span> correlation, one can set <code class="docutils literal notranslate"><span class="pre">AGNa2</span></code> to ‘bulge’ and <code class="docutils literal notranslate"><span class="pre">AGNa3</span></code> to [-4.18, 1.17, 0.28], following the relation from Kormendy &amp; Ho (2013). The array in <code class="docutils literal notranslate"><span class="pre">AGNa3</span></code> is similar to <code class="docutils literal notranslate"><span class="pre">MSRa2</span></code>, with [logA, alpha, sigma], defining the relationship <span class="math notranslate nohighlight">\(\log M_\text{BH} = \log A + \alpha \log M_\ast\)</span>. The sigma value, which can be set to 0 or a negative number, dictates the exactness or exclusion of this correlation. In cases where there is a single profile for the galaxy, such as ‘total’, a <span class="math notranslate nohighlight">\(M_\text{BH} - M_\text{total}\)</span> correlation can be implemented based on Greene et al. (2020), by setting <code class="docutils literal notranslate"><span class="pre">AGNa2</span></code> to ‘total’ and <code class="docutils literal notranslate"><span class="pre">AGNa3</span></code> to [-7.0, 1.39, 0.79]. Parameters <code class="docutils literal notranslate"><span class="pre">AGNa4</span></code> and <code class="docutils literal notranslate"><span class="pre">AGNa5</span></code> link the broad Hα and Hβ fluxes to the monochromatic luminosity at 5100Å (<span class="math notranslate nohighlight">\(L_{5100}\)</span>). This linkage is beneficial for imaging-only fittings in GalfitS, where the fluxes of broad Hα and Hβ are unknown but significantly contribute to the broadband flux in certain images. Similarly, the luminosities of other broad emission lines can be linked to the luminosity of Hβ, based on statistics from nearby AGNs, as suggested in Greene &amp; Ho (2005). In <code class="docutils literal notranslate"><span class="pre">AGNa6</span></code>, other broad emission lines can be specified, and <code class="docutils literal notranslate"><span class="pre">AGNa7</span></code> sets their luminosity ratios to broad Hβ. The values in the example prior file for these ratios are derived from SDSS type 1 AGNs (Stern &amp; Laor 2012/2013). Since [OIII] λ5007 is a strong emission line in AGN, <code class="docutils literal notranslate"><span class="pre">AGNa8</span></code> allows its luminosity to be linked to the continuum luminosity, akin to <code class="docutils literal notranslate"><span class="pre">AGNa4</span></code> and <code class="docutils literal notranslate"><span class="pre">AGNa5</span></code>. The values for this relation in the example prior file are adopted from Stern &amp; Laor (2012). <code class="docutils literal notranslate"><span class="pre">AGNa9</span></code> specifies additional narrow emission lines included in the model, and <code class="docutils literal notranslate"><span class="pre">AGNa10</span></code> sets their luminosity ratios to [OIII] λ5007, based on Stern &amp; Laor (2013). The parameter <code class="docutils literal notranslate"><span class="pre">AGNa11</span></code> is used for center linking, allowing the AGN’s location to be aligned with a specific profile, like <code class="docutils literal notranslate"><span class="pre">total</span></code>. Setting <code class="docutils literal notranslate"><span class="pre">AGNa11</span></code> to ‘none’ implies no center linking. The final parameter, <code class="docutils literal notranslate"><span class="pre">AGNa12</span></code>, concerns the line ratio between FeII pseudo-continuum and Hβ, as defined in Boroson &amp; Green (1992). This ratio is crucial, particularly for high accretion rate AGNs where FeII emission can be prominent.</p>
+<p><strong>Gaussian Priors</strong></p>
+<p>To apply Gaussian priors to specific parameters, users can list the parameter names in <code class="docutils literal notranslate"><span class="pre">GP</span></code>. For example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GP) [&#39;param1&#39;, &#39;param2&#39;]
+</pre></div>
+</div>
+<p>This will automatically apply Gaussian priors to the listed parameters, rather than uniform priors, allowing for more constrained fitting based on prior knowledge.</p>
+<p><strong>Applying Priors</strong></p>
+<p>Once the above astrophysical priors are defined, they can be stored in a text file as the prior file, like the example shown above. To apply these priors, users can pass the file name to the GalfitS run with the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>PYTHON<span class="w"> </span>galfitS.py<span class="w"> </span>--config<span class="w"> </span>filename<span class="w"> </span>--priorpath<span class="w"> </span>priorfile
+</pre></div>
+</div>
+<p>Here, <code class="docutils literal notranslate"><span class="pre">--priorpath</span></code> is followed by the full path of the prior file (<code class="docutils literal notranslate"><span class="pre">priorfile</span></code>).</p>
+</section>
 </section>
 
 
