@@ -6,6 +6,7 @@ Welcome to GalfitS documentation!
    :caption: Contents:
 
    installation
+   quickstart
    data_preparation
    config_intro
    config_example

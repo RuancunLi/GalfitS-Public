@@ -1,0 +1,209 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick Start to GalfitS Everything &mdash; GalfitS Public 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=0d344481"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Prepare Data for GalfitS" href="data_preparation.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            GalfitS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start to GalfitS Everything</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data_preparation.html">Prepare Data for GalfitS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_intro.html">Introduction to GalfitS Config Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_example.html">Examples of Config Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rungs.html">Run GalfitS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analyze.html">Analyze the Output of GalfitS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">GalfitS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quick Start to GalfitS Everything</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/quickstart.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quick-start-to-galfits-everything">
+<h1>Quick Start to GalfitS Everything<a class="headerlink" href="#quick-start-to-galfits-everything" title="Link to this heading"></a></h1>
+<p>We will use GalfitS to perform a bulge-disk decomposition of a galaxy J0100+0033, using multi-band images from 10 images from GALEX, SDSS, and 2MASS. The data can be downloaded from <a class="reference external" href="../../../examples/data.zip">data.zip</a></p>
+<p>We will use the configuration file <a class="reference external" href="../../../examples/quickstart.lyric">quickstart.lyric</a> to run GalfitS. Let’s first move to the directory where the data is located:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>unzip<span class="w"> </span>../../examples/data.zip
+<span class="nb">cd</span><span class="w"> </span>data
+mv<span class="w"> </span>../quickstart.lyric<span class="w"> </span>.
+</pre></div>
+</div>
+<p>Now we can run GalfitS:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>galfits<span class="w"> </span>quickstart.lyric<span class="w"> </span>--work<span class="w"> </span>./result<span class="w"> </span>--num_steps<span class="w"> </span><span class="m">15000</span>
+</pre></div>
+</div>
+<p>The result will be saved in the directory <code class="docutils literal notranslate"><span class="pre">result</span></code>. We choose 15000 steps to ensure the result is converged.</p>
+<p>Now we can check the result. First, in the directory <code class="docutils literal notranslate"><span class="pre">result</span></code>, there is a summary file named <code class="docutils literal notranslate"><span class="pre">J0100+0033.gssummary</span></code>. The first part of the file looks like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># target: J0100+0033
+# config file: quickstart.lyric
+# fitting mode: images - SED
+# fiting method: optimizer
+# chisq: 22315.6640625
+# reduced chisq: 0.5555997490882874
+# BIC: 22750.294921875
+# fitting time: 11.854264557361603 mins
+############# data summary ##############
+# image atals: 2mass
+#    image number: 0  band: j  chisq: [765.8574]  dof: [1031.]  reduced chisq: [0.7428297]
+#    image number: 1  band: h  chisq: [384.72656]  dof: [1031.]  reduced chisq: [0.37315863]
+#    image number: 2  band: ks  chisq: [498.39984]  dof: [1031.]  reduced chisq: [0.483414]
+# image atals: galex
+#    image number: 0  band: galex_fuv  chisq: [185.44553]  dof: [434.]  reduced chisq: [0.42729384]
+#    image number: 1  band: galex_nuv  chisq: [545.28754]  dof: [434.]  reduced chisq: [1.2564229]
+# image atals: sdss
+#    image number: 0  band: sloan_u  chisq: [3681.2524]  dof: [7249.]  reduced chisq: [0.507829]
+#    image number: 1  band: sloan_g  chisq: [4718.369]  dof: [7249.]  reduced chisq: [0.6508993]
+#    image number: 2  band: sloan_r  chisq: [3916.7212]  dof: [7249.]  reduced chisq: [0.54031193]
+#    image number: 3  band: sloan_i  chisq: [4737.5195]  dof: [7249.]  reduced chisq: [0.6535411]
+#    image number: 4  band: sloan_z  chisq: [2882.086]  dof: [7249.]  reduced chisq: [0.39758393]
+</pre></div>
+</div>
+<p>This summary provides an overview of the fitting results, including the target name, configuration file, fitting mode, method, chi-square values, reduced chi-square, Bayesian Information Criterion (BIC), and the fitting time. It also includes a detailed breakdown of the chi-square values for each image in the different image atlases (GALEX, SDSS, 2MASS), showing the chi-square, degrees of freedom (dof), and reduced chi-square for each band.</p>
+<p>The second part of the file is the summary of the parameters:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pname    best_value
+disk_age_value    1.5849
+disk_Z_value    0.0300
+disk_Av_value    0.4300
+logM_disk    10.2398
+disk_xcen    -0.5388
+disk_ycen    -0.3541
+disk_Re    15.0592
+disk_ang    -43.6280
+disk_axrat    0.4126
+bulge_age_value    0.3981
+bulge_Z_value    0.0200
+bulge_Av_value    1.0165
+logM_bulge    10.6108
+bulge_xcen    -0.1534
+bulge_ycen    -0.1036
+bulge_Re    3.1752
+bulge_n    4.2031
+bulge_ang    24.9169
+bulge_axrat    0.7701
+......
+</pre></div>
+</div>
+<p>This table lists the best-fit values for each parameter, such as the age, metallicity (Z), dust extinction (Av), logarithmic stellar mass (logM), and structural parameters (e.g., effective radius Re, position angle ang, axis ratio axrat) for both the disk and bulge components.</p>
+<p>The above file can be easily read using <code class="docutils literal notranslate"><span class="pre">astropy.table</span></code>, for example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">astropy.table</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">Table</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;result/J0100+0033.gssummary&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span>
+<span class="n">logM_bulge</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;best_value&#39;</span><span class="p">][</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;pname&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;logM_bulge&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Besides the summary files, there are also two output images. The first is <code class="docutils literal notranslate"><span class="pre">J0100+0033image_fit.png</span></code>, which displays the original image, the model image, and the residual image for each band:</p>
+<figure class="align-center">
+<img alt="_images/J0100%2B0033image_fit.png" src="_images/J0100%2B0033image_fit.png" />
+</figure>
+<p>The second output image is <code class="docutils literal notranslate"><span class="pre">J0100+0033SED_model.png</span></code>, which shows the SED model for the bulge and disk components, along with the model points for each band and a simple photometry measurement:</p>
+<figure class="align-center">
+<img alt="_images/J0100%2B0033SED_model.png" src="_images/J0100%2B0033SED_model.png" />
+</figure>
+<p>Running the above example takes different times on different machines. Below is a table summarizing the approximate fitting times:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Machine</p></th>
+<th class="head"><p>Time</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>RTX 4090</p></td>
+<td><p>11.89 mins</p></td>
+</tr>
+<tr class="row-odd"><td><p>CPU</p></td>
+<td><p>20 mins</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="data_preparation.html" class="btn btn-neutral float-right" title="Prepare Data for GalfitS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Li R. &amp; Ho C. Luis.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
