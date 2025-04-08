@@ -1,9 +1,9 @@
 Quick Start to GalfitS Everything
 ==================================
 
-We will use GalfitS to perform a bulge-disk decomposition of a galaxy J0100+0033, using multi-band images from 10 images from GALEX, SDSS, and 2MASS. The data can be downloaded from `data.zip <../../../examples/data.zip>`_
+We will use GalfitS to perform a bulge-disk decomposition of a galaxy J0100+0033, using multi-band images from 10 images from GALEX, SDSS, and 2MASS. The data can be downloaded from `data.zip <https://github.com/RuancunLi/GalfitS-Public/tree/main/examples/data.zip>`_
 
-We will use the configuration file `quickstart.lyric <../../../examples/quickstart.lyric>`_ to run GalfitS. Let's first move to the directory where the data is located:
+We will use the configuration file `quickstart.lyric <https://github.com/RuancunLi/GalfitS-Public/tree/main/examples/quickstart.lyric>`_ to run GalfitS. Let's first move to the directory where the data is located:
 
 .. code-block:: bash
 
