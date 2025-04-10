@@ -74,9 +74,9 @@ An example configuration file for performing SED fitting from the far-ultraviole
 
 **Fitting Results**
 
-Once the fitting process is complete, the results are saved in a summary file, accompanied by a figure illustrating the SED fitting outcome. The figure, accessible at ``../fig/sedfit.jpg``, displays the contributions from different components: stars (blue), nebular emission (green), and dust (red).
+Once the fitting process is complete, the results are saved in a summary file, accompanied by a figure illustrating the SED fitting outcome. The figure below displays the contributions from different components: stars (blue), nebular emission (green), and dust (red).
 
-.. figure:: ../fig/sedfit.jpg
+.. figure:: ./fig/sedfit.jpg
    :align: center
 
    Example of SED fitting results, showing contributions from stars (blue), nebular emission (green), and dust (red).
