@@ -1,0 +1,343 @@
+# liyang.lyric
+# The config file provide a galfitS setup to perform a bulge-disk SED decomposition with multi-band images
+
+# Region information
+R1) 2 
+R2) [28.69295,1.05575] 
+R3) 0.0817 
+
+
+# Image A
+Ia1) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_u.fits,0] 
+Ia2) sloan_u      # band
+Ia3) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_u.fits,2] 
+Ia4) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_u.fits,3] 
+Ia5) 1                   # PSF fine sampling factor relative to data
+Ia6) [Noimg,0] 
+Ia7) cR                # unit of the image
+Ia8) -1 
+Ia9) 1                # Conversion from image unit to flambda, -1 for default
+Ia10) 28.3291              # Magnitude photometric zeropoint
+Ia11) uniform             # sky model
+Ia12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Ia13) 0 			# allow relative shifting
+Ia14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
+Ia15) 1 # Use SED information
+
+# Image B
+Ib1) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_g.fits,0] 
+Ib2) sloan_g      # band
+Ib3) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_g.fits,2] 
+Ib4) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_g.fits,3] 
+Ib5) 1                   # PSF fine sampling factor relative to data
+Ib6) [Noimg,0]  
+Ib7) cR                # unit of the image
+Ib8) -1 
+Ib9) 1                # Conversion from image unit to flambda, -1 for default
+Ib10) 28.3291              # Magnitude photometric zeropoint
+Ib11) uniform             # sky model
+Ib12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Ib13) 0 			# allow relative shifting
+Ib14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
+Ib15) 1 # Use SED information
+
+# Image C
+Ic1) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_r.fits,0] 
+Ic2) sloan_r      # band
+Ic3) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_r.fits,2] 
+Ic4) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_r.fits,3] 
+Ic5) 1                   # PSF fine sampling factor relative to data
+Ic6) [Noimg,0]  
+Ic7) cR                # unit of the image
+Ic8) -1 
+Ic9) 1                # Conversion from image unit to flambda, -1 for default
+Ic10) 28.3291              # Magnitude photometric zeropoint
+Ic11) uniform             # sky model
+Ic12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Ic13) 0 			# allow relative shifting
+Ic14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
+Ic15) 1 # Use SED information
+
+# Image D
+Id1) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_i.fits,0] 
+Id2) sloan_i      # band
+Id3) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_i.fits,2] 
+Id4) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_i.fits,3] 
+Id5) 1                   # PSF fine sampling factor relative to data
+Id6) [Noimg,0]  
+Id7) cR                # unit of the image
+Id8) -1 
+Id9) 1                # Conversion from image unit to flambda, -1 for default
+Id10) 28.3291              # Magnitude photometric zeropoint
+Id11) uniform             # sky model
+Id12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Id13) 0 			# allow relative shifting
+Id14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
+Id15) 1 # Use SED information
+
+# Image E
+Ie1) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_z.fits,0] 
+Ie2) sloan_z      # band
+Ie3) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_z.fits,2] 
+Ie4) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_z.fits,3] 
+Ie5) 1                   # PSF fine sampling factor relative to data
+Ie6) [Noimg,0]  
+Ie7) cR                # unit of the image
+Ie8) -1 
+Ie9) 1                # Conversion from image unit to flambda, -1 for default
+Ie10) 28.3291              # Magnitude photometric zeropoint
+Ie11) uniform             # sky model
+Ie12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Ie13) 0 			# allow relative shifting
+Ie14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
+Ie15) 1 # Use SED information
+
+# Image F
+If1) [/home/liruancun/Works/liyang/cutimgs/photometry/2j.fits,0] 
+If2) j      # band
+If3) [/home/liruancun/Works/liyang/cutimgs/photometry/2j.fits,2] 
+If4) [/home/liruancun/Works/liyang/cutimgs/photometry/2j.fits,3] 
+If5) 1                   # PSF fine sampling factor relative to data
+If6) [Noimg,0]  
+If7) cR                # unit of the image
+If8) -1 
+If9) 1 
+If10) 26.466              # Magnitude photometric zeropoint
+If11) uniform             # sky model
+If12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+If13) 0 			# allow relative shifting
+If14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
+If15) 1 # Use SED information
+
+# Image G
+Ig1) [/home/liruancun/Works/liyang/cutimgs/photometry/2h.fits,0] 
+Ig2) h      # band
+Ig3) [/home/liruancun/Works/liyang/cutimgs/photometry/2h.fits,2] 
+Ig4) [/home/liruancun/Works/liyang/cutimgs/photometry/2h.fits,3] 
+Ig5) 1                   # PSF fine sampling factor relative to data
+Ig6) [Noimg,0] 
+Ig7) cR                # unit of the image
+Ig8) -1 
+Ig9) 1 
+Ig10) 26.466              # Magnitude photometric zeropoint
+Ig11) uniform             # sky model
+Ig12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Ig13) 0 			# allow relative shifting
+Ig14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
+Ig15) 1 # Use SED information
+
+# Image H
+Ih1) [/home/liruancun/Works/liyang/cutimgs/photometry/2ks.fits,0] 
+Ih2) ks       # band
+Ih3) [/home/liruancun/Works/liyang/cutimgs/photometry/2ks.fits,2] 
+Ih4) [/home/liruancun/Works/liyang/cutimgs/photometry/2ks.fits,3] 
+Ih5) 1                   # PSF fine sampling factor relative to data
+Ih6) [Noimg,0]  
+Ih7) cR                # unit of the image
+Ih8) -1 
+Ih9) 1 
+Ih10) 26.466              # Magnitude photometric zeropoint
+Ih11) uniform             # sky model
+Ih12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Ih13) 0 			# allow relative shifting
+Ih14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
+Ih15) 1 # Use SED information
+
+# Image I
+Ii1) [/home/liruancun/Works/liyang/cutimgs/photometry/2galex_nuv.fits,0] 
+Ii2) galex_fuv       # band
+Ii3) [/home/liruancun/Works/liyang/cutimgs/photometry/2galex_nuv.fits,2] 
+Ii4) [/home/liruancun/Works/liyang/cutimgs/photometry/2galex_nuv.fits,3] 
+Ii5) 1                   # PSF fine sampling factor relative to data
+Ii6) [Noimg,0]  
+Ii7) cR                # unit of the image
+Ii8) -1 
+Ii9) 1                # Conversion from image unit to flambda, -1 for default
+Ii10) 18.8148              # Magnitude photometric zeropoint
+Ii11) uniform             # sky model
+Ii12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Ii13) 0 			# allow relative shifting
+Ii14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
+Ii15) 1 # Use SED information
+
+# Image J
+Ij1) [/home/liruancun/Works/liyang/cutimgs/photometry/2galex_fuv.fits,0] 
+Ij2) galex_nuv       # band
+Ij3) [/home/liruancun/Works/liyang/cutimgs/photometry/2galex_fuv.fits,2] 
+Ij4) [/home/liruancun/Works/liyang/cutimgs/photometry/2galex_fuv.fits,3] 
+Ij5) 1                   # PSF fine sampling factor relative to data
+Ij6) [Noimg,0]  
+Ij7) cR                # unit of the image
+Ij8) -1 
+Ij9) 1                # Conversion from image unit to flambda, -1 for default
+Ij10) 20.0794              # Magnitude photometric zeropoint
+Ij11) uniform             # sky model
+Ij12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Ij13) 0 			# allow relative shifting
+Ij14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
+Ij15) 1 # Use SED information
+
+# Image K
+Ik1) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch1.fits,0] 
+Ik2) wise_ch1       # band
+Ik3) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch1.fits,2] 
+Ik4) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch1.fits,3] 
+Ik5) 1                   # PSF fine sampling factor relative to data
+Ik6) [Noimg,0]  
+Ik7) cR                # unit of the image
+Ik8) -1 
+Ik9) 1                # Conversion from image unit to flambda, -1 for default
+Ik10) 20.0794              # Magnitude photometric zeropoint
+Ik11) uniform             # sky model
+Ik12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Ik13) 0 			# allow relative shifting
+Ik14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
+Ik15) 1 # Use SED information
+
+# Image L
+Il1) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch2.fits,0] 
+Il2) wise_ch2       # band
+Il3) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch2.fits,2] 
+Il4) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch2.fits,3] 
+Il5) 1                   # PSF fine sampling factor relative to data
+Il6) [Noimg,0]  
+Il7) cR                # unit of the image
+Il8) -1 
+Il9) 1                # Conversion from image unit to flambda, -1 for default
+Il10) 20.0794              # Magnitude photometric zeropoint
+Il11) uniform             # sky model
+Il12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Il13) 0 			# allow relative shifting
+Il14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
+Il15) 1 # Use SED information
+
+# Image M
+Im1) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch3.fits,0] 
+Im2) wise_ch3       # band
+Im3) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch3.fits,2] 
+Im4) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch3.fits,3] 
+Im5) 1                   # PSF fine sampling factor relative to data
+Im6) [Noimg,0]  
+Im7) cR                # unit of the image
+Im8) -1 
+Im9) 1                # Conversion from image unit to flambda, -1 for default
+Im10) 20.0794              # Magnitude photometric zeropoint
+Im11) uniform             # sky model
+Im12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Im13) 0 			# allow relative shifting
+Im14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
+Im15) 1 # Use SED information
+
+# Image L
+In1) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch4.fits,0] 
+In2) wise_ch4       # band
+In3) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch4.fits,2] 
+In4) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch4.fits,3] 
+In5) 1                   # PSF fine sampling factor relative to data
+In6) [Noimg,0]  
+In7) cR                # unit of the image
+In8) -1 
+In9) 1                # Conversion from image unit to flambda, -1 for default
+In10) 20.0794              # Magnitude photometric zeropoint
+In11) uniform             # sky model
+In12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+In13) 0 			# allow relative shifting
+In14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
+In15) 1 # Use SED information
+
+# Image L
+Io1) [/home/liruancun/Works/liyang/cutimgs/photometry/2herschel_psw.fits,0] 
+Io2) herschel_psw       # band
+Io3) [/home/liruancun/Works/liyang/cutimgs/photometry/2herschel_psw.fits,2] 
+Io4) [/home/liruancun/Works/liyang/cutimgs/photometry/2herschel_psw.fits,3] 
+Io5) 1                   # PSF fine sampling factor relative to data
+Io6) [Noimg,0]  
+Io7) cR                # unit of the image
+Io8) -1 
+Io9) 1                # Conversion from image unit to flambda, -1 for default
+Io10) 20.0794              # Magnitude photometric zeropoint
+Io11) uniform             # sky model
+Io12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Io13) 0 			# allow relative shifting
+Io14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
+Io15) 1 # Use SED information
+
+# Image P
+Ip1) [/home/liruancun/Works/liyang/cutimgs/photometry/2herschel_pmw.fits,0] 
+Ip2) herschel_pmw       # band
+Ip3) [/home/liruancun/Works/liyang/cutimgs/photometry/2herschel_pmw.fits,2] 
+Ip4) [/home/liruancun/Works/liyang/cutimgs/photometry/2herschel_pmw.fits,3] 
+Ip5) 1                   # PSF fine sampling factor relative to data
+Ip6) [Noimg,0]  
+Ip7) cR                # unit of the image
+Ip8) -1 
+Ip9) 1                # ConversIpn from image unit to flambda, -1 for default
+Ip10) 20.0794              # Magnitude photometric zeropoint
+Ip11) uniform             # sky model
+Ip12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Ip13) 0 			# allow relative shifting
+Ip14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
+Ip15) 1 # Use SED informatIpn
+
+# Image Q
+Iq1) [/home/liruancun/Works/liyang/cutimgs/photometry/2herschel_plw.fits,0] 
+Iq2) herschel_plw       # band
+Iq3) [/home/liruancun/Works/liyang/cutimgs/photometry/2herschel_plw.fits,2] 
+Iq4) [/home/liruancun/Works/liyang/cutimgs/photometry/2herschel_plw.fits,3] 
+Iq5) 1                   # PSF fine sampling factor relative to data
+Iq6) [Noimg,0]  
+Iq7) cR                # unit of the image
+Iq8) -1 
+Iq9) 1                # ConversIqn from image unit to flambda, -1 for default
+Iq10) 20.0794              # Magnitude photometric zeropoint
+Iq11) uniform             # sky model
+Iq12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Iq13) 0 			# allow relative shifting
+Iq14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
+Iq15) 1 # Use SED informatIqn
+
+
+# Image atlas
+Aa1) 'all' # name of the image atlas
+Aa2) ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q'] # images in this atlas
+Aa3) 1 # whether the images have same pixel size
+Aa4) 0 # link relative shiftings
+Aa5) [] # spectra
+Aa6) [] # aperture size
+Aa7) [] # references images
+
+
+# Profile B
+Pb1) total # name of the component
+Pb2) sersic # profile type
+Pb3) [0,-5,5,0.1,0] # x-center
+Pb4) [0,-5,5,0.1,0] # y-center
+Pb5) [2.6880000000000006,0.6720000000000002,10.752000000000002,0.1,0] 
+Pb6) [1,0.5,3,0.1,0] # Sersic index
+Pb7) [-60,-90,90,1,0] # position angle (PA) [degrees: Up=0, Left=90]
+Pb8) [0.9,0.2,1,0.01,0] # axis ratio (b/a) [0.1=round, 1=flat]
+Pb9) [[-1,-4,0,0.1,1]] # contemporary log star formation fraction
+Pb10) [[6.342512920653024,0.01,12.485025841306049,0.1,1]] 
+Pb11) [[0.02,0.001,0.04,0.001,1]] # metallicity [Z=0.02=Solar]
+Pb12) [[0.7,0.3,5.1,0.1,1]] # Av dust extinction [mag]
+Pb13) [100,40,200,1,0] # stellar velocity dispersion
+Pb14) [10.64,8.5,12,0.1,1] # log stellar mass
+Pb15) conti # star formation history type: burst/conti
+Pb16) [-3,-4,-2,0.1,0] # logU nebular ionization parameter
+Pb26) [3,0,5,0.1,1] # amplitude of the 2175A bump on extinction curve 
+Pb27) 4                         # SED model, 0: full; 1: stellar only; 2: nebular only; 3: dust only
+Pb28) [8.14,4.5,10,0.1,1]       # log dust mass
+Pb29) [1.0, 0.1, 25, 0.1, 1]    # Umin, minimum radiation field
+Pb30) [1.0, 0.47, 7.32, 0.1, 1] # qPAH, mass fraction of PAH
+Pb31) [2.0, 1.0, 3.0, 0.1, 0]   # alpha, powerlaw slope of U
+Pb32) [0.1, 0, 0.2, 0.1, 1]     # gamma, fraction illuminated by star forming region
+
+
+# Galaxy A
+Ga1) mygal
+Ga2) ['b'] # profile component 
+Ga3) [0.0817,0.03169999999999999,0.13169999999999998,0.01,0] 
+Ga4) 0.0257 
+Ga5) [1.,0.5,2,0.05,0]  # normalization of spectrum when images+spec fitting
+Ga6) [] # narrow lines in nebular
+Ga7) 1 # number of components for narrow lines
