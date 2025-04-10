@@ -93,6 +93,90 @@
 </section>
 <section id="pure-sed-fitting">
 <h2>Pure SED fitting<a class="headerlink" href="#pure-sed-fitting" title="Link to this heading"></a></h2>
+<p>Photometric SED fitting involves modeling the SED of an astronomical object using a set of data points derived from broad-band photometry. In GalfitS, this process begins by transforming photometric data into ‘mock’ images, followed by the standard fitting routine. The photometric data is typically provided in a table format, including columns for the band, flux, and flux error. Here’s an example:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Band</p></th>
+<th class="head"><p>Flux</p></th>
+<th class="head"><p>Flux_err</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>NUV</p></td>
+<td><p>xxx</p></td>
+<td><p>xxx</p></td>
+</tr>
+<tr class="row-odd"><td><p>FUV</p></td>
+<td><p>xxx</p></td>
+<td><p>xxx</p></td>
+</tr>
+<tr class="row-even"><td><p>…</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Transforming Photometry Data to Mock Images</strong></p>
+<p>To convert this photometric data into mock images, you can use the <code class="docutils literal notranslate"><span class="pre">photometry_to_img</span></code> function from the <code class="docutils literal notranslate"><span class="pre">galfits.gsutils</span></code> module. Below is an example Python script to perform this transformation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">galfits</span><span class="w"> </span><span class="kn">import</span> <span class="n">gsutils</span>
+<span class="n">object_flux</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;./object.mag&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="nb">object</span><span class="p">[</span><span class="s1">&#39;redshift&#39;</span><span class="p">]</span>
+<span class="n">Bands</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;galex_nuv&#39;</span><span class="p">,</span> <span class="s1">&#39;galex_fuv&#39;</span><span class="p">,</span> <span class="s1">&#39;sloan_u&#39;</span><span class="p">,</span> <span class="s1">&#39;sloan_g&#39;</span><span class="p">,</span> <span class="s1">&#39;sloan_r&#39;</span><span class="p">,</span> <span class="s1">&#39;sloan_i&#39;</span><span class="p">,</span> <span class="s1">&#39;sloan_z&#39;</span><span class="p">,</span> <span class="s1">&#39;wise_ch1&#39;</span><span class="p">,</span> <span class="s1">&#39;wise_ch2&#39;</span><span class="p">,</span> <span class="s1">&#39;wise_ch3&#39;</span><span class="p">,</span> <span class="s1">&#39;wise_ch4&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">loop</span><span class="p">,</span> <span class="n">band</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">Bands</span><span class="p">):</span>
+    <span class="n">flux_mjy</span> <span class="o">=</span> <span class="n">object_flux</span><span class="p">[</span><span class="n">band</span><span class="p">]</span>
+    <span class="n">flux_err</span> <span class="o">=</span> <span class="n">object_flux</span><span class="p">[</span><span class="n">band</span> <span class="o">+</span> <span class="s1">&#39;_err&#39;</span><span class="p">]</span>
+    <span class="n">outputname</span> <span class="o">=</span> <span class="s1">&#39;./data/&#39;</span> <span class="o">+</span> <span class="n">band</span> <span class="o">+</span> <span class="s1">&#39;.fits&#39;</span>
+    <span class="n">gsutils</span><span class="o">.</span><span class="n">photometry_to_img</span><span class="p">(</span><span class="n">band</span><span class="p">,</span> <span class="n">flux_mjy</span><span class="p">,</span> <span class="n">flux_err</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">outputname</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;mJy&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This script generates a set of mock images, one for each photometric band, which are then used in the SED fitting process.</p>
+<p><strong>Configuration File for SED Fitting</strong></p>
+<p>An example configuration file for performing SED fitting from the far-ultraviolet (FUV) to the far-infrared (FIR) is available at <a class="reference external" href="https://github.com/RuancunLi/GalfitS-Public/tree/main/examples/SEDfit.lyric">SEDfit.lyric</a>. In this setup, each photometric data point is treated as an image. Below is an excerpt showing how to configure a photometric data point:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Image A
+Ia1) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_u.fits,0]
+Ia2) sloan_u      # band
+Ia3) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_u.fits,2]
+Ia4) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_u.fits,3]
+Ia5) 1                   # PSF fine sampling factor relative to data
+Ia6) [Noimg,0]
+Ia7) cR                # unit of the image
+Ia8) -1
+Ia9) 1                # Conversion from image unit to flambda, -1 for default
+Ia10) 28.3291              # Magnitude photometric zeropoint
+Ia11) uniform             # sky model
+Ia12) [[0,-0.5,0.5,0.1,0]]                   # sky parameter, (value, min, max, step)
+Ia13) 0                     # allow relative shifting
+Ia14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
+Ia15) 1 # Use SED information
+</pre></div>
+</div>
+<p><strong>Important Notes:</strong></p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">Ia8)</span></code> parameter is set to -1, indicating that the image size is not used in the conventional sense, as this is a mock image for SED fitting.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">Ia9)</span></code> parameter is set to 1, which is essential for converting image units to flux density units (flambda). Using -1 would apply the default conversion, but specifying 1 ensures the correct transformation for SED fitting.</p></li>
+</ul>
+<p><strong>Fitting Results</strong></p>
+<p>Once the fitting process is complete, the results are saved in a summary file, accompanied by a figure illustrating the SED fitting outcome. The figure, accessible at <code class="docutils literal notranslate"><span class="pre">../fig/sedfit.jpg</span></code>, displays the contributions from different components: stars (blue), nebular emission (green), and dust (red).</p>
+<figure class="align-center" id="id1">
+<img alt="../fig/sedfit.jpg" src="../fig/sedfit.jpg" />
+<figcaption>
+<p><span class="caption-text">Example of SED fitting results, showing contributions from stars (blue), nebular emission (green), and dust (red).</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><strong>Performance</strong></p>
+<p>The time required to run this SED fitting example varies depending on the machine. Below is a table summarizing approximate fitting times:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Machine</p></th>
+<th class="head"><p>Time</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>RTX 4090</p></td>
+<td><p>1.5 mins</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="pure-mophology-fitting">
 <h2>Pure mophology fitting<a class="headerlink" href="#pure-mophology-fitting" title="Link to this heading"></a></h2>
