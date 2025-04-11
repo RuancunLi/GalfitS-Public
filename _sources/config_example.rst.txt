@@ -241,6 +241,12 @@ After running, a parameter file (e.g., ``J0249-0815.params``) is generated in th
 
    This adds a broad wing to OIII, linking ``OIII_4959AGNb1`` to ``OIII_5007AGNb1`` (width, peak, and center) while shutting down the other two components.
 
+After refining the parameters, you can rerun the fitting with the modified parameter file:
+.. code-block:: bash
+
+    galfits ./AGNspectrum.lyric --work ./newresult/ --num_s 20000 --readpar J0249-0815.params
+
+
 **Performance**
 
 The time required to run this spectrum fitting example varies by machine:

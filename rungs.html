@@ -49,7 +49,12 @@
 <li class="toctree-l1"><a class="reference internal" href="data_preparation.html">Prepare Data for GalfitS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config_intro.html">Introduction to GalfitS Config Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config_example.html">Examples of Config Files</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Run GalfitS</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Run GalfitS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#command-line-arguments">Command-Line Arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage-example">Usage Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="analyze.html">Analyze the Output of GalfitS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
 </ul>
@@ -80,6 +85,196 @@
              
   <section id="run-galfits">
 <h1>Run GalfitS<a class="headerlink" href="#run-galfits" title="Link to this heading"></a></h1>
+<p>To execute GalfitS, use the following command in your terminal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>galfits<span class="w"> </span>config.lyric<span class="w"> </span>--work<span class="w"> </span>./result
+</pre></div>
+</div>
+<p>This command launches the GalfitS fitting process using a configuration file named <code class="docutils literal notranslate"><span class="pre">config.lyric</span></code> and directs the output to the <code class="docutils literal notranslate"><span class="pre">./result</span></code> directory. Below, you’ll find a comprehensive breakdown of all available command-line arguments to customize the execution of GalfitS.</p>
+<section id="command-line-arguments">
+<h2>Command-Line Arguments<a class="headerlink" href="#command-line-arguments" title="Link to this heading"></a></h2>
+<p>GalfitS provides a wide range of options to control its behavior. These arguments are passed via the command line and allow you to configure the fitting process, output settings, and more. Each argument is detailed below, including its type, default value, and purpose.</p>
+<p>### General Options</p>
+<ul>
+<li><p><strong>–config</strong> (type: str, default: “”)
+Specifies the path to the configuration file for GalfitS. This file defines the settings and parameters used during the fitting process.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--config</span> <span class="pre">myconfig.lyric</span></code></p>
+</li>
+<li><p><strong>–workplace</strong> (type: str, default: “./”)
+Defines the directory where GalfitS will store its output files.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--workplace</span> <span class="pre">./output</span></code></p>
+</li>
+<li><p><strong>–notfit</strong> (action: ‘store_true’)
+If provided, GalfitS will skip the fitting process and only generate the parameter file.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--notfit</span></code></p>
+</li>
+<li><p><strong>–savefull_results</strong> (action: ‘store_true’)
+When specified, GalfitS saves the full results of the fitting process rather than a summary.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--savefull_results</span></code></p>
+</li>
+<li><p><strong>–saveimgs</strong> (action: ‘store_true’)
+If set, GalfitS saves the generated images from the fitting process.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--saveimgs</span></code></p>
+</li>
+</ul>
+<p>### Fitting Method Selection</p>
+<ul>
+<li><p><strong>–fit_method</strong> (type: str, default: “optimizer”)
+Selects the fitting method to use. Available options are:
+- <code class="docutils literal notranslate"><span class="pre">chisq</span></code>: Chi-square minimization.
+- <code class="docutils literal notranslate"><span class="pre">flowmc</span></code>: FlowMC (Markov Chain Monte Carlo method).
+- <code class="docutils literal notranslate"><span class="pre">dynesty</span></code>: Dynesty (nested sampling method).
+- <code class="docutils literal notranslate"><span class="pre">optimizer</span></code>: General optimizer (default).
+- <code class="docutils literal notranslate"><span class="pre">ES</span></code>: Evolutionary Strategy.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--fit_method</span> <span class="pre">dynesty</span></code></p>
+</li>
+</ul>
+<p>### Optimizer Fitting Options</p>
+<ul>
+<li><p><strong>–num_steps</strong> (type: int, default: 3000)
+Sets the number of steps for the optimizer fitting method.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--num_steps</span> <span class="pre">5000</span></code></p>
+</li>
+<li><p><strong>–learning_rate</strong> (type: float, default: 0.0008)
+Specifies the learning rate for the optimizer fitting method.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--learning_rate</span> <span class="pre">0.001</span></code></p>
+</li>
+<li><p><strong>–baysian</strong> (action: ‘store_true’)
+Enables the use of Bayesian priors for the optimizer fitting method.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--baysian</span></code></p>
+</li>
+<li><p><strong>–cal_sigma</strong> (action: ‘store_true’)
+If specified, calculates the Hessian sigma for the optimizer fitting method.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--cal_sigma</span></code></p>
+</li>
+</ul>
+<p>### Chi-Square Fitting Options</p>
+<ul>
+<li><p><strong>–chimethod</strong> (type: str, default: “scipy”)
+Defines the method for chi-square fitting. Currently, the only option is:
+- <code class="docutils literal notranslate"><span class="pre">scipy</span></code>: Uses SciPy’s optimization routines.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--chimethod</span> <span class="pre">scipy</span></code></p>
+</li>
+<li><p><strong>–scimethod</strong> (type: str, default: “SLSQP”)
+Specifies the SciPy optimization method to use (e.g., “SLSQP”, “L-BFGS-B”).</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--scimethod</span> <span class="pre">L-BFGS-B</span></code></p>
+</li>
+<li><p><strong>–constrain</strong> (action: ‘store_true’)
+Applies constraints during chi-square fitting if specified.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--constrain</span></code></p>
+</li>
+</ul>
+<p>### FlowMC Fitting Options</p>
+<ul>
+<li><p><strong>–nchains</strong> (type: int, default: 30)
+Sets the number of chains for the FlowMC method.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--nchains</span> <span class="pre">50</span></code></p>
+</li>
+<li><p><strong>–rstep</strong> (type: float, default: 0.1)
+Defines the parameter step size for FlowMC.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--rstep</span> <span class="pre">0.05</span></code></p>
+</li>
+<li><p><strong>–nlocalsteps</strong> (type: int, default: 3000)
+Specifies the number of local steps for FlowMC.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--nlocalsteps</span> <span class="pre">4000</span></code></p>
+</li>
+<li><p><strong>–nlooptraining</strong> (type: int, default: 20)
+Sets the number of training loops for FlowMC.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--nlooptraining</span> <span class="pre">30</span></code></p>
+</li>
+<li><p><strong>–nloopproduction</strong> (type: int, default: 10)
+Defines the number of production loops for FlowMC.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--nloopproduction</span> <span class="pre">15</span></code></p>
+</li>
+<li><p><strong>–sampler</strong> (type: str, default: “GRW”)
+Selects the sampler for FlowMC (e.g., “GRW” for Gaussian Random Walk).</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--sampler</span> <span class="pre">GRW</span></code></p>
+</li>
+</ul>
+<p>### Dynesty Fitting Options</p>
+<ul>
+<li><p><strong>–nlive</strong> (type: int, default: 80)
+Sets the number of live points for Dynesty.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--nlive</span> <span class="pre">100</span></code></p>
+</li>
+<li><p><strong>–maxiters</strong> (type: int, default: 100000)
+Specifies the maximum number of iterations for Dynesty.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--maxiters</span> <span class="pre">50000</span></code></p>
+</li>
+<li><p><strong>–dlogz</strong> (type: float, default: 0.02)
+Defines the stopping criterion for Dynesty based on the change in log-evidence.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--dlogz</span> <span class="pre">0.01</span></code></p>
+</li>
+<li><p><strong>–sample_method</strong> (type: str, default: “rwalk”)
+Selects the sampling method for Dynesty (e.g., “rwalk”, “slice”).</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--sample_method</span> <span class="pre">slice</span></code></p>
+</li>
+<li><p><strong>–dynamic</strong> (action: ‘store_true’)
+Enables dynamic nested sampling for Dynesty if specified.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--dynamic</span></code></p>
+</li>
+<li><p><strong>–maxbatch</strong> (type: int, default: 10)
+Sets the maximum number of batches for Dynesty’s dynamic sampling.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--maxbatch</span> <span class="pre">20</span></code></p>
+</li>
+</ul>
+<p>### Evolutionary Strategy (ES) Options</p>
+<ul>
+<li><p><strong>–num_generations</strong> (type: int, default: 100Pocket)
+Defines the number of generations for the Evolutionary Strategy method.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--num_generations</span> <span class="pre">15000</span></code></p>
+</li>
+<li><p><strong>–popsize</strong> (type: int, default: 20)
+Sets the population size for the ES method.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--popsize</span> <span class="pre">30</span></code></p>
+</li>
+</ul>
+<p>### Parameter and Prior Options</p>
+<ul>
+<li><p><strong>–parconstrain</strong> (type: str, default: “default”)
+Specifies the file path for parameter constraints.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--parconstrain</span> <span class="pre">constraints.txt</span></code></p>
+</li>
+<li><p><strong>–readpar</strong> (type: str, default: “default”)
+Defines the file path to read initial parameters from.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--readpar</span> <span class="pre">params.txt</span></code></p>
+</li>
+<li><p><strong>–readsummary</strong> (type: str, default: “default”)
+Specifies the file path to read a summary file from.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--readsummary</span> <span class="pre">summary.txt</span></code></p>
+</li>
+<li><p><strong>–priorpath</strong> (type: str, default: None)
+Specifies the path to the astrophysical prior file.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--priorpath</span> <span class="pre">priors.txt</span></code></p>
+</li>
+<li><p><strong>–weight_spec</strong> (type: float, default: 1.0)
+Sets the weight of the spectrum in the fitting process.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--weight_spec</span> <span class="pre">0.8</span></code></p>
+</li>
+</ul>
+<p>### AGN-Related Options</p>
+<ul>
+<li><p><strong>–fixagnlinepro</strong> (action: ‘store_true’)
+If specified, fixes the AGN line profile during fitting.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--fixagnlinepro</span></code></p>
+</li>
+<li><p><strong>–ndisagn</strong> (action: ‘store_true’)
+If specified, prevents displaying the AGN in the output image.</p>
+<p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--ndisagn</span></code></p>
+</li>
+</ul>
+</section>
+<section id="usage-example">
+<h2>Usage Example<a class="headerlink" href="#usage-example" title="Link to this heading"></a></h2>
+<p>Here’s an example of a more customized GalfitS command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>galfits<span class="w"> </span>config.lyric<span class="w"> </span>--work<span class="w"> </span>./output<span class="w"> </span>--fit_method<span class="w"> </span>dynesty<span class="w"> </span>--nlive<span class="w"> </span><span class="m">120</span><span class="w"> </span>--maxiters<span class="w"> </span><span class="m">20000</span><span class="w"> </span>--saveimgs
+</pre></div>
+</div>
+<p>This command runs GalfitS with the Dynesty fitting method, using 120 live points, a maximum of 20,000 iterations, and saves the resulting images to the <code class="docutils literal notranslate"><span class="pre">./output</span></code> directory.</p>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading"></a></h2>
+<p>These command-line arguments give you extensive flexibility to tailor GalfitS to your specific needs, whether you’re performing a quick optimization or a detailed Bayesian analysis. Adjust the parameters as necessary to suit your data and research goals.</p>
+</section>
 </section>
 
 

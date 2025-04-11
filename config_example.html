@@ -302,6 +302,11 @@ OIII_5007AGNb3cen 5008.24 4808.24 5208.24 0.1 False None
 <p>This adds a broad wing to OIII, linking <code class="docutils literal notranslate"><span class="pre">OIII_4959AGNb1</span></code> to <code class="docutils literal notranslate"><span class="pre">OIII_5007AGNb1</span></code> (width, peak, and center) while shutting down the other two components.</p>
 </li>
 </ol>
+<p>After refining the parameters, you can rerun the fitting with the modified parameter file:
+.. code-block:: bash</p>
+<blockquote>
+<div><p>galfits ./AGNspectrum.lyric –work ./newresult/ –num_s 20000 –readpar J0249-0815.params</p>
+</div></blockquote>
 <p><strong>Performance</strong></p>
 <p>The time required to run this spectrum fitting example varies by machine:</p>
 <table class="docutils align-default">
