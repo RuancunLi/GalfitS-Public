@@ -1,0 +1,91 @@
+# globalfit.lyric
+# The config file provide a galfitS setup to perform a AGN - host SED decomposition with multi-band images and spectrum
+
+# Region information
+R1) J0249−0815 # source name
+R2) [35.0509462748759, -3.686610445097163] # ra dec
+R3) 0.0295 # redshift
+
+
+# Spectrum 
+Sa1) GreeneHo2004_id2.txt                  # spectrum file
+Sa2) 1                                                              # conversion from spectrum unit to 1e-17 flambda
+Sa3) [3600., 7000.] # wavelength range
+Sa4) 0 # use high resolution stellar template 
+
+
+
+# Image atlas
+Ab1) sdss # name of the image atlas
+Ab2) [] # images in this atlas
+Ab3) 1 # whether the images have same pixel size
+Ab4) 1 # link relative shiftings
+Ab5) ['a'] # spectra
+Ab6) [[2]] # aperture size
+Ab7) [-1] # references images
+
+
+# Profile A
+Pa1) bulge # name of the component
+Pa2) sersic # profile type
+Pa3) [0,-5,5,0.1,0] # x-center
+Pa4) [0,-5,5,0.1,0] # y-center
+Pa5) [1,0.1,5,0.1,0] # Re half-light radius [arcsec]
+Pa6) [4,1,6,0.1,0] # Sersic index
+Pa7) [0,-90,90,1,0] # position angle (PA) [degrees: Up=0, Left=90]
+Pa8) [0.8,0.6,1,0.01,0] # axis ratio (b/a) [0.1=round, 1=flat]
+Pa9) [[-2,-4,0,0.1,1]] # contemporary log star formation fraction
+Pa10) [[5,0.01,11,0.1,1]] # burst stellar age [Gyr]
+Pa11) [[0.02,0.001,0.04,0.001,0]] # metallicity [Z=0.02=Solar]
+Pa12) [[0.7,0.3,5.1,0.1,1]] # Av dust extinction [mag]
+Pa13) [100,40,300,1,0] # stellar velocity dispersion
+Pa14) [10.14,8.5,12,0.1,1] # log stellar mass
+Pa15) conti # star formation history type: burst/conti
+Pa16) [-2,-4,-2,0.1,0] # logU nebular ionization parameter
+Pa26) [0, 0, 5, 0.1, 0]
+Pa27) 0
+Pa28) [8.14,4.5,10,0.1,0]       # log dust mass
+Pa29) [1.0, 0.1, 50, 0.1, 0]    # Umin, minimum radiation field
+Pa30) [1.0, 0.47, 7.32, 0.1, 0] # qPAH, mass fraction of PAH
+Pa31) [1.0, 1.0, 3.0, 0.1, 0]   # alpha, powerlaw slope of U
+Pa32) [0.1, 0, 1.0, 0.1, 0]     # gamma, fraction illuminated by star forming region
+
+
+
+# Galaxy A
+Ga1) host
+Ga2) ['a'] # profile component 
+Ga3) [0.033106, 0.01, 3., 0.01, 0] # redshift
+Ga4) 0.019096639 # EB-V, galactic reddening 
+Ga5) [1.,0.8,1.2,0.05,0]  # normalization of spectrum when images+spec fitting
+Ga6) [] # narrow lines in nebular
+Ga7) 1 # number of components for narrow lines
+
+# Nuclei A
+Na1) AGN # name of the component
+Na2) [0.0295, 0.01, 3., 0.01, 0] # redshift                                                
+Na3) 0.019096639 # EB-V, galactic reddening 
+Na4) [0,-5,5,0.1,0] # x-center 
+Na5) [0,-5,5,0.1,0] # y-center
+Na6) [7,5,10,0.1,0] # log black hole mass                                 
+Na7) [-1,-4,2,0.1,0] # log L/LEdd
+Na8) [0,0,0.99,0.01,0] # a star
+Na9) [0,0,3.1,0.1,0] # Av
+Na10) [43,41,47,0.1,1] # log L5100
+Na11) [[1,0,4,0.1,1], [0.6, 0, 5, 0.1,0]] # power law indexes
+Na12) ['Hg','Hb','HeII_4686','Ha'] 
+Na13) ['Hg','Hb','HeII_4686','OIII_4959','OIII_5007','HeI','Ha','OI_6302','NII_6549','NII_6583','SII_6716','SII_6731'] 
+Na14) 2 # number of components for broad lines
+Na15) 2 # number of components for narrow lines
+Na16) 0 # add Balmer continuum
+Na17) 1 # add FeII
+Na18) 0 # continuum model, 0: power law, 1: broken power law, 2: thin disk
+Na19) [1.,0.5,2,0.05,0]  # normalization of spectrum when images+spec fitting
+Na20) 0 # add torus, default emitting at [1, 1000] micro
+Na21) [41,39,44,0.1,0] # log torus luminosity, cat3D model
+Na22) [-0.5,-2.5,-0.25,0.05,0] # torus a: power-law index of the radial dust cloud distribution
+Na23) [0.5,0.25,1.5,0.05,0] # torus h: dimensionless scale height
+Na24) [7,5,10,0.5,0] # torus N0: number of clouds along an equatorial line-of-sight
+Na25) [15,0,90,5,0] # torus i: inclination angle
+Na26) [1.,0.2,5,0.1,0]  # normalization of images_atals
+Na27) [36.,35.,42.,0.1,0]  # log luminosity of the 1200 K black body for Nuclei hot dust
