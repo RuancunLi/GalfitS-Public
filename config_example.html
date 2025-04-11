@@ -16,6 +16,7 @@
       <script src="_static/documentation_options.js?v=0d344481"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -51,7 +52,6 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Examples of Config Files</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#multi-band-imaging-decomposition">Multi-band imaging decomposition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pure-sed-fitting">Pure SED fitting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#pure-mophology-fitting">Pure mophology fitting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#spectrum-fitting">Spectrum fitting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#imaging-spectrum-fitting">Imaging + spectrum fitting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#grism-imaging-fitting">Grism imaging fitting</a></li>
@@ -90,6 +90,8 @@
 <h1>Examples of Config Files<a class="headerlink" href="#examples-of-config-files" title="Link to this heading"></a></h1>
 <section id="multi-band-imaging-decomposition">
 <h2>Multi-band imaging decomposition<a class="headerlink" href="#multi-band-imaging-decomposition" title="Link to this heading"></a></h2>
+<p>Performing multi-band imaging decomposition with a simultaneous SED modeling is a fundamental task with GalfitS. We provide a example as the quickstart of GalfitS, see the <a class="reference internal" href="quickstart.html"><span class="doc">Quickstart</span></a> .</p>
+<p><strong>Pure mophology fitting</strong>: You can also set all the 15th paramter of images to be False, e.g. <code class="docutils literal notranslate"><span class="pre">Ia15)</span></code> to 0. In this case, only magnitude of each component/band will be fitted. This mode is useful to perform photometry, in this case, you have to set the magnitude zero point, e.g. <code class="docutils literal notranslate"><span class="pre">Ia10)</span></code>, correct,</p>
 </section>
 <section id="pure-sed-fitting">
 <h2>Pure SED fitting<a class="headerlink" href="#pure-sed-fitting" title="Link to this heading"></a></h2>
@@ -157,10 +159,10 @@ Ia15) 1 # Use SED information
 </ul>
 <p><strong>Fitting Results</strong></p>
 <p>Once the fitting process is complete, the results are saved in a summary file, accompanied by a figure illustrating the SED fitting outcome. The figure below displays the contributions from different components: stars (blue), nebular emission (green), and dust (red).</p>
-<figure class="align-center" id="id1">
+<figure class="align-center" id="id2">
 <img alt="_images/sedfit.jpg" src="_images/sedfit.jpg" />
 <figcaption>
-<p><span class="caption-text">Example of SED fitting results, showing contributions from stars (blue), nebular emission (green), and dust (red).</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+<p><span class="caption-text">Example of SED fitting results, showing contributions from stars (blue), nebular emission (green), and dust (red).</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p><strong>Performance</strong></p>
@@ -178,11 +180,142 @@ Ia15) 1 # Use SED information
 </tbody>
 </table>
 </section>
-<section id="pure-mophology-fitting">
-<h2>Pure mophology fitting<a class="headerlink" href="#pure-mophology-fitting" title="Link to this heading"></a></h2>
-</section>
 <section id="spectrum-fitting">
 <h2>Spectrum fitting<a class="headerlink" href="#spectrum-fitting" title="Link to this heading"></a></h2>
+<p>To perform spectrum-only fitting in GalfitS, the input spectrum is typically provided as a table without a header. The first column represents the wavelength in angstroms (Å), the second column is the flux (<span class="math notranslate nohighlight">\(F_\lambda\)</span>), and the third column is the flux error. An example snippet of such data might look like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>3000  xxx  xxx
+</pre></div>
+</div>
+<p>An example dataset of an AGN spectrum is available at <a class="reference external" href="https://github.com/RuancunLi/GalfitS-Public/tree/main/examples/GreeneHo2004_id2.txt">GreeneHo2004_id2.txt</a>.</p>
+<p>We will use an example of AGN spectrum decomposition to illustrate the functionality of GalfitS. The example configuration file is <a class="reference external" href="https://github.com/RuancunLi/GalfitS-Public/tree/main/examples/AGNspectrum.lyric">AGNspectrum.lyric</a>.</p>
+<p><strong>Configuration for Spectrum Input</strong></p>
+<p>In the config file for spectrum fitting, spatial parameters like <code class="docutils literal notranslate"><span class="pre">R2)</span></code> and <code class="docutils literal notranslate"><span class="pre">R3)</span></code> (region information) become irrelevant and do not need to be configured. To input a spectrum, the following section is used:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Spectrum
+Sa1) GreeneHo2004_id2.txt                  # spectrum file
+Sa2) 1                                     # conversion from spectrum unit to 1e-17 flambda
+Sa3) [3600., 7000.]                        # wavelength range
+Sa4) 0                                     # use high resolution stellar template
+
+# Image atlas
+Ab1) sdss                                  # name of the image atlas
+Ab2) []                                    # images in this atlas
+Ab3) 1                                     # whether the images have same pixel size
+Ab4) 1                                     # link relative shiftings
+Ab5) [&#39;a&#39;]                                 # spectra
+Ab6) [[2]]                                 # aperture size
+Ab7) [-1]                                  # references images
+</pre></div>
+</div>
+<p>Here, the spectrum is integrated into an image atlas class via <code class="docutils literal notranslate"><span class="pre">Ab5)</span></code>. Key notes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Sa2)</span></code>: Specifies the conversion factor from the spectrum’s native unit to <span class="math notranslate nohighlight">\(10^{-17} F_\lambda\)</span>. Adjust this based on your data’s units.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Sa3)</span></code>: Defines the wavelength range for fitting in the rest frame (e.g., 3600–7000 Å).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Sa4)</span></code>: Determines the resolution of the stellar template. The default resolution is 150 km/s (<code class="docutils literal notranslate"><span class="pre">Sa4)</span> <span class="pre">0</span></code>). To measure velocity dispersion accurately, set <code class="docutils literal notranslate"><span class="pre">Sa4)</span> <span class="pre">1</span></code> to use a high-resolution template (30 km/s).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ab6)</span></code>: Specifies the aperture size. Since this is a single spectrum, no reference image is needed for slit/filter geometry (<code class="docutils literal notranslate"><span class="pre">Ab7)</span> <span class="pre">-1</span></code>).</p></li>
+</ul>
+<p><strong>Model Parameters</strong></p>
+<p>In <a class="reference external" href="https://github.com/RuancunLi/GalfitS-Public/tree/main/examples/AGNspectrum.lyric">AGNspectrum.lyric</a>, geometric parameters for the host galaxy (e.g., <code class="docutils literal notranslate"><span class="pre">Pa3)-Pa8)</span></code>) and AGN (e.g., <code class="docutils literal notranslate"><span class="pre">Na4)-Na5)</span></code>) are not relevant for spectrum-only fitting. Below are some key parameters for the host galaxy and AGN:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Pa9) [[-2,-4,0,0.1,1]]                    # contemporary log star formation fraction
+Pa10) [[5,0.01,11,0.1,1]]                 # burst stellar age [Gyr]
+Pa11) [[0.02,0.001,0.04,0.001,0]]         # metallicity [Z=0.02=Solar]
+Pa12) [[0.7,0.3,5.1,0.1,1]]              # Av dust extinction [mag]
+Pa13) [100,40,300,1,0]                    # stellar velocity dispersion
+Pa14) [10.14,8.5,12,0.1,1]                # log stellar mass
+Pa15) conti                                # star formation history type: burst/conti
+...
+Na10) [43,41,47,0.1,1]                    # log L5100
+Na11) [[1,0,4,0.1,1], [0.6, 0, 5, 0.1,0]] # power law indexes
+Na12) [&#39;Hg&#39;,&#39;Hb&#39;,&#39;HeII_4686&#39;,&#39;Ha&#39;]        # broad emission lines
+Na13) [&#39;Hg&#39;,&#39;Hb&#39;,&#39;HeII_4686&#39;,&#39;OIII_4959&#39;,&#39;OIII_5007&#39;,&#39;HeI&#39;,&#39;Ha&#39;,&#39;OI_6302&#39;,&#39;NII_6549&#39;,&#39;NII_6583&#39;,&#39;SII_6716&#39;,&#39;SII_6731&#39;] # narrow emission lines
+Na14) 2                                    # number of components for broad lines
+Na15) 2                                    # number of components for narrow lines
+Na16) 0                                    # add Balmer continuum
+Na17) 1                                    # add FeII
+Na18) 0                                    # continuum model, 0: power law, 1: broken power law, 2: thin disk
+</pre></div>
+</div>
+<p>For the host galaxy, we use a continuous star formation history (<code class="docutils literal notranslate"><span class="pre">Pa15)</span> <span class="pre">conti</span></code>), parameterized by the contemporary log star formation fraction (<code class="docutils literal notranslate"><span class="pre">Pa9)</span></code>) and the burst stellar age (<code class="docutils literal notranslate"><span class="pre">Pa10)</span></code>). To study velocity dispersion, set <code class="docutils literal notranslate"><span class="pre">Pa13)</span></code> to be free (last value = 1). For the AGN, we adopt a single power-law continuum model (<code class="docutils literal notranslate"><span class="pre">Na18)</span> <span class="pre">0</span></code>), include FeII pseudo-continuum (<code class="docutils literal notranslate"><span class="pre">Na17)</span> <span class="pre">1</span></code>), and exclude the Balmer continuum (<code class="docutils literal notranslate"><span class="pre">Na16)</span> <span class="pre">0</span></code>) due to wavelength coverage. The broad (<code class="docutils literal notranslate"><span class="pre">Na12)</span></code>) and narrow (<code class="docutils literal notranslate"><span class="pre">Na13)</span></code>) emission lines must match definitions in <a class="reference external" href="https://github.com/RuancunLi/GalfitS-Public/tree/main/src/galfits/emission_lines.py">emission_lines.py</a>. Adjust <code class="docutils literal notranslate"><span class="pre">Na14)</span></code> and <code class="docutils literal notranslate"><span class="pre">Na15)</span></code> to change the number of components.</p>
+<p><strong>Running the Example</strong></p>
+<p>Run the fitting with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>galfits<span class="w"> </span>./AGNspectrum.lyric<span class="w"> </span>--work<span class="w"> </span>./result/<span class="w"> </span>--num_s<span class="w"> </span><span class="m">20000</span>
+</pre></div>
+</div>
+<p>The result includes a figure:</p>
+<figure class="align-center" id="id3">
+<img alt="_images/agnspec.png" src="_images/agnspec.png" />
+<figcaption>
+<p><span class="caption-text">Example of spectrum fitting, where all subcomponents are labeled, and the bottom panel shows the residual.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><strong>Manipulating Parameter Files</strong></p>
+<p>After running, a parameter file (e.g., <code class="docutils literal notranslate"><span class="pre">J0249-0815.params</span></code>) is generated in the <code class="docutils literal notranslate"><span class="pre">result</span></code> folder. You can modify it to refine the fit. Examples:</p>
+<ol class="arabic">
+<li><p><strong>Adjusting Hβ Broad Line Central Wavelength</strong>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>HbAGNb1wid 17.220163213245794 8.265678342357983 82.65678342357981 0.1 True None
+HbAGNb1peak 9975.021484375 0.0 99750.21875 99.75021362304688 True None
+HbAGNb1cen 4862.68 4812.68 4912.68 0.1 True None
+HbAGNb2wid 34.44032642649159 13.776130570596637 82.65678342357981 0.1 True None
+HbAGNb2peak 997.5021362304688 0.0 99750.21875 99.75021362304688 True None
+HbAGNb2cen 4862.68 4762.68 4962.68 0.1 True None
+HbAGNb3wid 34.44032642649159 13.776130570596637 82.65678342357981 0.1 True None
+HbAGNb3peak 997.5021362304688 0.0 99750.21875 99.75021362304688 True None
+HbAGNb3cen 4862.68 4762.68 4962.68 0.1 True None
+</pre></div>
+</div>
+<p>Here, the initial value and range of the central wavelength (<code class="docutils literal notranslate"><span class="pre">HbAGNb2cen</span></code>, <code class="docutils literal notranslate"><span class="pre">HbAGNb3cen</span></code>) for the 2nd and 3rd broad Hβ components are adjusted to 4762.68–4962.68 Å.</p>
+</li>
+<li><p><strong>Reducing HeII Broad Components</strong>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>HeII_4686AGNb1wid 16.598100097836443 7.967088046961493 79.67088046961493 0.1 True None
+HeII_4686AGNb1peak 5994.80859375 0.0 59948.0859375 59.94808578491211 True None
+HeII_4686AGNb1cen 4687.02 4637.02 4737.02 0.1 True None
+HeII_4686AGNb2wid 33.19620019567289 13.278480078269151 79.67088046961493 0.1 False None
+HeII_4686AGNb2peak 0.0 0.0 59948.0859375 59.94808578491211 False None
+HeII_4686AGNb2cen 4687.02 4487.02 4887.02 0.1 False None
+HeII_4686AGNb3wid 33.19620019567289 13.278480078269151 79.67088046961493 0.1 False None
+HeII_4686AGNb3peak 0.0 0.0 59948.0859375 59.94808578491211 False None
+HeII_4686AGNb3cen 4687.02 4487.02 4887.02 0.1 False None
+</pre></div>
+</div>
+<p>This reduces the HeII fit to one broad component by setting the 2nd and 3rd components’ peak to 0 and fixing their parameters (<code class="docutils literal notranslate"><span class="pre">False</span></code>).</p>
+</li>
+<li><p><strong>Adding Broad Wings to OIII</strong>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>OIII_4959AGNb1wid 17.56584629995127 8.431606223976612 84.31606223976611 0.1 False 0.990426571*OIII_5007AGNb1wid
+OIII_4959AGNb1peak 1000.0 0.0 1725463.875 172.54638671875 False 0.33557*OIII_5007AGNb1peak
+OIII_4959AGNb1cen 4950.295 4910.295 5010.295 0.1 False 0.990426571*OIII_5007AGNb1cen
+OIII_4959AGNb2wid 35.13169259990254 14.052677039961017 84.31606223976611 0.1 False None
+OIII_4959AGNb2peak 0.0 0.0 93883.40625 93.88340759277344 False None
+OIII_4959AGNb2cen 4960.295 4760.295 5160.295 0.1 False None
+OIII_4959AGNb3wid 35.13169259990254 14.052677039961017 84.31606223976611 0.1 False None
+OIII_4959AGNb3peak 0.0 0.0 93883.40625 93.88340759277344 False None
+OIII_4959AGNb3cen 4960.295 4760.295 5160.295 0.1 False None
+OIII_5007AGNb1wid 17.73563348011922 1.418 85.13104070457226 0.1 True None
+OIII_5007AGNb1peak 3000.0 0.0 172546.390625 172.54638671875 True None
+OIII_5007AGNb1cen 5000.0 4958.24 5058.24 0.1 True None
+OIII_5007AGNb2wid 35.47126696023844 14.188506784095374 85.13104070457226 0.1 False None
+OIII_5007AGNb2peak 0.0 0.0 172546.390625 172.54638671875 False None
+OIII_5007AGNb2cen 5008.24 4808.24 5208.24 0.1 False None
+OIII_5007AGNb3wid 35.47126696023844 14.188506784095374 85.13104070457226 0.1 False None
+OIII_5007AGNb3peak 0.0 0.0 172546.390625 172.54638671875 False None
+OIII_5007AGNb3cen 5008.24 4808.24 5208.24 0.1 False None
+</pre></div>
+</div>
+<p>This adds a broad wing to OIII, linking <code class="docutils literal notranslate"><span class="pre">OIII_4959AGNb1</span></code> to <code class="docutils literal notranslate"><span class="pre">OIII_5007AGNb1</span></code> (width, peak, and center) while shutting down the other two components.</p>
+</li>
+</ol>
+<p><strong>Performance</strong></p>
+<p>The time required to run this spectrum fitting example varies by machine:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Machine</p></th>
+<th class="head"><p>Time</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>RTX 4090</p></td>
+<td><p>0.5 mins</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="imaging-spectrum-fitting">
 <h2>Imaging + spectrum fitting<a class="headerlink" href="#imaging-spectrum-fitting" title="Link to this heading"></a></h2>

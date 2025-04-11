@@ -166,7 +166,7 @@ For inputting a galaxy model in GalfitS, the process starts with defining indivi
 - ``Pa5`` to ``Pa8``: Structural parameters that vary based on the profile type. For a Sersic profile, these include effective radius (Re), Sersic index, position angle (PA) in degrees, and axis ratio (q = b/a).
 - ``Pa9`` to ``Pa16``: SED-related parameters, including specific star formation rate (sSFR) of the star-forming component, burst stellar age of the starburst component in Gyr, metallicity (Z, where 0.02 is solar), dust extinction (Av) in magnitudes, stellar velocity dispersion in km/s, log stellar mass in solar masses, star formation history type (e.g., burst, continuous, bins), and the nebular ionization parameter (logU).
 - ``Pa26``: Amplitude of the 2175A bump on the extinction curve.
-- ``Pa27``: SED model type (0: full, 1: stellar only, 2: nebular only, 3: dust only).
+- ``Pa27``: SED model type (0: stellar + nebular, 1: stellar only, 2: nebular only, 3: dust only, 4: stellar + nebular + dust).
 - ``Pa28`` to ``Pa32``: Parameters for the DL2014 dust model, including log cold dust mass, minimum radiation field (Umin), mass fraction of PAH (qPAH), power-law slope of the radiation field (alpha), and fraction illuminated by the star-forming region (gamma).
 
 For profiles using Fourier modes (e.g., ``sersic_f``), additional parameters like **Pb17** to **Pb24** define the rotation curve and Fourier mode characteristics, such as inner and outer radii of rotation (r_in, r_out), shape of the arctan rotation curve (alpha), maximum rotation angle (theta_out), number of Fourier modes (m), Fourier amplitude (am), Fourier position angle (theta_m), and Fourier projection angle (i_m).
