@@ -12,6 +12,7 @@ Welcome to GalfitS documentation!
    config_example
    rungs
    analyze
+   appendix
    api_reference
 
 Indices and tables
