@@ -75,7 +75,7 @@ The second part of the file is the summary of the parameters:
     bulge_axrat    0.7701
     ......
 
-This table lists the best-fit values for each parameter, such as the age, metallicity (Z), dust extinction (Av), logarithmic stellar mass (logM), and structural parameters (e.g., effective radius Re, position angle ang, axis ratio axrat) for both the disk and bulge components.
+This table lists the best-fit values for each parameter, such as the age, metallicity (Z), dust extinction (Av), logarithmic stellar mass (logM), star formation history (SFH, see details in :doc:`Appendix <appendix>` ), and structural parameters (e.g., effective radius Re, position angle ang, axis ratio axrat) for both the disk and bulge components.
 
 The above file can be easily read using ``astropy.table``, for example:
 
