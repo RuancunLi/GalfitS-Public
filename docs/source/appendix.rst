@@ -152,14 +152,6 @@ Here, :math:`f` is defined as the fraction of stellar mass formed in the recent 
 :math:`k` is the amplitude scaling the burst contribution in the SFR. To derive the relationship,
 we integrate each exponential term over time.
 
-The stellar mass formed by each component is proportional to the integral of its
-corresponding SFR term. Using
-
-.. math::
-
-   \int_0^t \exp\left(-\frac{s}{\tau}\right)ds = \tau\Bigl(1 - \exp\Bigl(-\frac{t}{\tau}\Bigr)\Bigr),
-
-
 By definition :math:`f` is the burst stellar mass fraction then by definition
 
 .. math::
@@ -171,7 +163,7 @@ We can solve :math:`k` based on :math:`f` :
 .. math::
 
    k = \frac{f\,\tau_0\Bigl(1 - \exp\Bigl(-\frac{t_0}{\tau_0}\Bigr)\Bigr)}
-            {(1-f)\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr)}.
+            {(1-f)\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_1}{\tau_1}\Bigr)\Bigr)}.
 
 This expression converts the burst stellar mass fraction :math:`f` into the amplitude :math:`k`
 for the recent burst term.
