@@ -159,55 +159,19 @@ corresponding SFR term. Using
 
    \int_0^t \exp\left(-\frac{s}{\tau}\right)ds = \tau\Bigl(1 - \exp\Bigl(-\frac{t}{\tau}\Bigr)\Bigr),
 
-we can write:
 
-- **Old population mass**:
-
-  .. math::
-
-     M_{\rm old} \propto \tau_0\Bigl(1 - \exp\Bigl(-\frac{t_0}{\tau_0}\Bigr)\Bigr).
-
-- **Recent burst mass**:
-
-  .. math::
-
-     M_{\rm burst} \propto k\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr).
-
-If :math:`f` is the burst stellar mass fraction then by definition
+By definition :math:`f` is the burst stellar mass fraction then by definition
 
 .. math::
 
    f = \frac{M_{\rm burst}}{M_{\rm old} + M_{\rm burst}}.
 
-Plugging in the proportional terms, we have
+We can solve :math:`k` based on :math:`f` :
 
 .. math::
 
-   f = \frac{k\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr)}
-           {\tau_0\Bigl(1 - \exp\Bigl(-\frac{t_0}{\tau_0}\Bigr)\Bigr) + k\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr)}.
-
-Solving for :math:`k`:
-
-1. Multiply both sides by the denominator:
-
-   .. math::
-
-      f\,\Biggl[\tau_0\Bigl(1 - \exp\Bigl(-\frac{t_0}{\tau_0}\Bigr)\Bigr) + k\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr)\Biggr]
-      = k\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr).
-
-2. Separate the terms containing :math:`k`:
-
-   .. math::
-
-      f\,\tau_0\Bigl(1 - \exp\Bigl(-\frac{t_0}{\tau_0}\Bigr)\Bigr)
-      = k\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr) (1-f).
-
-3. Solve for :math:`k`:
-
-   .. math::
-
-      k = \frac{f\,\tau_0\Bigl(1 - \exp\Bigl(-\frac{t_0}{\tau_0}\Bigr)\Bigr)}
-               {(1-f)\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr)}.
+   k = \frac{f\,\tau_0\Bigl(1 - \exp\Bigl(-\frac{t_0}{\tau_0}\Bigr)\Bigr)}
+            {(1-f)\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr)}.
 
 This expression converts the burst stellar mass fraction :math:`f` into the amplitude :math:`k`
 for the recent burst term.

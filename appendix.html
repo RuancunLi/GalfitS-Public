@@ -238,42 +238,13 @@ we integrate each exponential term over time.</p>
 corresponding SFR term. Using</p>
 <div class="math notranslate nohighlight">
 \[\int_0^t \exp\left(-\frac{s}{\tau}\right)ds = \tau\Bigl(1 - \exp\Bigl(-\frac{t}{\tau}\Bigr)\Bigr),\]</div>
-<p>we can write:</p>
-<ul>
-<li><p><strong>Old population mass</strong>:</p>
-<div class="math notranslate nohighlight">
-\[M_{\rm old} \propto \tau_0\Bigl(1 - \exp\Bigl(-\frac{t_0}{\tau_0}\Bigr)\Bigr).\]</div>
-</li>
-<li><p><strong>Recent burst mass</strong>:</p>
-<div class="math notranslate nohighlight">
-\[M_{\rm burst} \propto k\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr).\]</div>
-</li>
-</ul>
-<p>If <span class="math notranslate nohighlight">\(f\)</span> is the burst stellar mass fraction then by definition</p>
+<p>By definition <span class="math notranslate nohighlight">\(f\)</span> is the burst stellar mass fraction then by definition</p>
 <div class="math notranslate nohighlight">
 \[f = \frac{M_{\rm burst}}{M_{\rm old} + M_{\rm burst}}.\]</div>
-<p>Plugging in the proportional terms, we have</p>
-<div class="math notranslate nohighlight">
-\[f = \frac{k\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr)}
-        {\tau_0\Bigl(1 - \exp\Bigl(-\frac{t_0}{\tau_0}\Bigr)\Bigr) + k\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr)}.\]</div>
-<p>Solving for <span class="math notranslate nohighlight">\(k\)</span>:</p>
-<ol class="arabic">
-<li><p>Multiply both sides by the denominator:</p>
-<div class="math notranslate nohighlight">
-\[f\,\Biggl[\tau_0\Bigl(1 - \exp\Bigl(-\frac{t_0}{\tau_0}\Bigr)\Bigr) + k\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr)\Biggr]
-= k\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr).\]</div>
-</li>
-<li><p>Separate the terms containing <span class="math notranslate nohighlight">\(k\)</span>:</p>
-<div class="math notranslate nohighlight">
-\[f\,\tau_0\Bigl(1 - \exp\Bigl(-\frac{t_0}{\tau_0}\Bigr)\Bigr)
-= k\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr) (1-f).\]</div>
-</li>
-<li><p>Solve for <span class="math notranslate nohighlight">\(k\)</span>:</p>
+<p>We can solve <span class="math notranslate nohighlight">\(k\)</span> based on <span class="math notranslate nohighlight">\(f\)</span> :</p>
 <div class="math notranslate nohighlight">
 \[k = \frac{f\,\tau_0\Bigl(1 - \exp\Bigl(-\frac{t_0}{\tau_0}\Bigr)\Bigr)}
          {(1-f)\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr)}.\]</div>
-</li>
-</ol>
 <p>This expression converts the burst stellar mass fraction <span class="math notranslate nohighlight">\(f\)</span> into the amplitude <span class="math notranslate nohighlight">\(k\)</span>
 for the recent burst term.</p>
 <p>These priors are applied only when the SFH type is set to <code class="docutils literal notranslate"><span class="pre">bins</span></code> in the configuration file. For example:</p>
