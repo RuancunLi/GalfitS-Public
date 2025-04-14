@@ -29,7 +29,7 @@ To install GalfitS, follow these steps:
 
 ### Usage
 
-You can run GalfitS with a configuration file like this:
+You can run GalfitS with a configuration file like this :
 
 ```sh
 galfits config.lyric --workplace /path/to/save/results
