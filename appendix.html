@@ -211,6 +211,71 @@ SFHa4) [[1],[],[],[],[]]
 </div>
 </li>
 </ul>
+<p>In this model, the star formation rate (SFR) is modeled as the sum of two exponential components:
+one representing the older population and one representing a recent burst. The model
+parameters are given as follows:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">logSFR0</span></code>: The logarithm of the normalization of the SFR.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tau0</span></code>: The exponential timescale for the older population.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">f</span></code>: The fraction of the stellar mass coming from the recent burst.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tau1</span></code>: The exponential timescale for the recent burst.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">t1</span></code>: The onset time of the recent burst.</p></li>
+</ul>
+<p>The double exponential SFH is defined by</p>
+<div class="math notranslate nohighlight">
+\[\mathrm{SFR}(t) = \mathrm{SFR0} \left(\exp\Bigl(\frac{t-t_0}{\tau_0}\Bigr) + k\,\exp\Bigl(\frac{t-t_1}{\tau_1}\Bigr)\right),\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(t\)</span> is the cosmic time.</p></li>
+<li><p><span class="math notranslate nohighlight">\(t_0\)</span> is the age of the Universe (by default, the present time).</p></li>
+<li><p>The first term models the older stellar population.</p></li>
+<li><p>The second term models the recent burst.</p></li>
+</ul>
+<p>Here, <span class="math notranslate nohighlight">\(f\)</span> is defined as the fraction of stellar mass formed in the recent burst, and
+<span class="math notranslate nohighlight">\(k\)</span> is the amplitude scaling the burst contribution in the SFR. To derive the relationship,
+we integrate each exponential term over time.</p>
+<p>The stellar mass formed by each component is proportional to the integral of its
+corresponding SFR term. Using</p>
+<div class="math notranslate nohighlight">
+\[\int_0^t \exp\left(-\frac{s}{\tau}\right)ds = \tau\Bigl(1 - \exp\Bigl(-\frac{t}{\tau}\Bigr)\Bigr),\]</div>
+<p>we can write:</p>
+<ul>
+<li><p><strong>Old population mass</strong>:</p>
+<div class="math notranslate nohighlight">
+\[M_{\rm old} \propto \tau_0\Bigl(1 - \exp\Bigl(-\frac{t_0}{\tau_0}\Bigr)\Bigr).\]</div>
+</li>
+<li><p><strong>Recent burst mass</strong>:</p>
+<div class="math notranslate nohighlight">
+\[M_{\rm burst} \propto k\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr).\]</div>
+</li>
+</ul>
+<p>If <span class="math notranslate nohighlight">\(f\)</span> is the burst stellar mass fraction then by definition</p>
+<div class="math notranslate nohighlight">
+\[f = \frac{M_{\rm burst}}{M_{\rm old} + M_{\rm burst}}.\]</div>
+<p>Plugging in the proportional terms, we have</p>
+<div class="math notranslate nohighlight">
+\[f = \frac{k\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr)}
+        {\tau_0\Bigl(1 - \exp\Bigl(-\frac{t_0}{\tau_0}\Bigr)\Bigr) + k\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr)}.\]</div>
+<p>Solving for <span class="math notranslate nohighlight">\(k\)</span>:</p>
+<ol class="arabic">
+<li><p>Multiply both sides by the denominator:</p>
+<div class="math notranslate nohighlight">
+\[f\,\Biggl[\tau_0\Bigl(1 - \exp\Bigl(-\frac{t_0}{\tau_0}\Bigr)\Bigr) + k\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr)\Biggr]
+= k\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr).\]</div>
+</li>
+<li><p>Separate the terms containing <span class="math notranslate nohighlight">\(k\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[f\,\tau_0\Bigl(1 - \exp\Bigl(-\frac{t_0}{\tau_0}\Bigr)\Bigr)
+= k\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr) (1-f).\]</div>
+</li>
+<li><p>Solve for <span class="math notranslate nohighlight">\(k\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[k = \frac{f\,\tau_0\Bigl(1 - \exp\Bigl(-\frac{t_0}{\tau_0}\Bigr)\Bigr)}
+         {(1-f)\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr)}.\]</div>
+</li>
+</ol>
+<p>This expression converts the burst stellar mass fraction <span class="math notranslate nohighlight">\(f\)</span> into the amplitude <span class="math notranslate nohighlight">\(k\)</span>
+for the recent burst term.</p>
 <p>These priors are applied only when the SFH type is set to <code class="docutils literal notranslate"><span class="pre">bins</span></code> in the configuration file. For example:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Pa9) [[0,-8,8,0.1,0],[0,-8,8,0.1,0],[0,-8,8,0.1,0],[0,-8,8,0.1,0],[0,-8,8,0.1,0],[0,-8,8,0.1,0],[0,-8,8,0.1,0],[0,-8,8,0.1,0],[0,-8,8,0.1,0],[0,-8,8,0.1,0],[0,-8,8,0.1,0],[0,-8,8,0.1,0]]  # logMass_fraction formed at each time bin
 Pa10) [0.,0.033,0.05681831,0.09782788,0.16843678,0.29000887,0.4993277,0.85972583,1.4802471,2.5486407,4.3881655,7.5553966,13.008631]  # age time bins [Gyr]
