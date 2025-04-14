@@ -234,17 +234,13 @@ parameters are given as follows:</p>
 <p>Here, <span class="math notranslate nohighlight">\(f\)</span> is defined as the fraction of stellar mass formed in the recent burst, and
 <span class="math notranslate nohighlight">\(k\)</span> is the amplitude scaling the burst contribution in the SFR. To derive the relationship,
 we integrate each exponential term over time.</p>
-<p>The stellar mass formed by each component is proportional to the integral of its
-corresponding SFR term. Using</p>
-<div class="math notranslate nohighlight">
-\[\int_0^t \exp\left(-\frac{s}{\tau}\right)ds = \tau\Bigl(1 - \exp\Bigl(-\frac{t}{\tau}\Bigr)\Bigr),\]</div>
 <p>By definition <span class="math notranslate nohighlight">\(f\)</span> is the burst stellar mass fraction then by definition</p>
 <div class="math notranslate nohighlight">
 \[f = \frac{M_{\rm burst}}{M_{\rm old} + M_{\rm burst}}.\]</div>
 <p>We can solve <span class="math notranslate nohighlight">\(k\)</span> based on <span class="math notranslate nohighlight">\(f\)</span> :</p>
 <div class="math notranslate nohighlight">
 \[k = \frac{f\,\tau_0\Bigl(1 - \exp\Bigl(-\frac{t_0}{\tau_0}\Bigr)\Bigr)}
-         {(1-f)\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_0-t_1}{\tau_1}\Bigr)\Bigr)}.\]</div>
+         {(1-f)\,\tau_1\Bigl(1 - \exp\Bigl(-\frac{t_1}{\tau_1}\Bigr)\Bigr)}.\]</div>
 <p>This expression converts the burst stellar mass fraction <span class="math notranslate nohighlight">\(f\)</span> into the amplitude <span class="math notranslate nohighlight">\(k\)</span>
 for the recent burst term.</p>
 <p>These priors are applied only when the SFH type is set to <code class="docutils literal notranslate"><span class="pre">bins</span></code> in the configuration file. For example:</p>
