@@ -1,0 +1,271 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Appendix &mdash; GalfitS Public 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=0d344481"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="api_reference.html" />
+    <link rel="prev" title="Analyze the Output of GalfitS" href="analyze.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            GalfitS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start to GalfitS Everything</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data_preparation.html">Prepare Data for GalfitS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_intro.html">Introduction to GalfitS Config Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_example.html">Examples of Config Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rungs.html">Run GalfitS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analyze.html">Analyze the Output of GalfitS</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Appendix</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#star-formation-history-in-galfits">Star Formation History in GalfitS</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">GalfitS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Appendix</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/appendix.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="appendix">
+<h1>Appendix<a class="headerlink" href="#appendix" title="Link to this heading"></a></h1>
+<section id="star-formation-history-in-galfits">
+<h2>Star Formation History in GalfitS<a class="headerlink" href="#star-formation-history-in-galfits" title="Link to this heading"></a></h2>
+<p>### Setting SFH Model</p>
+<p>In GalfitS, each profile (e.g., bulge, disk, spiral arms) can be assigned a distinct star formation history (SFH). GalfitS supports three types of SFH for each profile: <strong>burst</strong>, <strong>continuous (conti)</strong>, and <strong>bins</strong>. The type of SFH is specified in the 15th parameter of the profile configuration, as shown below:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">Pa15)</span> <span class="pre">bins</span>&#160; <span class="pre">#</span> <span class="pre">star</span> <span class="pre">formation</span> <span class="pre">history</span> <span class="pre">type:</span> <span class="pre">burst/conti/bins</span>
+<span class="pre">`</span></code></p>
+<p>#### Burst and Continuous SFH</p>
+<ul class="simple">
+<li><p><strong>Burst SFH</strong>: Represents a recent starburst event. It consists of a stellar population with a constant star formation rate (SFR) over the last 100 Myr, combined with a single stellar population (SSP) that approximates the galaxy’s mass-building phase at a specific burst age.</p></li>
+<li><p><strong>Continuous SFH</strong>: Models a more gradual star formation process, with a constant SFR starting from 200 Myr after the Big Bang, plus an SSP representing an older burst.</p></li>
+</ul>
+<p>These SFH types are illustrated in the figure below, which compares them to other common SFH models like double exponential and delayed-tau models used in CIGALE.</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a>`
+.. figure:: ./fig/sfh_burst_conti.png</p>
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">align<span class="colon">:</span></dt>
+<dd class="field-odd"><p>center</p>
+</dd>
+</dl>
+<p>Example of bursty (burst) and continuous SFH (conti) in GalfitS, and their comparison with double exponential (sfh2exp) and delayed tau SFH (sfhdelayed) in CIGALE. The dashed curves represent the sfh2exp (in red) and sfhdelayed (in blue) models, with the vertical dashed line indicating the weighted stellar age (<span class="math notranslate nohighlight">\(\bar{t}\)</span>, Equation 19). The parameters for these curves are randomly sampled as in Section 4.1.2. The solid curves show the SFHs recovered by fitting mock photometric data points generated based on the SFHs of the dashed curves, using the burst (red) and conti (blue) models in GalfitS, respectively. This approach demonstrates a good agreement in the shape of the input (dashed curves) and output (solid curves) SFHs. The fitted values of <span class="math notranslate nohighlight">\(\bar{t}\)</span>, marked by stars on the graph, also closely match the input values.</p>
+</div></blockquote>
+<p><a href="#id3"><span class="problematic" id="id4">``</span></a><a href="#id5"><span class="problematic" id="id6">`</span></a></p>
+<p>#### Bins SFH</p>
+<ul class="simple">
+<li><p><strong>Bins SFH</strong>: A more flexible approach where the SFH is divided into discrete time bins, each with a constant SFR. The SFR in each bin is controlled by the 9th parameter (<code class="docutils literal notranslate"><span class="pre">Pa9</span></code>), and the ages of the bins are defined by the 10th parameter (<code class="docutils literal notranslate"><span class="pre">Pa10</span></code>). The bins must be ordered from most recent (first bin, typically at 0 Gyr) to oldest (last bin).</p></li>
+</ul>
+<p>The three SFH types have distinct functional shapes and are controlled by the 9th and 10th parameters. Examples of their configurations are provided below:</p>
+<ul class="simple">
+<li><p><strong>For Burst SFH</strong>:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">Pa9)</span> <span class="pre">[[-1,-4,0,0.1,1]]</span>&#160; <span class="pre">#</span> <span class="pre">contemporary</span> <span class="pre">log</span> <span class="pre">star</span> <span class="pre">formation</span> <span class="pre">fraction</span>
+<span class="pre">Pa10)</span> <span class="pre">[[5,0.01,10,0.1,1]]</span>&#160; <span class="pre">#</span> <span class="pre">burst</span> <span class="pre">stellar</span> <span class="pre">age</span> <span class="pre">[Gyr]</span>
+<span class="pre">`</span></code></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Pa9</span></code>: Logarithm of the fraction of stellar mass formed in the last 100 Myr.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Pa10</span></code>: Look-back time (age) of the SSP representing the burst.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>For Continuous SFH</strong>:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">Pa9)</span> <span class="pre">[[-1,-4,0,0.1,1]]</span>&#160; <span class="pre">#</span> <span class="pre">contemporary</span> <span class="pre">log</span> <span class="pre">star</span> <span class="pre">formation</span> <span class="pre">fraction</span>
+<span class="pre">Pa10)</span> <span class="pre">[[5,0.01,10,0.1,1]]</span>&#160; <span class="pre">#</span> <span class="pre">burst</span> <span class="pre">stellar</span> <span class="pre">age</span> <span class="pre">[Gyr]</span>
+<span class="pre">`</span></code></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Pa9</span></code>: Logarithm of the fraction of stellar mass formed since 200 Myr after the Big Bang.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Pa10</span></code>: Age of the SSP burst.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>For Bins SFH</strong>:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">Pa9)</span> <span class="pre">[[-2,-8,0,0.1,1],[-2,-8,0,0.1,1],[-2,-8,0,0.1,1],[-2,-8,0,0.1,1],[-1,-8,0,0.1,0]]</span>&#160; <span class="pre">#</span> <span class="pre">logMass_fraction</span> <span class="pre">formed</span> <span class="pre">at</span> <span class="pre">each</span> <span class="pre">time</span> <span class="pre">bin</span>
+<span class="pre">Pa10)</span> <span class="pre">[0.,0.1,0.5,1.5,3,13.6]</span>&#160; <span class="pre">#</span> <span class="pre">age</span> <span class="pre">time</span> <span class="pre">bins</span> <span class="pre">[Gyr]</span>
+<span class="pre">`</span></code></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Pa9</span></code>: Logarithm of the stellar mass fraction formed in each bin (length: number of bins). The last fraction is typically fixed to avoid degeneracy.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Pa10</span></code>: Look-back ages defining the bin edges (length: number of bins + 1), ranging from 0 Gyr (most recent) to the oldest age (e.g., 13.6 Gyr).</p></li>
+</ul>
+</div></blockquote>
+<p>The burst and continuous SFHs provide simpler models with fewer parameters, while the bins SFH offers greater flexibility by allowing the user to define custom time intervals and SFRs for a more detailed reconstruction of the galaxy’s star formation history.</p>
+<p>### Visualizing SFH Results</p>
+<p>After fitting, the SFH can be visualized using the following Python code:</p>
+<p><a href="#id7"><span class="problematic" id="id8">``</span></a>`
+.. code-block:: python</p>
+<blockquote>
+<div><p># The galaxy is at z=0.2691, cosmic age about 10.57 Gyr
+pltwave, Sedcomp, Sedlabel, z0 = Myfitter.cal_model_image()
+modelg = Myfitter.model_list[1]
+times, SFHs = modelg.get_SFH()</p>
+<p>fig = plt.figure(figsize=(8,6))
+plt.plot(times, SFHs[0])
+plt.xlabel(‘Look Back Time (Gyr)’, fontsize=18)
+plt.ylabel(‘SFR (M$_odot$/yr)’, fontsize=18)
+plt.tick_params(labelsize=18)
+plt.yscale(‘log’)
+plt.show()</p>
+</div></blockquote>
+<p><a href="#id9"><span class="problematic" id="id10">``</span></a><a href="#id11"><span class="problematic" id="id12">`</span></a></p>
+<p>The resulting plot displays the star formation rate (SFR) as a function of look-back time:</p>
+<p><a href="#id13"><span class="problematic" id="id14">``</span></a>`
+.. figure:: ./fig/sfh1.png</p>
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">align<span class="colon">:</span></dt>
+<dd class="field-odd"><p>center</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><a href="#id15"><span class="problematic" id="id16">``</span></a><a href="#id17"><span class="problematic" id="id18">`</span></a></p>
+<p>### Constraining SFH through Priors</p>
+<p>The star formation history can be further constrained by setting astrophysical priors in the prior file. These priors impose functional forms on the SFH, such as exponential or delayed-tau models, and are particularly useful for the bins SFH type. Below are examples of how to set priors for different SFH functional forms:</p>
+<ul class="simple">
+<li><p><strong>Exponential Increase</strong>:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">#</span> <span class="pre">For</span> <span class="pre">exponential</span> <span class="pre">increase:</span> <span class="pre">SFR(t)</span> <span class="pre">=</span> <span class="pre">SFR0</span> <span class="pre">*</span> <span class="pre">exp((t</span> <span class="pre">-</span> <span class="pre">t0)</span> <span class="pre">/</span> <span class="pre">tau)</span>
+<span class="pre">SFHa1)</span> <span class="pre">total</span>
+<span class="pre">SFHa2)</span> <span class="pre">exponential</span>
+<span class="pre">SFHa3)</span> <span class="pre">[[1.,-0.5,2,0.1,1],[0.15,-0.2,0.6,0.1,1],[0.65,0.,1.3,0.1,1]]</span>
+<span class="pre">SFHa4)</span> <span class="pre">[[1.04,0.16],[0.15,0.04],[0.65,0.18]]</span>
+<span class="pre">`</span></code></p>
+<ul class="simple">
+<li><p><strong>Delayed Tau</strong>:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">#</span> <span class="pre">For</span> <span class="pre">delayed</span> <span class="pre">tau:</span> <span class="pre">SFR(t)</span> <span class="pre">=</span> <span class="pre">SFR0</span> <span class="pre">*</span> <span class="pre">(t</span> <span class="pre">/</span> <span class="pre">tau^2)</span> <span class="pre">*</span> <span class="pre">exp(-t</span> <span class="pre">/</span> <span class="pre">tau)</span>
+<span class="pre">SFHa1)</span> <span class="pre">total</span>
+<span class="pre">SFHa2)</span> <span class="pre">delayed</span>
+<span class="pre">SFHa3)</span> <span class="pre">[[1.,-0.5,2,0.1,1],[0.15,-0.2,0.6,0.1,1]]</span>
+<span class="pre">SFHa4)</span> <span class="pre">[[1.04,0.16],[0.15,0.04]]</span>
+<span class="pre">`</span></code></p>
+<ul class="simple">
+<li><p><strong>Double Exponential</strong>:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">#</span> <span class="pre">For</span> <span class="pre">double</span> <span class="pre">exponential:</span> <span class="pre">SFR(t)</span> <span class="pre">=</span> <span class="pre">SFR0</span> <span class="pre">*</span> <span class="pre">(exp((t</span> <span class="pre">-</span> <span class="pre">t0)</span> <span class="pre">/</span> <span class="pre">tau0)</span> <span class="pre">-</span> <span class="pre">k</span> <span class="pre">*</span> <span class="pre">exp((t</span> <span class="pre">-</span> <span class="pre">t1)</span> <span class="pre">/</span> <span class="pre">tau1))</span>
+<span class="pre">SFHa1)</span> <span class="pre">total</span>
+<span class="pre">SFHa2)</span> <span class="pre">exponential2</span>
+<span class="pre">SFHa3)</span> <span class="pre">[[0.4,-0.5,2,0.1,0],[0.15,-0.2,0.6,0.1,1],[0.65,0.,1.3,0.1,1],[0.15,-0.2,0.6,0.1,1],[0.65,0.,1.3,0.1,1]]</span>
+<span class="pre">SFHa4)</span> <span class="pre">[[1],[],[],[],[]]</span>
+<span class="pre">`</span></code></p>
+<p>These priors are applied only when the SFH type is set to <code class="docutils literal notranslate"><span class="pre">bins</span></code> in the configuration file. For example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">Pa9)</span> <span class="pre">[[0,-8,8,0.1,0],[0,-8,8,0.1,0],[0,-8,8,0.1,0],[0,-8,8,0.1,0],[0,-8,8,0.1,0],[0,-8,8,0.1,0],[0,-8,8,0.1,0],[0,-8,8,0.1,0],[0,-8,8,0.1,0],[0,-8,8,0.1,0],[0,-8,8,0.1,0],[0,-8,8,0.1,0]]</span>&#160; <span class="pre">#</span> <span class="pre">logMass_fraction</span> <span class="pre">formed</span> <span class="pre">at</span> <span class="pre">each</span> <span class="pre">time</span> <span class="pre">bin</span>
+<span class="pre">Pa10)</span> <span class="pre">[0.,0.033,0.05681831,0.09782788,0.16843678,0.29000887,0.4993277,0.85972583,1.4802471,2.5486407,4.3881655,7.5553966,13.008631]</span>&#160; <span class="pre">#</span> <span class="pre">age</span> <span class="pre">time</span> <span class="pre">bins</span> <span class="pre">[Gyr]</span>
+<span class="pre">...</span>
+<span class="pre">Pa15)</span> <span class="pre">bins</span>
+<span class="pre">`</span></code></p>
+<p>Using more bins improves the resolution of the SFH. An example of a double exponential SFH fit is shown below:</p>
+<p><a href="#id19"><span class="problematic" id="id20">``</span></a>`
+.. figure:: ./fig/sfh2.jpg</p>
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">align<span class="colon">:</span></dt>
+<dd class="field-odd"><p>center</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><a href="#id21"><span class="problematic" id="id22">``</span></a><a href="#id23"><span class="problematic" id="id24">`</span></a></p>
+<p>In principle, the normalization parameter (e.g., SFR0) is degenerate with the stellar mass. However, when the prior in <code class="docutils literal notranslate"><span class="pre">SFHa4</span></code> has a length greater than zero for the first element (i.e., <code class="docutils literal notranslate"><span class="pre">len(SFHa4)[0]</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>), it incorporates a constraint on the recent SFR, fitting it to a specific value (e.g., the most recent SFR in the above figure).</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="analyze.html" class="btn btn-neutral float-left" title="Analyze the Output of GalfitS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api_reference.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Li R. &amp; Ho C. Luis.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
