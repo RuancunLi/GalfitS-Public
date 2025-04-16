@@ -386,12 +386,7 @@ For example, adopting metallicity estimates based on the method from Kewley & Do
 
 **Star Formation History (SFH) Constraints**
 
-To constrain the star formation history (SFH) of profiles, GalfitS uses ``SFHx`` priors. For example, ``SFHa1`` specifies the profile (e.g., ``total``), and ``SFHa2`` defines the SFH type, such as ``exponential``. The parameters in ``SFHa3`` and ``SFHa4`` provide the initial values, ranges, and priors for the SFH parameters. In the exponential case, ``SFHa3`` might include [logSFR0, tau, t0], defining the SFR as:
-
-.. math::
-    \text{SFR}(t) = \text{SFR0} \times \exp\left(\frac{t - t0}{\tau}\right)
-
-with ``SFHa4`` providing the Gaussian priors for these parameters. As shown in the example prior file, ``SFHa3`` is set to [[1.,-0.5,2,0.1,1],[0.15,-0.2,0.6,0.1,1],[0.65,0.,1.3,0.1,1]], and ``SFHa4`` to [[1.04,0.16],[0.15,0.04],[0.65,0.18]], specifying the initial values and prior distributions for logSFR0, tau, and t0, respectively. This allows users to model the SFH with physically motivated constraints tailored to their scientific goals.
+To constrain the star formation history (SFH) of profiles, GalfitS uses ``SFHx`` priors. For example, ``SFHa1`` specifies the profile (e.g., ``total``), and ``SFHa2`` defines the SFH type, such as ``exponential``. The parameters in ``SFHa3`` and ``SFHa4`` provide the initial values, ranges, and priors for the SFH parameters. In the exponential case, ``SFHa3`` might include [logSFR0, tau, t0] The details in shown in  :doc:`Appendix <appendix>` . 
 
 **AGN Constraints**
 
@@ -406,6 +401,16 @@ To apply Gaussian priors to specific parameters, users can list the parameter na
     GP) ['param1', 'param2']
 
 This will automatically apply Gaussian priors to the listed parameters, rather than uniform priors, allowing for more constrained fitting based on prior knowledge.
+
+**Energy balance**
+
+To apply Energy balance to specific component, users can list the parameter names in ``EB``. For example:
+
+.. code-block:: none
+
+    EB) ['profilename1', 'profilename2']
+
+Here energy balance means the stellar continuum luminosity absorbed in the UV/optical band is equal to the dust luminosity. This is a common assumption in SED fitting e.g. CIGALE, as it allows for a more accurate representation of the energy balance within the galaxy model. By applying this constraint, users can ensure that the energy output from the stellar component is appropriately accounted for in the dust component, leading to a more physically realistic model.
 
 **Applying Priors**
 
