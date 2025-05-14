@@ -63,6 +63,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#constraining-sfh-through-priors">Constraining SFH through Priors</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#run-galfits-on-galaxy-sample">Run GalfitS on galaxy sample</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#running-galfits-in-parallel-with-mpi">Running GalfitS in Parallel with MPI</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
@@ -255,6 +259,91 @@ Pa15) bins
 <img alt="_images/sfh2.jpg" src="_images/sfh2.jpg" />
 </figure>
 <p>In principle, the normalization parameter (e.g., SFR0) is degenerate with the stellar mass. However, when the prior in <code class="docutils literal notranslate"><span class="pre">SFHa4</span></code> has a length greater than zero for the first element (i.e., <code class="docutils literal notranslate"><span class="pre">len(SFHa4)[0]</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>), it incorporates a constraint on the recent SFR, fitting it to a specific value (e.g., the most recent SFR in the above figure).</p>
+</section>
+</section>
+<section id="run-galfits-on-galaxy-sample">
+<h2>Run GalfitS on galaxy sample<a class="headerlink" href="#run-galfits-on-galaxy-sample" title="Link to this heading"></a></h2>
+<p>To run GalfitS on a sample of galaxies, you first need to generate configuration files for each galaxy. These config files specify the parameters and data files for the fitting process. For details on the configuration file format, see <span class="xref std std-ref">config_example</span>.</p>
+<p>For instance, if you want to perform SED analysis using the config in <a class="reference external" href="https://github.com/RuancunLi/GalfitS-Public/tree/main/examples/SEDfit.lyric">SEDfit.lyric</a>, you can use the following Python script to generate config files for all galaxies in your sample:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">astropy.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+
+<span class="c1"># Load the galaxy sample</span>
+<span class="n">sample</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;galaxy_sample.txt&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span>
+<span class="n">outpath</span> <span class="o">=</span> <span class="s1">&#39;./configs/&#39;</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outpath</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">outpath</span><span class="p">)</span>
+
+<span class="n">standard_config</span> <span class="o">=</span> <span class="s1">&#39;./phot.lyric&#39;</span>
+<span class="n">imgpath</span> <span class="o">=</span> <span class="s1">&#39;/path/to/your/photometric_data/&#39;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">standard_config</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">standard</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">galaxy</span> <span class="ow">in</span> <span class="n">sample</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">galaxy</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="n">ra</span> <span class="o">=</span> <span class="n">galaxy</span><span class="p">[</span><span class="s1">&#39;ra&#39;</span><span class="p">]</span>
+        <span class="n">dec</span> <span class="o">=</span> <span class="n">galaxy</span><span class="p">[</span><span class="s1">&#39;dec&#39;</span><span class="p">]</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">galaxy</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">]</span>
+        <span class="n">outname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outpath</span><span class="p">,</span> <span class="s1">&#39;SEDfit_2exp.lyric&#39;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outname</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">liindex</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">standard</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">liindex</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+                    <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;R1) </span><span class="si">{0}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="n">liindex</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+                    <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;R2) [</span><span class="si">{0}</span><span class="s2">,</span><span class="si">{1}</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="n">liindex</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+                    <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;R3) </span><span class="si">{0}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="n">liindex</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+                    <span class="n">img</span> <span class="o">=</span> <span class="n">imgpath</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;band1.fits&#39;</span>
+                    <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Ia1) [</span><span class="si">{0}</span><span class="s2">,0]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">img</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="n">liindex</span> <span class="o">==</span> <span class="mi">12</span><span class="p">:</span>
+                    <span class="n">img</span> <span class="o">=</span> <span class="n">imgpath</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;band1.fits&#39;</span>
+                    <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Ia3) [</span><span class="si">{0}</span><span class="s2">,2]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">img</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="n">liindex</span> <span class="o">==</span> <span class="mi">13</span><span class="p">:</span>
+                    <span class="n">img</span> <span class="o">=</span> <span class="n">imgpath</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;band1.fits&#39;</span>
+                    <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Ia4) [</span><span class="si">{0}</span><span class="s2">,3]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">img</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="n">standard</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Reset file pointer for next galaxy</span>
+</pre></div>
+</div>
+<p>This script reads a standard config file and, for each galaxy in the sample, creates a new config file by modifying specific lines with the galaxy’s name, coordinates (RA and Dec), redshift (z), and paths to the photometric image files. The full script can be found in <a class="reference external" href="https://github.com/RuancunLi/GalfitS-Public/tree/main/examples/write_configs.py">write_configs.py</a>.</p>
+<section id="running-galfits-in-parallel-with-mpi">
+<h3>Running GalfitS in Parallel with MPI<a class="headerlink" href="#running-galfits-in-parallel-with-mpi" title="Link to this heading"></a></h3>
+<p>Once you have generated the configuration files for all galaxies in your sample, you can run GalfitS on each config file. For large samples, it is efficient to parallelize the fitting using <cite>mpi4py</cite>. Below is an example script that distributes the config files across available MPI processes:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">astropy.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mpi4py</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPI</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="n">comm</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span>
+<span class="n">rank</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">Get_rank</span><span class="p">()</span>
+<span class="n">size</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">Get_size</span><span class="p">()</span>
+
+<span class="n">sample</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;./gs_test.txt&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span>
+<span class="n">loop</span> <span class="o">=</span> <span class="n">rank</span>  <span class="c1"># Start from rank to distribute tasks correctly</span>
+<span class="n">stop</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+<span class="k">while</span> <span class="n">loop</span> <span class="o">&lt;</span> <span class="n">stop</span><span class="p">:</span>
+    <span class="n">tagname</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="s1">&#39;ID&#39;</span><span class="p">][</span><span class="n">loop</span><span class="p">]</span>
+    <span class="n">dic</span> <span class="o">=</span> <span class="s1">&#39;./result/</span><span class="si">{0}</span><span class="s1">/&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tagname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dic</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+    <span class="n">config_file</span> <span class="o">=</span> <span class="s1">&#39;./configs/SEDfit_2exp.lyric&#39;</span>  <span class="c1"># Match config name from generation</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;CUDA_VISIBLE_DEVICES=</span><span class="si">{0}</span><span class="s1"> python galfitS.py --config </span><span class="si">{1}</span><span class="s1"> --work ./2com --num_s 15000&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span> <span class="n">config_file</span><span class="p">)</span>
+    <span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="n">dic</span><span class="p">)</span>
+    <span class="n">proc</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+    <span class="n">loop</span> <span class="o">+=</span> <span class="n">size</span>
+</pre></div>
+</div>
+<p>To run this script, use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mpirun<span class="w"> </span>-n<span class="w"> </span><span class="m">4</span><span class="w"> </span>python<span class="w"> </span>galfitS_mpi.py
+</pre></div>
+</div>
+<p>This command runs the script on 4 processes, each potentially using a different GPU if available, with each process handling a subset of the galaxies in the sample.</p>
+<p>If you have a limited number of GPUs, you can modify the script to run on the CPU by removing the <code class="docutils literal notranslate"><span class="pre">CUDA_VISIBLE_DEVICES</span></code> setting:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;python galfitS.py --config </span><span class="si">{0}</span><span class="s1"> --work ./2com --num_s 15000&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Alternatively, you can specify specific GPU IDs, e.g., <code class="docutils literal notranslate"><span class="pre">CUDA_VISIBLE_DEVICES=0,1,2,3</span></code>, or set <code class="docutils literal notranslate"><span class="pre">OMP_NUM_THREADS</span></code> for multi-threading on the CPU. Refer to the GalfitS documentation for detailed instructions on CPU execution.</p>
+<p>Note: Ensure that <code class="docutils literal notranslate"><span class="pre">galfitS.py</span></code> is in your PATH or provide the full path in the command. The options <code class="docutils literal notranslate"><span class="pre">--work</span> <span class="pre">./2com</span> <span class="pre">--num_s</span> <span class="pre">15000</span></code> are example-specific and should be adjusted according to your requirements.</p>
 </section>
 </section>
 </section>
