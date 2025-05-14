@@ -183,3 +183,102 @@ Using more bins improves the resolution of the SFH. An example of a double expon
    :align: center
 
 In principle, the normalization parameter (e.g., SFR0) is degenerate with the stellar mass. However, when the prior in ``SFHa4`` has a length greater than zero for the first element (i.e., ``len(SFHa4)[0] > 0``), it incorporates a constraint on the recent SFR, fitting it to a specific value (e.g., the most recent SFR in the above figure).
+
+
+Run GalfitS on galaxy sample
+----------------------------
+
+To run GalfitS on a sample of galaxies, you first need to generate configuration files for each galaxy. These config files specify the parameters and data files for the fitting process. For details on the configuration file format, see :ref:`config_example`.
+
+For instance, if you want to perform SED analysis using the config in `SEDfit.lyric <https://github.com/RuancunLi/GalfitS-Public/tree/main/examples/SEDfit.lyric>`_, you can use the following Python script to generate config files for all galaxies in your sample:
+
+.. code-block:: python
+
+    import os
+    from astropy.table import Table
+
+    # Load the galaxy sample
+    sample = Table.read('galaxy_sample.txt', format='ascii')
+    outpath = './configs/'
+    if not os.path.exists(outpath):
+        os.makedirs(outpath)
+
+    standard_config = './phot.lyric'
+    imgpath = '/path/to/your/photometric_data/'
+    with open(standard_config, 'r') as standard:
+        for galaxy in sample:
+            name = galaxy['name']
+            ra = galaxy['ra']
+            dec = galaxy['dec']
+            z = galaxy['z']
+            outname = os.path.join(outpath, 'SEDfit_2exp.lyric')
+            with open(outname, 'w') as fobj:
+                for liindex, line in enumerate(standard):
+                    if liindex == 4:
+                        fobj.write("R1) {0}\n".format(name))
+                    elif liindex == 5:
+                        fobj.write("R2) [{0},{1}]\n".format(ra, dec))
+                    elif liindex == 6:
+                        fobj.write("R3) {0}\n".format(z))
+                    elif liindex == 10:
+                        img = imgpath + '{0}'.format(name) + 'band1.fits'
+                        fobj.write("Ia1) [{0},0]\n".format(img))
+                    elif liindex == 12:
+                        img = imgpath + '{0}'.format(name) + 'band1.fits'
+                        fobj.write("Ia3) [{0},2]\n".format(img))
+                    elif liindex == 13:
+                        img = imgpath + '{0}'.format(name) + 'band1.fits'
+                        fobj.write("Ia4) [{0},3]\n".format(img))
+                    else:
+                        fobj.write(line)
+                standard.seek(0)  # Reset file pointer for next galaxy
+
+This script reads a standard config file and, for each galaxy in the sample, creates a new config file by modifying specific lines with the galaxy's name, coordinates (RA and Dec), redshift (z), and paths to the photometric image files. The full script can be found in `write_configs.py <https://github.com/RuancunLi/GalfitS-Public/tree/main/examples/write_configs.py>`_.
+
+Running GalfitS in Parallel with MPI
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Once you have generated the configuration files for all galaxies in your sample, you can run GalfitS on each config file. For large samples, it is efficient to parallelize the fitting using `mpi4py`. Below is an example script that distributes the config files across available MPI processes:
+
+.. code-block:: python
+
+    from astropy.table import Table
+    from mpi4py import MPI
+    import subprocess
+    import os
+
+    comm = MPI.COMM_WORLD
+    rank = comm.Get_rank()
+    size = comm.Get_size()
+
+    sample = Table.read('./gs_test.txt', format='ascii')
+    loop = rank  # Start from rank to distribute tasks correctly
+    stop = len(sample)
+    while loop < stop:
+        tagname = sample['ID'][loop]
+        dic = './result/{0}/'.format(tagname)
+        if not os.path.exists(dic):
+            os.makedirs(dic)
+        config_file = './configs/SEDfit_2exp.lyric'  # Match config name from generation
+        cmd = 'CUDA_VISIBLE_DEVICES={0} python galfitS.py --config {1} --work ./2com --num_s 15000'.format(rank, config_file)
+        proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stdin=None, cwd=dic)
+        proc.communicate()
+        loop += size
+
+To run this script, use the following command:
+
+.. code-block:: bash
+
+    mpirun -n 4 python galfitS_mpi.py
+
+This command runs the script on 4 processes, each potentially using a different GPU if available, with each process handling a subset of the galaxies in the sample.
+
+If you have a limited number of GPUs, you can modify the script to run on the CPU by removing the ``CUDA_VISIBLE_DEVICES`` setting:
+
+.. code-block:: python
+
+    cmd = 'python galfitS.py --config {0} --work ./2com --num_s 15000'.format(config_file)
+
+Alternatively, you can specify specific GPU IDs, e.g., ``CUDA_VISIBLE_DEVICES=0,1,2,3``, or set ``OMP_NUM_THREADS`` for multi-threading on the CPU. Refer to the GalfitS documentation for detailed instructions on CPU execution.
+
+Note: Ensure that ``galfitS.py`` is in your PATH or provide the full path in the command. The options ``--work ./2com --num_s 15000`` are example-specific and should be adjusted according to your requirements.

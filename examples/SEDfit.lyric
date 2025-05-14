@@ -2,16 +2,16 @@
 # The config file provide a galfitS setup to perform a bulge-disk SED decomposition with multi-band images
 
 # Region information
-R1) 2 
-R2) [28.69295,1.05575] 
-R3) 0.0817 
+R1) J0056-0021
+R2) [14.13899,-0.36266] 
+R3) 0.0628 
 
 
 # Image A
-Ia1) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_u.fits,0] 
+Ia1) [sdssu_cut.fits,0] 
 Ia2) sloan_u      # band
-Ia3) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_u.fits,2] 
-Ia4) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_u.fits,3] 
+Ia3) [sdssu_cut.fits,2,1.8] 
+Ia4) [sdssu_psf.fits,0] 
 Ia5) 1                   # PSF fine sampling factor relative to data
 Ia6) [Noimg,0] 
 Ia7) cR                # unit of the image
@@ -25,10 +25,10 @@ Ia14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
 Ia15) 1 # Use SED information
 
 # Image B
-Ib1) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_g.fits,0] 
+Ib1) [sdssg_cut.fits,0] 
 Ib2) sloan_g      # band
-Ib3) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_g.fits,2] 
-Ib4) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_g.fits,3] 
+Ib3) [sdssg_cut.fits,2,1.8] 
+Ib4) [sdssg_psf.fits,0] 
 Ib5) 1                   # PSF fine sampling factor relative to data
 Ib6) [Noimg,0]  
 Ib7) cR                # unit of the image
@@ -42,10 +42,10 @@ Ib14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
 Ib15) 1 # Use SED information
 
 # Image C
-Ic1) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_r.fits,0] 
+Ic1) [sdssr_cut.fits,0] 
 Ic2) sloan_r      # band
-Ic3) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_r.fits,2] 
-Ic4) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_r.fits,3] 
+Ic3) [sdssr_cut.fits,2,1.8] 
+Ic4) [sdssr_psf.fits,0] 
 Ic5) 1                   # PSF fine sampling factor relative to data
 Ic6) [Noimg,0]  
 Ic7) cR                # unit of the image
@@ -59,10 +59,10 @@ Ic14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
 Ic15) 1 # Use SED information
 
 # Image D
-Id1) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_i.fits,0] 
+Id1) [sdssi_cut.fits,0] 
 Id2) sloan_i      # band
-Id3) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_i.fits,2] 
-Id4) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_i.fits,3] 
+Id3) [sdssi_cut.fits,2,1.8] 
+Id4) [sdssi_psf.fits,0] 
 Id5) 1                   # PSF fine sampling factor relative to data
 Id6) [Noimg,0]  
 Id7) cR                # unit of the image
@@ -76,10 +76,10 @@ Id14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
 Id15) 1 # Use SED information
 
 # Image E
-Ie1) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_z.fits,0] 
+Ie1) [sdssz_cut.fits,0] 
 Ie2) sloan_z      # band
-Ie3) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_z.fits,2] 
-Ie4) [/home/liruancun/Works/liyang/cutimgs/photometry/2sloan_z.fits,3] 
+Ie3) [sdssz_cut.fits,2,1.8] 
+Ie4) [sdssz_psf.fits,0] 
 Ie5) 1                   # PSF fine sampling factor relative to data
 Ie6) [Noimg,0]  
 Ie7) cR                # unit of the image
@@ -93,10 +93,10 @@ Ie14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
 Ie15) 1 # Use SED information
 
 # Image F
-If1) [/home/liruancun/Works/liyang/cutimgs/photometry/2j.fits,0] 
+If1) [tmassJ_cut.fits,0] 
 If2) j      # band
-If3) [/home/liruancun/Works/liyang/cutimgs/photometry/2j.fits,2] 
-If4) [/home/liruancun/Works/liyang/cutimgs/photometry/2j.fits,3] 
+If3) [tmassJ_cut.fits,2,0.05] 
+If4) [tmassJ_psf.fits,0] 
 If5) 1                   # PSF fine sampling factor relative to data
 If6) [Noimg,0]  
 If7) cR                # unit of the image
@@ -110,10 +110,10 @@ If14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
 If15) 1 # Use SED information
 
 # Image G
-Ig1) [/home/liruancun/Works/liyang/cutimgs/photometry/2h.fits,0] 
+Ig1) [tmassH_cut.fits,0] 
 Ig2) h      # band
-Ig3) [/home/liruancun/Works/liyang/cutimgs/photometry/2h.fits,2] 
-Ig4) [/home/liruancun/Works/liyang/cutimgs/photometry/2h.fits,3] 
+Ig3) [tmassH_cut.fits,2,0.05] 
+Ig4) [tmassH_psf.fits,0] 
 Ig5) 1                   # PSF fine sampling factor relative to data
 Ig6) [Noimg,0] 
 Ig7) cR                # unit of the image
@@ -127,10 +127,10 @@ Ig14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
 Ig15) 1 # Use SED information
 
 # Image H
-Ih1) [/home/liruancun/Works/liyang/cutimgs/photometry/2ks.fits,0] 
+Ih1) [tmassK_cut.fits,0] 
 Ih2) ks       # band
-Ih3) [/home/liruancun/Works/liyang/cutimgs/photometry/2ks.fits,2] 
-Ih4) [/home/liruancun/Works/liyang/cutimgs/photometry/2ks.fits,3] 
+Ih3) [tmassK_cut.fits,2,0.05] 
+Ih4) [tmassK_psf.fits,0] 
 Ih5) 1                   # PSF fine sampling factor relative to data
 Ih6) [Noimg,0]  
 Ih7) cR                # unit of the image
@@ -144,10 +144,10 @@ Ih14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
 Ih15) 1 # Use SED information
 
 # Image I
-Ii1) [/home/liruancun/Works/liyang/cutimgs/photometry/2galex_nuv.fits,0] 
+Ii1) [galexfuv_cut.fits,0] 
 Ii2) galex_fuv       # band
-Ii3) [/home/liruancun/Works/liyang/cutimgs/photometry/2galex_nuv.fits,2] 
-Ii4) [/home/liruancun/Works/liyang/cutimgs/photometry/2galex_nuv.fits,3] 
+Ii3) [galexfuv_cut.fits,2] 
+Ii4) [galexfuv_psf.fits,0] 
 Ii5) 1                   # PSF fine sampling factor relative to data
 Ii6) [Noimg,0]  
 Ii7) cR                # unit of the image
@@ -161,10 +161,10 @@ Ii14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
 Ii15) 1 # Use SED information
 
 # Image J
-Ij1) [/home/liruancun/Works/liyang/cutimgs/photometry/2galex_fuv.fits,0] 
+Ij1) [galexnuv_cut.fits,0] 
 Ij2) galex_nuv       # band
-Ij3) [/home/liruancun/Works/liyang/cutimgs/photometry/2galex_fuv.fits,2] 
-Ij4) [/home/liruancun/Works/liyang/cutimgs/photometry/2galex_fuv.fits,3] 
+Ij3) [galexnuv_cut.fits,2] 
+Ij4) [galexnuv_psf.fits,0] 
 Ij5) 1                   # PSF fine sampling factor relative to data
 Ij6) [Noimg,0]  
 Ij7) cR                # unit of the image
@@ -178,10 +178,10 @@ Ij14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
 Ij15) 1 # Use SED information
 
 # Image K
-Ik1) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch1.fits,0] 
+Ik1) [galexnuv_cut.fits,0] 
 Ik2) wise_ch1       # band
-Ik3) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch1.fits,2] 
-Ik4) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch1.fits,3] 
+Ik3) [galexnuv_cut.fits,2] 
+Ik4) [galexnuv_psf.fits,0] 
 Ik5) 1                   # PSF fine sampling factor relative to data
 Ik6) [Noimg,0]  
 Ik7) cR                # unit of the image
@@ -195,10 +195,10 @@ Ik14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
 Ik15) 1 # Use SED information
 
 # Image L
-Il1) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch2.fits,0] 
+Il1) [galexnuv_cut.fits,0] 
 Il2) wise_ch2       # band
-Il3) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch2.fits,2] 
-Il4) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch2.fits,3] 
+Il3) [galexnuv_cut.fits,2] 
+Il4) [galexnuv_psf.fits,0] 
 Il5) 1                   # PSF fine sampling factor relative to data
 Il6) [Noimg,0]  
 Il7) cR                # unit of the image
@@ -212,10 +212,10 @@ Il14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
 Il15) 1 # Use SED information
 
 # Image M
-Im1) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch3.fits,0] 
+Im1) [galexnuv_cut.fits,0] 
 Im2) wise_ch3       # band
-Im3) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch3.fits,2] 
-Im4) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch3.fits,3] 
+Im3) [galexnuv_cut.fits,2] 
+Im4) [galexnuv_psf.fits,0] 
 Im5) 1                   # PSF fine sampling factor relative to data
 Im6) [Noimg,0]  
 Im7) cR                # unit of the image
@@ -229,10 +229,10 @@ Im14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
 Im15) 1 # Use SED information
 
 # Image L
-In1) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch4.fits,0] 
+In1) [galexnuv_cut.fits,0] 
 In2) wise_ch4       # band
-In3) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch4.fits,2] 
-In4) [/home/liruancun/Works/liyang/cutimgs/photometry/2wise_ch4.fits,3] 
+In3) [galexnuv_cut.fits,2] 
+In4) [galexnuv_psf.fits,0] 
 In5) 1                   # PSF fine sampling factor relative to data
 In6) [Noimg,0]  
 In7) cR                # unit of the image
@@ -246,10 +246,10 @@ In14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
 In15) 1 # Use SED information
 
 # Image L
-Io1) [/home/liruancun/Works/liyang/cutimgs/photometry/2herschel_psw.fits,0] 
+Io1) [galexnuv_cut.fits,0] 
 Io2) herschel_psw       # band
-Io3) [/home/liruancun/Works/liyang/cutimgs/photometry/2herschel_psw.fits,2] 
-Io4) [/home/liruancun/Works/liyang/cutimgs/photometry/2herschel_psw.fits,3] 
+Io3) [galexnuv_cut.fits,2] 
+Io4) [galexnuv_psf.fits,0] 
 Io5) 1                   # PSF fine sampling factor relative to data
 Io6) [Noimg,0]  
 Io7) cR                # unit of the image
@@ -263,10 +263,10 @@ Io14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
 Io15) 1 # Use SED information
 
 # Image P
-Ip1) [/home/liruancun/Works/liyang/cutimgs/photometry/2herschel_pmw.fits,0] 
+Ip1) [galexnuv_cut.fits,0] 
 Ip2) herschel_pmw       # band
-Ip3) [/home/liruancun/Works/liyang/cutimgs/photometry/2herschel_pmw.fits,2] 
-Ip4) [/home/liruancun/Works/liyang/cutimgs/photometry/2herschel_pmw.fits,3] 
+Ip3) [galexnuv_cut.fits,2] 
+Ip4) [galexnuv_psf.fits,0] 
 Ip5) 1                   # PSF fine sampling factor relative to data
 Ip6) [Noimg,0]  
 Ip7) cR                # unit of the image
@@ -280,10 +280,10 @@ Ip14) [[0,-5,5,0.1,0],[0,-5,5,0.1,0]] # [shiftx, shifty]
 Ip15) 1 # Use SED informatIpn
 
 # Image Q
-Iq1) [/home/liruancun/Works/liyang/cutimgs/photometry/2herschel_plw.fits,0] 
+Iq1) [galexnuv_cut.fits,0] 
 Iq2) herschel_plw       # band
-Iq3) [/home/liruancun/Works/liyang/cutimgs/photometry/2herschel_plw.fits,2] 
-Iq4) [/home/liruancun/Works/liyang/cutimgs/photometry/2herschel_plw.fits,3] 
+Iq3) [galexnuv_cut.fits,2] 
+Iq4) [galexnuv_psf.fits,0] 
 Iq5) 1                   # PSF fine sampling factor relative to data
 Iq6) [Noimg,0]  
 Iq7) cR                # unit of the image
@@ -317,16 +317,16 @@ Pb6) [1,0.5,3,0.1,0] # Sersic index
 Pb7) [-60,-90,90,1,0] # position angle (PA) [degrees: Up=0, Left=90]
 Pb8) [0.9,0.2,1,0.01,0] # axis ratio (b/a) [0.1=round, 1=flat]
 Pb9) [[-1,-4,0,0.1,1]] # contemporary log star formation fraction
-Pb10) [[6.342512920653024,0.01,12.485025841306049,0.1,1]] 
-Pb11) [[0.02,0.001,0.04,0.001,1]] # metallicity [Z=0.02=Solar]
-Pb12) [[0.7,0.3,5.1,0.1,1]] # Av dust extinction [mag]
+Pb10) [[5,0.01,10,0.1,1]] # burst stellar age [Gyr]
+Pb11) [[0.01,0.004,0.02,0.001,1]] # metallicity [Z=0.02=Solar]
+Pb12) [[0.4,0.003,1.8,0.1,1]] # Av dust extinction [mag]
 Pb13) [100,40,200,1,0] # stellar velocity dispersion
 Pb14) [10.64,8.5,12,0.1,1] # log stellar mass
-Pb15) conti # star formation history type: burst/conti
+Pb15) bins # star formation history type: burst/conti
 Pb16) [-3,-4,-2,0.1,0] # logU nebular ionization parameter
 Pb26) [3,0,5,0.1,1] # amplitude of the 2175A bump on extinction curve 
 Pb27) 4                         # SED model, 0: full; 1: stellar only; 2: nebular only; 3: dust only
-Pb28) [8.14,4.5,10,0.1,1]       # log dust mass
+Pb28) [8.14,4.5,10,0.1,0]       # log dust mass
 Pb29) [1.0, 0.1, 25, 0.1, 1]    # Umin, minimum radiation field
 Pb30) [1.0, 0.47, 7.32, 0.1, 1] # qPAH, mass fraction of PAH
 Pb31) [2.0, 1.0, 3.0, 0.1, 0]   # alpha, powerlaw slope of U
@@ -336,8 +336,8 @@ Pb32) [0.1, 0, 0.2, 0.1, 1]     # gamma, fraction illuminated by star forming re
 # Galaxy A
 Ga1) mygal
 Ga2) ['b'] # profile component 
-Ga3) [0.0817,0.03169999999999999,0.13169999999999998,0.01,0] 
-Ga4) 0.0257 
+Ga3) [0.0628,0.012799999999999992,0.1128,0.01,0] 
+Ga4) 0.0213 
 Ga5) [1.,0.5,2,0.05,0]  # normalization of spectrum when images+spec fitting
 Ga6) [] # narrow lines in nebular
 Ga7) 1 # number of components for narrow lines
