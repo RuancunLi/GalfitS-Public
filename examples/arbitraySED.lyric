@@ -1,0 +1,103 @@
+# yulin.lyric
+# The config file provide a galfitS setup to perform a AGN - host SED decomposition with multi-band images and spectrum
+
+# Region information
+R1) PG0050+124                                  # name of the target
+R2) [13.3955833333,12.6933888889]               # sky coordinate of the target [RA, Dec]
+R3) 0.061                                       # redshift of the target
+
+
+# Image A
+Ia1) [hst_0_F438W_cut.fits,0]                   # input data image (FITS file)
+Ia1) wfc3_f438w                                 # band of the image
+Ia3) [hst_0_F438W_cut.fits,2]                   # sigma image (automatic calculate from data if blank or "none")
+Ia4) [psf_f438w_cv.fits,0]                      # PSF image
+Ia5) 1                                          # PSF fine sampling factor relative to data
+Ia6) [hst_0_F438W_cut.fits,1]                   # bad pixel mask image (use empty mask if blank or "none")
+Ia7) cR                                         # unit of the image
+Ia8) 22.9602936792869                           # size to make cutout image region for fitting, unit arcsec
+Ia9) 1.5061352645923459e+18                     # conversion factor from erg/s/cm^2/A to image unit, -1 for default
+Ia10) 27.0                                      # magnitude photometric zeropoint
+Ia11) uniform                                   # sky model
+Ia12) [[0,-0.5,0.5,0.1,1]]                      # sky parameter, [[value, min, max, step, vary]]
+Ia13) 0 			                            # allow relative shifting
+Ia14) [[0,-0.5,0.5,0.1,0],[0,-0.5,0.5,0.1,0]]   # [shiftx, shifty]
+Ia15) 1                                         # Use SED information
+
+
+
+# Image atlas
+Aa1) hst                                        # name of the image atlas
+Aa2) ['a']                                 # images in this atlas
+Aa3) 0                                          # whether the images have same pixel size
+Aa4) 0                                          # link relative shiftings
+Aa5) ['a']                                      # spectra
+Aa6) [[2]]                                      # aperture size, fiber-[radius], long slit-[PA, a, b], PA respect to positive RA 
+Aa7) [0]                                        # references images
+
+
+# Profile A - sersic profile
+Pa1) bulge                                      # name of the component
+Pa2) sersic                                     # profile type
+Pa3) [0,-5,5,0.1,1]                             # x-center [arcsec]
+Pa4) [0,-5,5,0.1,1]                             # y-center [arcsec]
+Pa5) [2.296,0.023,4.592,0.01,1]                 # Re [arcsec]
+Pa6) [4,1,6,0.1,1]                              # Sersic index
+Pa7) [0,-90,90,1,1]                             # position angle (PA) [degree]
+Pa8) [0.8,0.6,1,0.01,1]                         # axis ratio (q = b/a) 
+Pa9) [[-4,-8,-1,0.1,1]]                         # specific star formation rate of the star forming component
+Pa10) [[5,0.01,11,0.1,1]]                       # burst stellar age of the starburst component [Gyr]
+Pa11) [0.02,0.001,0.04,0.001,1]                 # metallicity [Z=0.02=Solar]
+Pa12) [0.7,0.3,5.1,0.1,1]                       # Av dust extinction [mag]
+Pa13) [100,40,200,1,0]                          # stellar velocity dispersion [km/s]
+Pa14) [10.14,8.5,12,0.1,1]                      # log stellar mass [solar mass]
+Pa15) burst                                     # star formation history type: burst/conti/bins
+Pa16) [-2,-4,-2,0.1,0]                          # logU nebular ionization parameter
+Pa26) [3,0,5,0.1,0]                             # amplitude of the 2175A bump on extinction curve
+Pa27) T                                         # T for Table model
+PaT1) /path/of/the/table/model                  # table model path, a npz format is required
+PaT2) ['p1','p2','p3']                          # parameter names
+PaT3) [[10.14,8.5,12,0.1,1],[10.14,8.5,12,0.1,1],[10.14,8.5,12,0.1,1]]  # parameter initilization
+
+# Galaxy A
+Ga1) host                                       # name of the galaxy 
+Ga2) ['a']                                  # profile component included 
+Ga3) [0.061,0.011,0.111,0.01,0]                 # galaxy redshift
+Ga4) 0.055                                      # the EB-V of Galactic dust reddening 
+Ga5) [1.,0.8,1.2,0.05,1]                        # normalization of spectrum when images+spec fitting
+Ga6) []                                         # narrow lines in nebular
+Ga7) 1                                          # number of components for narrow lines 
+
+
+
+# Nuclei A
+Na1) AGN # name of the component
+Na2) [0.061,0.010999999999999996,0.111,0.01,0] 
+Na3) 0.055 
+Na4) [0,-5,5,0.1,1] # x-center 
+Na5) [0,-5,5,0.1,1] # y-center
+Na6) [7,5,10,0.1,0] # log black hole mass                                 
+Na7) [-1,-4,2,0.1,0] # log L/LEdd
+Na8) [0,0,0.99,0.01,0] # a star
+Na9) [0,0,3.1,0.1,0] # Av
+Na10) [43,41,47,0.1,1] # log L5100
+Na11) [[1,0,4,0.1,1], [0.6, 0, 5, 0.1,1]] # power law indexes
+Na12) ['Hg','Hb','Ha','HeI'] 
+Na13) ['Hg','Hb','Ha','OIII_4959','OIII_5007','HeI','OI_6302','NII_6549','NII_6583','SII_6716','SII_6731'] 
+Na14) 2 # number of components for broad lines
+Na15) 2 # number of components for narrow lines
+Na16) 0 # add Balmer continuum
+Na17) 1 # add FeII
+Na18) T # continuum model, 0: power law, 1: broken power law, 2: thin disk
+Na19) [1.,0.5,2,0.05,0]  # normalization of spectrum when images+spec fitting
+Na20) 0 # add torus, default emitting at [1, 1000] micro
+Na21) [41,39,44,0.1,0] # log torus luminosity, cat3D model
+Na22) [-0.5,-2.5,-0.25,0.05,0] # torus a: power-law index of the radial dust cloud distribution
+Na23) [0.5,0.25,1.5,0.05,0] # torus h: dimensionless scale height
+Na24) [7,5,10,0.5,0] # torus N0: number of clouds along an equatorial line-of-sight
+Na25) [15,0,90,5,0] # torus i: inclination angle
+Na26) [1.,0.2,5,0.1,1]  # normalization of images_atals
+Na27) [40,38,42,0.1,0]  # log luminosity of the 1200 K black body for Nuclei hot dust
+NaT1) /path/of/the/table/model                  # table model path, a npz format is required
+NaT2) ['p1','p2','p3']                          # parameter names
+NaT3) [[10.14,8.5,12,0.1,1],[10.14,8.5,12,0.1,1],[10.14,8.5,12,0.1,1]]  # parameter initilization
