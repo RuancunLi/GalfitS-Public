@@ -14,6 +14,8 @@ Welcome to GalfitS documentation!
    analyze
    appendix
    api_reference
+   faq
+   release_notes
 
 Indices and tables
 ==================

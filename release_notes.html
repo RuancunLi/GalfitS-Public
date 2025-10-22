@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>API Reference &mdash; GalfitS Public 1.0 documentation</title>
+  <title>Release Notes &mdash; GalfitS Public 1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -19,8 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="galfits.galaxy" href="api/galfits.galaxy.html" />
-    <link rel="prev" title="Appendix" href="appendix.html" /> 
+    <link rel="prev" title="FAQ" href="faq.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,19 +51,12 @@
 <li class="toctree-l1"><a class="reference internal" href="rungs.html">Run GalfitS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="analyze.html">Analyze the Output of GalfitS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix.html">Appendix</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/galfits.galaxy.html">galfits.galaxy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/galfits.gsfit.html">galfits.gsfit</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/galfits.gsutils.html">galfits.gsutils</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/galfits.images.html">galfits.images</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/galfits.mathfunc.html">galfits.mathfunc</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/galfits.profiles.html">galfits.profiles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/galfits.sed_interp.html">galfits.sed_interp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/galfits.disperser.html">galfits.disperser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#version-1-0-public-release">Version 1.0 (Public Release)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
         </div>
@@ -81,9 +73,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">API Reference</li>
+      <li class="breadcrumb-item active">Release Notes</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/api_reference.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/release_notes.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -91,29 +83,64 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="api-reference">
-<h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading"></a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Modules</span></p>
+  <section id="release-notes">
+<h1>Release Notes<a class="headerlink" href="#release-notes" title="Link to this heading"></a></h1>
+<section id="version-1-0-public-release">
+<h2>Version 1.0 (Public Release)<a class="headerlink" href="#version-1-0-public-release" title="Link to this heading"></a></h2>
+<p><strong>Release Date:</strong> [Date of release]</p>
+<p>This is the initial public release of GalfitS.</p>
+<p><strong>New Features:</strong></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="api/galfits.galaxy.html">galfits.galaxy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/galfits.gsfit.html">galfits.gsfit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/galfits.gsutils.html">galfits.gsutils</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/galfits.images.html">galfits.images</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/galfits.mathfunc.html">galfits.mathfunc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/galfits.profiles.html">galfits.profiles</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/galfits.sed_interp.html">galfits.sed_interp</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/galfits.disperser.html">galfits.disperser</a></li>
+<li><p><strong>Core Fitting Engine</strong>:
+*   Simultaneous morphological and SED fitting of galaxy components.
+*   Support for multiple imaging bands and optional spectroscopic data.
+*   JAX-based backend for high-performance computing on CPUs and GPUs.</p></li>
+<li><p><strong>Modeling Capabilities</strong>:
+*   Library of 2D profiles: Sersic, Ferrer, Edge-on Disk, Gaussian Ring, and more.
+*   Fourier modes for non-axisymmetric features (e.g., spiral arms).
+*   Stellar Population Synthesis (SPS) models for galaxy components, supporting various Star Formation Histories (burst, continuous, binned).
+*   AGN models including continuum (power-law, thin disk), emission lines, and torus dust emission.
+*   Foreground star modeling.</p></li>
+<li><p><strong>Optimization &amp; Sampling</strong>:
+*   Multiple fitting backends:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Gradient-based optimizer (<cite>jaxopt</cite>).</p></li>
+<li><p>Nested sampling with <cite>dynesty</cite> for Bayesian inference and posterior estimation.</p></li>
+<li><p>Evolutionary Strategies (<cite>evosax</cite>) for global optimization.</p></li>
 </ul>
-</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Flexible parameter constraint system via external files.</p></li>
+<li><p>Support for astrophysical priors (e.g., Mass-Size relation, Mass-Metallicity relation).</p></li>
+</ul>
+</li>
+<li><p><strong>Data Handling</strong>:
+*   Automated image cutout, sky subtraction, and mask generation utilities.
+*   Empirical PSF construction tool.
+*   Support for <cite>astropy</cite> FITS files and WCS.</p></li>
+<li><p><strong>Usability</strong>:
+*   Command-line interface for running fits.
+*   Detailed configuration files (<cite>.lyric</cite>) for defining fitting runs.
+*   Plotting utilities for visualizing results (image residuals, model SEDs, SFHs).</p></li>
+<li><p><strong>Documentation</strong>:
+*   Initial version of the documentation, including installation, quickstart, and configuration guides.</p></li>
+</ul>
+<p><strong>Known Issues:</strong></p>
+<ul class="simple">
+<li><p>The documentation is still under development. Some sections may be incomplete.</p></li>
+<li><p>Error handling for invalid configuration file parameters could be more verbose.</p></li>
+</ul>
+<p>—</p>
+<p><em>Future releases will focus on expanding the model library, improving performance, and enhancing the user interface and documentation.</em></p>
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="appendix.html" class="btn btn-neutral float-left" title="Appendix" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="api/galfits.galaxy.html" class="btn btn-neutral float-right" title="galfits.galaxy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="faq.html" class="btn btn-neutral float-left" title="FAQ" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

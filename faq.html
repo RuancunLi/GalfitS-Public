@@ -1,0 +1,155 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ &mdash; GalfitS Public 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=0d344481"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Release Notes" href="release_notes.html" />
+    <link rel="prev" title="galfits.disperser" href="api/galfits.disperser.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            GalfitS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start to GalfitS Everything</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data_preparation.html">Prepare Data for GalfitS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_intro.html">Introduction to GalfitS Config Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_example.html">Examples of Config Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rungs.html">Run GalfitS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analyze.html">Analyze the Output of GalfitS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html">Appendix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#frequently-asked-questions">Frequently Asked Questions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">GalfitS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">FAQ</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/faq.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="faq">
+<h1>FAQ<a class="headerlink" href="#faq" title="Link to this heading"></a></h1>
+<section id="frequently-asked-questions">
+<h2>Frequently Asked Questions<a class="headerlink" href="#frequently-asked-questions" title="Link to this heading"></a></h2>
+<p><strong>Q: What is GalfitS?</strong></p>
+<p>A: GalfitS is a powerful, open-source tool for detailed galaxy decomposition. It allows for simultaneous fitting of a galaxy’s morphological components (like bulge, disk, bar) and their spectral energy distributions (SEDs) across multiple wavelength bands. It is built on JAX for high performance.</p>
+<p><strong>Q: What are the main features of GalfitS?</strong></p>
+<p>A:
+- <strong>Multi-band Image Fitting</strong>: Simultaneously model galaxy structure across different wavelengths.
+- <strong>SED Modeling</strong>: Fit physical parameters of stellar populations (age, metallicity, dust) and AGNs.
+- <strong>Flexible Models</strong>: Use various profiles (Sersic, Ferrer, etc.) and combine them.
+- <strong>Performance</strong>: Leverages JAX for JIT compilation and GPU/TPU acceleration.
+- <strong>Advanced Optimization</strong>: Includes multiple fitting backends like <cite>jaxopt</cite>, <cite>dynesty</cite> (nested sampling), and evolutionary strategies.
+- <strong>Extensible</strong>: Easily add new models or priors.</p>
+<p><strong>Q: How do I install GalfitS?</strong></p>
+<p>A: Please refer to the <a class="reference internal" href="installation.html"><span class="doc">Installation</span></a> guide for detailed instructions. The key steps are installing JAX with the appropriate backend (CPU or GPU) and then installing the required Python packages.</p>
+<p><strong>Q: I’m getting an error related to JAX. What should I do?</strong></p>
+<p>A: Make sure you have installed the correct version of JAX for your system (CPU, NVIDIA GPU, or Apple Silicon). The installation commands can be found in the <a class="reference internal" href="installation.html"><span class="doc">Installation</span></a> guide. If you have a GPU, ensure your drivers are up to date.</p>
+<p><strong>Q: How does the configuration file work?</strong></p>
+<p>A: The configuration file (e.g., <cite>quickstart.lyric</cite>) is the heart of a GalfitS run. It’s a text file where you define everything:
+- The target galaxy (name, coordinates, redshift).
+- The input data (images, PSFs, masks, spectra).
+- The model components (e.g., a Sersic profile for a bulge, an exponential disk).
+- The initial parameters for each component, including their bounds and whether they are fixed or free.</p>
+<p>A detailed explanation can be found in the <a class="reference internal" href="config_intro.html"><span class="doc">Introduction to GalfitS Config Files</span></a> section.</p>
+<p><strong>Q: Can GalfitS fit spectra as well?</strong></p>
+<p>A: Yes. GalfitS can perform spectrum-only fitting or a combined fitting of images and spectra. This is useful for detailed studies of stellar populations and AGN properties. See the <a class="reference internal" href="config_example.html"><span class="doc">Examples of Config Files</span></a> for an example.</p>
+<p><strong>Q: What is the difference between `optimizer`, `dynesty`, and `ES` fitting methods?</strong></p>
+<p>A: They are different algorithms for finding the best-fit parameters:
+- <strong>optimizer</strong>: A fast, gradient-based method (like Adam) that finds a single best-fit solution (a local or global minimum of the chi-square). It’s good for quick exploration.
+- <strong>dynesty</strong>: A nested sampling method. It is more computationally expensive but provides full posterior distributions for all parameters and calculates the Bayesian evidence, which is useful for model comparison.
+- <strong>ES (Evolutionary Strategy)</strong>: A population-based optimization method that is robust against getting stuck in local minima. It’s a good alternative to gradient-based optimizers.</p>
+<p><strong>Q: How can I contribute to GalfitS?</strong></p>
+<p>A: GalfitS is an open-source project, and contributions are welcome. You can contribute by reporting bugs, suggesting new features, improving the documentation, or submitting pull requests with new code on the <a class="reference external" href="https://github.com/RuancunLi/GalfitS-Public">GitHub repository</a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api/galfits.disperser.html" class="btn btn-neutral float-left" title="galfits.disperser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="release_notes.html" class="btn btn-neutral float-right" title="Release Notes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Li R. &amp; Ho C. Luis.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

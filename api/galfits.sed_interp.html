@@ -1,0 +1,194 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>galfits.sed_interp &mdash; GalfitS Public 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=0d344481"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="galfits.disperser" href="galfits.disperser.html" />
+    <link rel="prev" title="galfits.profiles" href="galfits.profiles.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            GalfitS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start to GalfitS Everything</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_preparation.html">Prepare Data for GalfitS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config_intro.html">Introduction to GalfitS Config Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config_example.html">Examples of Config Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rungs.html">Run GalfitS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analyze.html">Analyze the Output of GalfitS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendix</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api_reference.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="galfits.galaxy.html">galfits.galaxy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="galfits.gsfit.html">galfits.gsfit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="galfits.gsutils.html">galfits.gsutils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="galfits.images.html">galfits.images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="galfits.mathfunc.html">galfits.mathfunc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="galfits.profiles.html">galfits.profiles</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">galfits.sed_interp</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sed-interpolation-functions">SED Interpolation Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#stellar-populations">Stellar Populations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#agn-components">AGN Components</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nebular-emission">Nebular Emission</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dust-emission">Dust Emission</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stellar-seds">Stellar SEDs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#coordinate-transformations">Coordinate Transformations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cosmology">Cosmology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spectral-processing">Spectral Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#attenuation-curves">Attenuation Curves</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#igm-absorption">IGM Absorption</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#star-formation-history">Star Formation History</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#table-models">Table Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simple-models">Simple Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helper-functions">Helper Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="galfits.disperser.html">galfits.disperser</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GalfitS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api_reference.html">API Reference</a></li>
+      <li class="breadcrumb-item active">galfits.sed_interp</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/galfits.sed_interp.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="galfits-sed-interp">
+<h1>galfits.sed_interp<a class="headerlink" href="#galfits-sed-interp" title="Link to this heading"></a></h1>
+<section id="sed-interpolation-functions">
+<h2>SED Interpolation Functions<a class="headerlink" href="#sed-interpolation-functions" title="Link to this heading"></a></h2>
+<section id="stellar-populations">
+<h3>Stellar Populations<a class="headerlink" href="#stellar-populations" title="Link to this heading"></a></h3>
+</section>
+<section id="agn-components">
+<h3>AGN Components<a class="headerlink" href="#agn-components" title="Link to this heading"></a></h3>
+</section>
+<section id="nebular-emission">
+<h3>Nebular Emission<a class="headerlink" href="#nebular-emission" title="Link to this heading"></a></h3>
+</section>
+<section id="dust-emission">
+<h3>Dust Emission<a class="headerlink" href="#dust-emission" title="Link to this heading"></a></h3>
+</section>
+<section id="stellar-seds">
+<h3>Stellar SEDs<a class="headerlink" href="#stellar-seds" title="Link to this heading"></a></h3>
+</section>
+</section>
+<section id="coordinate-transformations">
+<h2>Coordinate Transformations<a class="headerlink" href="#coordinate-transformations" title="Link to this heading"></a></h2>
+</section>
+<section id="cosmology">
+<h2>Cosmology<a class="headerlink" href="#cosmology" title="Link to this heading"></a></h2>
+</section>
+<section id="spectral-processing">
+<h2>Spectral Processing<a class="headerlink" href="#spectral-processing" title="Link to this heading"></a></h2>
+</section>
+<section id="attenuation-curves">
+<h2>Attenuation Curves<a class="headerlink" href="#attenuation-curves" title="Link to this heading"></a></h2>
+</section>
+<section id="igm-absorption">
+<h2>IGM Absorption<a class="headerlink" href="#igm-absorption" title="Link to this heading"></a></h2>
+</section>
+<section id="star-formation-history">
+<h2>Star Formation History<a class="headerlink" href="#star-formation-history" title="Link to this heading"></a></h2>
+</section>
+<section id="table-models">
+<h2>Table Models<a class="headerlink" href="#table-models" title="Link to this heading"></a></h2>
+</section>
+<section id="simple-models">
+<h2>Simple Models<a class="headerlink" href="#simple-models" title="Link to this heading"></a></h2>
+</section>
+<section id="helper-functions">
+<h2>Helper Functions<a class="headerlink" href="#helper-functions" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="galfits.profiles.html" class="btn btn-neutral float-left" title="galfits.profiles" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="galfits.disperser.html" class="btn btn-neutral float-right" title="galfits.disperser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Li R. &amp; Ho C. Luis.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
